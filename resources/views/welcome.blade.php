@@ -9,7 +9,7 @@
     </head>
     <body>
         <div id="app">
-            <example-component/>
+            <index-vue/>
         </div>
     </body>
     <script src="{{ asset('js/app.js') }}" defer></script>
