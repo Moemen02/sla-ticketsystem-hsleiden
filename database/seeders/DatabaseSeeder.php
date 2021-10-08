@@ -15,12 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Create a user
         // User::create([
-        //     'username' => 'User',
-        //     'firstname' => 'user',
-        //     'lastname' => 'user',
-        //     'email' => 'user@test.com',
-        //     'password' => Hash::make('secret'),
+        //     'username' => 'mo',
+        //     'firstname' => 'moemm',
+        //     'lastname' => 'hus',
+        //     'email' => 'hus@test.com',
+        //     'password' => Hash::make('hussein'),
         // ]);
     }
 }
