@@ -4,7 +4,18 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
-Vue.use(Vuetify)
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(
+    Vuetify, 
+    VueAxios, 
+    axios
+)
+
+Vue.prototype.$axios = axios
+axios.defaults.baseURL = "http://127.0.0.1:8000"
+
 require('./bootstrap');
 
 window.Vue = require('vue').default;
