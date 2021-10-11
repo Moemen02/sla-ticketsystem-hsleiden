@@ -7,5 +7,10 @@
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
 
+// main css file
+@import '_main';
 
-@import '_main'
+// vuetify
+@import url('https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css');
+
+@import '~vuetify/dist/vuetify.min.css';

@@ -1,18 +1,10 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                        <router-view> </router-view>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <v-app>
+        <v-container>
+            <p>donkey balls</p>
+            <router-view> </router-view>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
