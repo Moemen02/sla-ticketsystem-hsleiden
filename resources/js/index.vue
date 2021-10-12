@@ -49,7 +49,8 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            token: ''
         }
     },
     computed: {
@@ -62,14 +63,29 @@ export default {
         // this.getClients()
     },
     methods: {
-        login(){
+        login() {
             this.$axios
                 .post('api/user/login', {
                     email: this.email,
                     password: this.password
                 })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
+                    this.token = response.data.token
+
+                    const TOKEN = 'Bearer '.concat(this.token)
+                    return this.$axios
+                        .get('api/user', {
+                            headers: {
+                                Authorization: TOKEN
+                            }
+                        })
+                        .then(response => {
+                            return response.data
+                        })
+                        .catch(err => {
+                            return err
+                        })
                 })
                 .catch(err => {
                     return err

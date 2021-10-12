@@ -2138,7 +2138,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      token: ''
     };
   },
   computed: {},
@@ -2147,11 +2148,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login() {
+      var _this = this;
+
       this.$axios.post('api/user/login', {
         email: this.email,
         password: this.password
       }).then(function (response) {
-        console.log(response);
+        // console.log(response)
+        _this.token = response.data.token;
+        var TOKEN = 'Bearer '.concat(_this.token);
+        return _this.$axios.get('api/user', {
+          headers: {
+            Authorization: TOKEN
+          }
+        }).then(function (response) {
+          return response.data;
+        })["catch"](function (err) {
+          return err;
+        });
       })["catch"](function (err) {
         return err;
       });
@@ -2186,6 +2200,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].use((vuetify__WEBPACK_IMPORTED_MODULE_5___default()), vue_axios__WEBPACK_IMPORTED_MODULE_3__["default"], (axios__WEBPACK_IMPORTED_MODULE_2___default()));
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].prototype.$axios = (axios__WEBPACK_IMPORTED_MODULE_2___default());
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults.baseURL) = "http://127.0.0.1:8000";
+(axios__WEBPACK_IMPORTED_MODULE_2___default().defaults.withCredentials) = true;
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
