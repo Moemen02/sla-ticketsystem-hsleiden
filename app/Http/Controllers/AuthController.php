@@ -30,14 +30,12 @@ class AuthController extends Controller
         return response()->json([
             'token' => $userToken
         ], $this->succesStatus);
-        // return $user->createToken($request->email)->plainTextToken;
-        // return $user;
     }
 
     public function getCurrentUser(Request $request){
-        // return $request->user();
+        $currentUser = $request->user();
         return response()->json([
-            'user' => "user"
+            'currentUser' => $currentUser
         ], $this->succesStatus);
     }
 }
