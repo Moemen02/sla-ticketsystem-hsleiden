@@ -4,11 +4,11 @@ import Router from "vue-router"
 Vue.use(Router)
 
 import loginPage from './pages/loginPage'
-import example2 from './components/ExampleComponent'
+import dashboard from './pages/dashboard'
 
 const routes = [{
-    path: '/othercomponent',
-    component: example2,
+    path: '/',
+    component: dashboard,
 },
 {
     path: '/login',

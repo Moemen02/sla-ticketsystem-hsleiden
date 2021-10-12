@@ -25,7 +25,7 @@
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login()">Login</v-btn>
+            <v-btn class="grey lighten-1" @click="login()">Login</v-btn>
             <v-spacer></v-spacer>
         </v-card-actions>
     </div>
