@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public $succesStatus = 200;
+
     public function login(Request $request){
         $request->validate([
             'email' => 'required|email',
@@ -22,8 +24,18 @@ class AuthController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
+
+        $userToken = $user->createToken($request->email)->plainTextToken;
     
-        return $user->createToken($request->email)->plainTextToken;
-        // return $user;
+        return response()->json([
+            'token' => $userToken
+        ], $this->succesStatus);
+    }
+
+    public function getCurrentUser(Request $request){
+        $currentUser = $request->user();
+        return response()->json([
+            'currentUser' => $currentUser
+        ], $this->succesStatus);
     }
 }
