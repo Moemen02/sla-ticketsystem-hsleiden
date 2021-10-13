@@ -32,6 +32,10 @@
 </template>
 
 <script>
+import {
+    mapState,
+    mapGetters
+} from 'vuex'
 
 export default {
     props: {
@@ -45,7 +49,9 @@ export default {
         }
     },
     computed: {
-
+    ...mapGetters([
+            'loggedIn',
+        ])
     },
     watch: {
 
@@ -62,7 +68,7 @@ export default {
                 })
                 .then(response => {
                     this.token = response.data.token
-
+                    console.log(this.loggedIn + " " + "dit is een test lmao xD")
                     const TOKEN = 'Bearer '.concat(this.token)
                     return this.$axios
                         .get('api/user', {
