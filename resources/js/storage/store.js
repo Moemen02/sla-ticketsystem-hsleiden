@@ -11,9 +11,11 @@ export const store = new Vuex.Store({
 
     state:{
         loggedIn: true,
+        userToken: '',
+        isAdmin: '',
     },
 
-   mutations: {
+    mutations: {
 
     },
 
@@ -24,6 +26,12 @@ export const store = new Vuex.Store({
     getters: {
         loggedIn: state => {
             return state.loggedIn
+        },
+        userToken: state => {
+            return state.userToken
+        },
+        isAdmin: state => {
+            return state.isAdmin
         }
     }
 })

@@ -56,6 +56,9 @@ export default {
     watch: {
 
     },
+    created() {
+
+    },
     mounted() {
 
     },
@@ -69,19 +72,22 @@ export default {
                 .then(response => {
                     this.token = response.data.token
                     console.log(this.loggedIn + " " + "dit is een test lmao xD")
-                    const TOKEN = 'Bearer '.concat(this.token)
-                    return this.$axios
-                        .get('api/user', {
-                            headers: {
-                                Authorization: TOKEN
-                            }
-                        })
-                        .then(response => {
-                            return response.data
-                        })
-                        .catch(err => {
-                            return err
-                        })
+                    this.getCurrentuser()
+                })
+                .catch(err => {
+                    return err
+                })
+        },
+        getCurrentuser(){
+            const TOKEN = 'Bearer '.concat(this.token)
+            return this.$axios
+                .get('api/user', {
+                    headers: {
+                        Authorization: TOKEN
+                    }
+                })
+                .then(response => {
+                    return response.data
                 })
                 .catch(err => {
                     return err

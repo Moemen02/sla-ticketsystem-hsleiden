@@ -77,7 +77,7 @@
                     </div>
 
                     <div v-else class="">
-                         <router-link to="/contract" class="router-link">
+                         <router-link to="/contracts" class="router-link">
                             <v-list-item>
                                 <v-list-item-icon>
                                     <v-icon>book</v-icon>
@@ -108,6 +108,11 @@
     </nav>
 </template>
 <script>
+import {
+    mapState,
+    mapGetters
+} from 'vuex'
+
 export default {
     name:'navbar',
     props: {
@@ -116,10 +121,13 @@ export default {
     data() {
         return {
             sideBar: true,
+            isAdmin: true
         }
     },
     computed: {
-
+    // ...mapGetters([
+    //         'isAdmin',
+    //     ])
     },
     watch: {
 
