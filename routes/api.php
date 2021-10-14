@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,14 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'getCurrentUser']);
-
 Route::post('/user/login', [AuthController::class, 'login']);
+// Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'getCurrentUser']);
+
+Route::group(['middleware' => 'auth:sanctum'], function(){
+
+    Route::get('/user', [AuthController::class, 'getCurrentUser']);
+
+    Route::post('/ticket', [TicketController::class, 'createTicket']);
+    
+
+});

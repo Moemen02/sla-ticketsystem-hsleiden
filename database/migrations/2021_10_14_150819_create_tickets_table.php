@@ -21,10 +21,10 @@ class CreateTicketsTable extends Migration
             $table->string('description');
             $table->string('assigned_by');
             $table->string('assigned_for');
-            $table->integer('fixed_by');
+            $table->integer('fixed_by')->nullable();
             $table->date('due_to');
-            $table->date('due_at');
-            $table->string('status');
+            $table->date('due_at')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
