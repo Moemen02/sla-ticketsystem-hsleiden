@@ -17,9 +17,7 @@ class TicketController extends Controller
                 'description' => 'required',
                 'assigned_by' => 'required',
                 'assigned_for' => 'required',
-                'fixed_by' => '',
                 'due_to' => 'required',
-                'due_at' => '',
             ]
         );
 

@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('user'),
             'phone_number' => '06282223',
             'companyID' => '1',
-            'companyRole' => 'user'
+            'companyRole' => 'employee'
         ]);
 
         // create user that is a manager

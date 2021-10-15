@@ -10,6 +10,7 @@ import dashboard from './pages/dashboard'
 
 const routes = [{
     path: '/',
+    name: 'Dashboard',
     component: dashboard,
         meta: {
             requiresAuth: true
@@ -17,9 +18,10 @@ const routes = [{
     },
     {
         path: '/login',
+        name: 'LoginPage',
         component: loginPage,
         meta:{
-
+            dissableIfLoggedIn: true
         }
     },
 ]
@@ -34,6 +36,20 @@ router.beforeEach((to, from, next) => {
         if(!store.getters.loggedIn){
             next({
                 path: '/login'
+            })
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.dissableIfLoggedIn)) {
+        if(store.getters.loggedIn){
+            next({
+                path: '/'
             })
         } else {
             next()

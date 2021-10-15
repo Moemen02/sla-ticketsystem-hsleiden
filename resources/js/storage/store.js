@@ -10,17 +10,24 @@ export const store = new Vuex.Store({
     plugins: [createPersistedState()],
 
     state:{
-        loggedIn: true,
+        loggedIn: false,
         userToken: '',
         isAdmin: '',
+        role: '',
+        companyRole: '',
     },
 
     mutations: {
-
+        login: (state, token) => {
+            state.userToken = token
+            state.loggedIn = true
+        }
     },
 
     actions: {
-
+        login({commit}, token){
+            commit('login', token)
+        }
     },
 
     getters: {

@@ -45,12 +45,13 @@ export default {
         return {
             email: '',
             password: '',
-            token: ''
+            newUserToken: ''
         }
     },
     computed: {
     ...mapGetters([
             'loggedIn',
+            'userToken'
         ])
     },
     watch: {
@@ -70,16 +71,18 @@ export default {
                     password: this.password
                 })
                 .then(response => {
-                    this.token = response.data.token
-                    console.log(this.loggedIn + " " + "dit is een test lmao xD")
+                    this.$store.dispatch('login', response.data.userToken)
                     this.getCurrentuser()
+                    this.$router.push({
+                        name: 'Dashboard'
+                    })
                 })
                 .catch(err => {
                     return err
                 })
         },
         getCurrentuser(){
-            const TOKEN = 'Bearer '.concat(this.token)
+            const TOKEN = 'Bearer '.concat(this.userToken)
             return this.$axios
                 .get('api/user', {
                     headers: {
@@ -87,7 +90,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    return response.data
+                    return response.data //delete this later UwU
                 })
                 .catch(err => {
                     return err

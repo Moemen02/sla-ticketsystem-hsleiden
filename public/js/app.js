@@ -2206,9 +2206,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_navbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/navbar.vue */ "./resources/js/components/navbar.vue");
-//
-//
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2221,6 +2226,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     navbar: _components_navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -2229,7 +2235,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  computed: {},
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['loggedIn', 'userToken'])),
   watch: {},
   mounted: function mounted() {},
   methods: {}
@@ -2325,10 +2331,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       email: '',
       password: '',
-      token: ''
+      newUserToken: ''
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['loggedIn'])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['loggedIn', 'userToken'])),
   watch: {},
   created: function created() {},
   mounted: function mounted() {},
@@ -2340,22 +2346,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         email: this.email,
         password: this.password
       }).then(function (response) {
-        _this.token = response.data.token;
-        console.log(_this.loggedIn + " " + "dit is een test lmao xD");
+        _this.$store.dispatch('login', response.data.userToken);
 
         _this.getCurrentuser();
+
+        _this.$router.push({
+          name: 'Dashboard'
+        });
       })["catch"](function (err) {
         return err;
       });
     },
     getCurrentuser: function getCurrentuser() {
-      var TOKEN = 'Bearer '.concat(this.token);
+      var TOKEN = 'Bearer '.concat(this.userToken);
       return this.$axios.get('api/user', {
         headers: {
           Authorization: TOKEN
         }
       }).then(function (response) {
-        return response.data;
+        return response.data; //delete this later UwU
       })["catch"](function (err) {
         return err;
       });
@@ -2395,6 +2404,7 @@ vue__WEBPACK_IMPORTED_MODULE_5__["default"].use((vuetify__WEBPACK_IMPORTED_MODUL
 vue__WEBPACK_IMPORTED_MODULE_5__["default"].prototype.$axios = (axios__WEBPACK_IMPORTED_MODULE_2___default());
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults.baseURL) = "http://127.0.0.1:8000";
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults.withCredentials) = true;
+(axios__WEBPACK_IMPORTED_MODULE_2___default().defaults.headers.common.Authorization) = 'Bearer ' + _storage_store__WEBPACK_IMPORTED_MODULE_4__.store.getters.userToken;
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
@@ -2477,14 +2487,18 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
 
 var routes = [{
   path: '/',
+  name: 'Dashboard',
   component: _pages_dashboard__WEBPACK_IMPORTED_MODULE_4__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/login',
+  name: 'LoginPage',
   component: _pages_loginPage__WEBPACK_IMPORTED_MODULE_3__["default"],
-  meta: {}
+  meta: {
+    dissableIfLoggedIn: true
+  }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: 'history',
@@ -2497,6 +2511,21 @@ router.beforeEach(function (to, from, next) {
     if (!_storage_store__WEBPACK_IMPORTED_MODULE_0__.store.getters.loggedIn) {
       next({
         path: '/login'
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.dissableIfLoggedIn;
+  })) {
+    if (_storage_store__WEBPACK_IMPORTED_MODULE_0__.store.getters.loggedIn) {
+      next({
+        path: '/'
       });
     } else {
       next();
@@ -2541,12 +2570,24 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
 var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
   plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_0__["default"])()],
   state: {
-    loggedIn: true,
+    loggedIn: false,
     userToken: '',
-    isAdmin: ''
+    isAdmin: '',
+    role: '',
+    companyRole: ''
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    login: function login(state, token) {
+      state.userToken = token;
+      state.loggedIn = true;
+    }
+  },
+  actions: {
+    login: function login(_ref, token) {
+      var commit = _ref.commit;
+      commit('login', token);
+    }
+  },
   getters: {
     loggedIn: function loggedIn(state) {
       return state.loggedIn;
@@ -39048,13 +39089,9 @@ var render = function() {
         "v-main",
         { staticClass: "grey lighten-4" },
         [
-          _c("navbar"),
+          _vm.loggedIn ? _c("navbar") : _vm._e(),
           _vm._v(" "),
-          _c(
-            "v-container",
-            [_c("p", [_vm._v("donkey balls")]), _vm._v(" "), _c("router-view")],
-            1
-          )
+          _c("v-container", [_c("router-view")], 1)
         ],
         1
       )
