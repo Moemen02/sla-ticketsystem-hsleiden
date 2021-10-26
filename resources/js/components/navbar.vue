@@ -19,12 +19,12 @@
                                 <v-icon>dashboard</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
-                                <v-list-item-title>Dashboard</v-list-item-title>
+                                <v-list-item-title>{{}}</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
                     </router-link>
 
-                    <div v-if="isAdmin == true" class="">
+                    <div>
                         <v-list-group prepend-icon="account_circle">
                             <template v-slot:activator>
                                 <v-list-item-title>Users</v-list-item-title>
@@ -76,30 +76,6 @@
                         </router-link>
                     </div>
 
-                    <div v-else class="">
-                         <router-link to="/contracts" class="router-link">
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>book</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-content>
-                                    <v-list-item-title>Mijn Contracten</v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </router-link>
-
-                        <router-link to="/ticket" class="router-link">
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>local_activity</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-content>
-                                    <v-list-item-title>Mijn Tickets</v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </router-link>
-                    </div>
-
                 </v-list-item-group>
 
 
@@ -121,13 +97,18 @@ export default {
     data() {
         return {
             sideBar: true,
-            isAdmin: true
+            currentUser: null,
         }
     },
+    created() {
+        this.getCurrentUser()
+    },
     computed: {
-    // ...mapGetters([
-    //         'isAdmin',
-    //     ])
+    ...mapGetters([
+            'isAdmin',
+            'userToken',
+            'companyRole'
+        ])
     },
     watch: {
 
@@ -136,7 +117,22 @@ export default {
 
     },
     methods: {
-        
+        getCurrentUser(){
+            // console.log("test")
+            const TOKEN = 'Bearer '.concat(this.userToken)
+            return this.$axios
+                .get('api/user', {
+                    headers: {
+                        Authorization: TOKEN
+                    }
+                })
+                .then(response => {
+                    this.currentUser = response.data.currentUser
+                })
+                .catch(err => {
+                    return err
+                })
+            }
     }
 }
 </script>

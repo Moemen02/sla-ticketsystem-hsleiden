@@ -21,12 +21,18 @@ export const store = new Vuex.Store({
         login: (state, token) => {
             state.userToken = token
             state.loggedIn = true
+        },
+        companyRole: (state, compRole) => {
+            state.companyRole = compRole
         }
     },
 
     actions: {
         login({commit}, token){
             commit('login', token)
+        },
+        companyRole({commit}, compRole){
+            commit('companyRole', compRole)
         }
     },
 
@@ -39,6 +45,9 @@ export const store = new Vuex.Store({
         },
         isAdmin: state => {
             return state.isAdmin
+        },
+        companyRole: state => {
+            return state.companyRole
         }
     }
 })

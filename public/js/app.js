@@ -2065,30 +2065,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2181,16 +2164,32 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sideBar: true,
-      isAdmin: true
+      currentUser: null
     };
   },
-  computed: {// ...mapGetters([
-    //         'isAdmin',
-    //     ])
+  created: function created() {
+    this.getCurrentUser();
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['isAdmin', 'userToken', 'companyRole'])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getCurrentUser: function getCurrentUser() {
+      var _this = this;
+
+      // console.log("test")
+      var TOKEN = 'Bearer '.concat(this.userToken);
+      return this.$axios.get('api/user', {
+        headers: {
+          Authorization: TOKEN
+        }
+      }).then(function (response) {
+        _this.currentUser = response.data.currentUser;
+      })["catch"](function (err) {
+        return err;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2331,7 +2330,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       email: '',
       password: '',
-      newUserToken: ''
+      newUserToken: '',
+      currentUserData: null
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['loggedIn', 'userToken'])),
@@ -2348,7 +2348,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (response) {
         _this.$store.dispatch('login', response.data.userToken);
 
-        _this.getCurrentuser();
+        _this.getCurrentuser().then(function (response) {
+          _this.currentUserData = response.currentUser;
+
+          _this.$store.dispatch('companyRole', _this.currentUserData.companyRole);
+        });
 
         _this.$router.push({
           name: 'Dashboard'
@@ -2364,7 +2368,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           Authorization: TOKEN
         }
       }).then(function (response) {
-        return response.data; //delete this later UwU
+        return response.data;
       })["catch"](function (err) {
         return err;
       });
@@ -2580,12 +2584,19 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     login: function login(state, token) {
       state.userToken = token;
       state.loggedIn = true;
+    },
+    companyRole: function companyRole(state, compRole) {
+      state.companyRole = compRole;
     }
   },
   actions: {
     login: function login(_ref, token) {
       var commit = _ref.commit;
       commit('login', token);
+    },
+    companyRole: function companyRole(_ref2, compRole) {
+      var commit = _ref2.commit;
+      commit('companyRole', compRole);
     }
   },
   getters: {
@@ -2597,6 +2608,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     },
     isAdmin: function isAdmin(state) {
       return state.isAdmin;
+    },
+    companyRole: function companyRole(state) {
+      return state.companyRole;
     }
   }
 });
@@ -38789,7 +38803,7 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-list-item-content",
-                            [_c("v-list-item-title", [_vm._v("Dashboard")])],
+                            [_c("v-list-item-title", [_vm._v("{{}}")])],
                             1
                           )
                         ],
@@ -38799,174 +38813,117 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm.isAdmin == true
-                    ? _c(
-                        "div",
-                        {},
-                        [
-                          _c(
-                            "v-list-group",
+                  _c(
+                    "div",
+                    [
+                      _c(
+                        "v-list-group",
+                        {
+                          attrs: { "prepend-icon": "account_circle" },
+                          scopedSlots: _vm._u([
                             {
-                              attrs: { "prepend-icon": "account_circle" },
-                              scopedSlots: _vm._u(
-                                [
-                                  {
-                                    key: "activator",
-                                    fn: function() {
-                                      return [
-                                        _c("v-list-item-title", [
-                                          _vm._v("Users")
-                                        ])
-                                      ]
-                                    },
-                                    proxy: true
-                                  }
-                                ],
-                                null,
-                                false,
-                                4038924901
-                              )
+                              key: "activator",
+                              fn: function() {
+                                return [
+                                  _c("v-list-item-title", [_vm._v("Users")])
+                                ]
+                              },
+                              proxy: true
+                            }
+                          ])
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "router-link",
+                              attrs: { to: "/users/admins", "exact-path": "" }
                             },
                             [
-                              _vm._v(" "),
                               _c(
-                                "router-link",
-                                {
-                                  staticClass: "router-link",
-                                  attrs: {
-                                    to: "/users/admins",
-                                    "exact-path": ""
-                                  }
-                                },
+                                "v-list-item",
+                                { attrs: { "active-class": "highlighted" } },
                                 [
                                   _c(
-                                    "v-list-item",
-                                    {
-                                      attrs: { "active-class": "highlighted" }
-                                    },
+                                    "v-list-item-content",
                                     [
-                                      _c(
-                                        "v-list-item-content",
-                                        [
-                                          _c("v-list-item-title", [
-                                            _vm._v("Administrator")
-                                          ])
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-item-icon",
-                                        [
-                                          _c("v-icon", [
-                                            _vm._v("perm_identity")
-                                          ])
-                                        ],
-                                        1
-                                      )
+                                      _c("v-list-item-title", [
+                                        _vm._v("Administrator")
+                                      ])
                                     ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-icon",
+                                    [_c("v-icon", [_vm._v("perm_identity")])],
                                     1
                                   )
                                 ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "router-link",
+                              attrs: { to: "/users/clients" }
+                            },
+                            [
+                              _c(
+                                "v-list-item",
+                                [
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-list-item-title", [
+                                        _vm._v("Client")
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-icon",
+                                    [_c("v-icon", [_vm._v("perm_identity")])],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "router-link",
+                          attrs: { to: "/contracts" }
+                        },
+                        [
+                          _c(
+                            "v-list-item",
+                            [
+                              _c(
+                                "v-list-item-icon",
+                                [_c("v-icon", [_vm._v("book")])],
                                 1
                               ),
                               _vm._v(" "),
                               _c(
-                                "router-link",
-                                {
-                                  staticClass: "router-link",
-                                  attrs: { to: "/users/clients" }
-                                },
+                                "v-list-item-content",
                                 [
-                                  _c(
-                                    "v-list-item",
-                                    [
-                                      _c(
-                                        "v-list-item-content",
-                                        [
-                                          _c("v-list-item-title", [
-                                            _vm._v("Client")
-                                          ])
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-item-icon",
-                                        [
-                                          _c("v-icon", [
-                                            _vm._v("perm_identity")
-                                          ])
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "router-link",
-                              attrs: { to: "/contracts" }
-                            },
-                            [
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-icon",
-                                    [_c("v-icon", [_vm._v("book")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Contracten")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "router-link",
-                              attrs: { to: "/tickets" }
-                            },
-                            [
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-icon",
-                                    [_c("v-icon", [_vm._v("local_activity")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Tickets")
-                                      ])
-                                    ],
-                                    1
-                                  )
+                                  _c("v-list-item-title", [
+                                    _vm._v("Contracten")
+                                  ])
                                 ],
                                 1
                               )
@@ -38975,69 +38932,27 @@ var render = function() {
                           )
                         ],
                         1
-                      )
-                    : _c(
-                        "div",
-                        {},
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "router-link",
+                          attrs: { to: "/tickets" }
+                        },
                         [
                           _c(
-                            "router-link",
-                            {
-                              staticClass: "router-link",
-                              attrs: { to: "/contracts" }
-                            },
+                            "v-list-item",
                             [
                               _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-icon",
-                                    [_c("v-icon", [_vm._v("book")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Mijn Contracten")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
+                                "v-list-item-icon",
+                                [_c("v-icon", [_vm._v("local_activity")])],
                                 1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "router-link",
-                              attrs: { to: "/ticket" }
-                            },
-                            [
+                              ),
+                              _vm._v(" "),
                               _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-icon",
-                                    [_c("v-icon", [_vm._v("local_activity")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Mijn Tickets")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
+                                "v-list-item-content",
+                                [_c("v-list-item-title", [_vm._v("Tickets")])],
                                 1
                               )
                             ],
@@ -39046,6 +38961,9 @@ var render = function() {
                         ],
                         1
                       )
+                    ],
+                    1
+                  )
                 ],
                 1
               )

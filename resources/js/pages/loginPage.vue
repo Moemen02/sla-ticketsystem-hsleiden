@@ -45,7 +45,8 @@ export default {
         return {
             email: '',
             password: '',
-            newUserToken: ''
+            newUserToken: '',
+            currentUserData: null,
         }
     },
     computed: {
@@ -73,6 +74,10 @@ export default {
                 .then(response => {
                     this.$store.dispatch('login', response.data.userToken)
                     this.getCurrentuser()
+                        .then(response => {
+                            this.currentUserData = response.currentUser
+                            this.$store.dispatch('companyRole', this.currentUserData.companyRole)
+                        })
                     this.$router.push({
                         name: 'Dashboard'
                     })
@@ -90,7 +95,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    return response.data //delete this later UwU
+                    return response.data 
                 })
                 .catch(err => {
                     return err
