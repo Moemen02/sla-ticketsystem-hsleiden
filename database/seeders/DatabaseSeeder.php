@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '06283',
             'role' => 'admin',
             'companyID' => '0',
-            'companyRole' => 'Admin'
+            'companyRole' => 'admin'
         ]);
     }
 }

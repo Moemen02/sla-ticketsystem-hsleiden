@@ -10,8 +10,11 @@
         </v-toolbar>
 
         <v-navigation-drawer class="" color="" app v-model="sideBar">
-            
-            <v-list>
+            <div class="sideBarHead">
+                <p>dawdw</p>
+            </div>
+            <AdminBar v-if="companyRole == 'admin' && role == 'admin'"/>
+            <!-- <v-list>
                 <v-list-item-group>
                     <router-link to="/" class="router-link">
                         <v-list-item>
@@ -79,7 +82,7 @@
                 </v-list-item-group>
 
 
-            </v-list>
+            </v-list> -->
         </v-navigation-drawer>
     </nav>
 </template>
@@ -89,8 +92,13 @@ import {
     mapGetters
 } from 'vuex'
 
+import AdminBar from './adminBar.vue'
+
 export default {
-    name:'navbar',
+    name:'adminBar',
+    components:{
+        AdminBar
+    },
     props: {
        
     },
@@ -107,7 +115,8 @@ export default {
     ...mapGetters([
             'isAdmin',
             'userToken',
-            'companyRole'
+            'companyRole',
+            'role'
         ])
     },
     watch: {

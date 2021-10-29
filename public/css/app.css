@@ -17,3 +17,14 @@ body {
   min-height: 100%;
   background-color: #f5f6f6;
 }
+
+.sideBarHead {
+  min-height: 10%;
+  padding: 3%;
+  border-bottom: 2px solid royalblue;
+  border-radius: 10%;
+}
+
+.router-link {
+  text-decoration: none;
+}

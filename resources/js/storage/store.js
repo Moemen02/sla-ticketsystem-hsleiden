@@ -24,6 +24,9 @@ export const store = new Vuex.Store({
         },
         companyRole: (state, compRole) => {
             state.companyRole = compRole
+        },
+        role: (state, role) => {
+            state.role = role
         }
     },
 
@@ -33,6 +36,9 @@ export const store = new Vuex.Store({
         },
         companyRole({commit}, compRole){
             commit('companyRole', compRole)
+        },
+        role({commit}, role){
+            commit('role', role)
         }
     },
 
@@ -48,6 +54,9 @@ export const store = new Vuex.Store({
         },
         companyRole: state => {
             return state.companyRole
+        },
+        role: state => {
+            return state.role
         }
     }
 })

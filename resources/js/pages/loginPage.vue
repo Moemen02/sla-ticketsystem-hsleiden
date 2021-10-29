@@ -77,6 +77,7 @@ export default {
                         .then(response => {
                             this.currentUserData = response.currentUser
                             this.$store.dispatch('companyRole', this.currentUserData.companyRole)
+                            this.$store.dispatch('role', this.currentUserData.role)
                         })
                     this.$router.push({
                         name: 'Dashboard'
