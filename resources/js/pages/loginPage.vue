@@ -79,7 +79,7 @@ export default {
                             this.$store.dispatch('companyRole', this.currentUserData.companyRole)
                             this.$store.dispatch('role', this.currentUserData.role)
                         })
-                    this.$router.push({
+                    this.$router.go({
                         name: 'Dashboard'
                     })
                 })

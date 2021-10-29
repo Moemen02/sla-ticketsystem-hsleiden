@@ -14,6 +14,8 @@
                 <p>dawdw</p>
             </div>
             <AdminBar v-if="companyRole == 'admin' && role == 'admin'"/>
+            <EmployeeBar v-if="companyRole == 'employee' && role == 'user'"/>
+            <managerBar v-if="companyRole == 'manager' && role == 'user'"/>
             <!-- <v-list>
                 <v-list-item-group>
                     <router-link to="/" class="router-link">
@@ -93,11 +95,15 @@ import {
 } from 'vuex'
 
 import AdminBar from './adminBar.vue'
+import EmployeeBar from './employeeBar.vue'
+import managerBar from './managerBar.vue'
 
 export default {
     name:'adminBar',
     components:{
-        AdminBar
+        AdminBar,
+        EmployeeBar,
+        managerBar
     },
     props: {
        
@@ -141,7 +147,21 @@ export default {
                 .catch(err => {
                     return err
                 })
-            }
+            },
+        logout(){
+            this.$axios
+                .delete('api/logout/' + this.currentUser.id)
+                .then((response) => {
+                    this.$store.dispatch('resetState')
+                    this.$router.push({
+                        name: 'LoginPage'
+                    })
+                    return response
+                })
+                .catch((err) => {
+                    return err
+                })
+        }
     }
 }
 </script>

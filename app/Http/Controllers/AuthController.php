@@ -32,10 +32,17 @@ class AuthController extends Controller
         ], $this->succesStatus);
     }
 
-    public function getCurrentUser(Request $request){
-        $currentUser = $request->user();
-        return response()->json([
-            'currentUser' => $currentUser
-        ], $this->succesStatus);
+    public function logout(Request $request, User $user){
+        // $user = request()->user();
+        $user->tokens()->where('tokenable_id', $user->id)->delete();
+
+        return $this->succesStatus;
     }
+
+    // public function getCurrentUser(Request $request){
+    //     $currentUser = $request->user();
+    //     return response()->json([
+    //         'currentUser' => $currentUser
+    //     ], $this->succesStatus);
+    // }
 }

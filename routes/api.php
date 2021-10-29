@@ -23,6 +23,9 @@ use App\Http\Controllers\TicketController;
 Route::post('/user/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
+    
+    // Auth
+    Route::delete('/logout/{user}', [AuthController::class, 'logout']);
 
     // user routes
     Route::get('/user', [UserController::class, 'getCurrentUser']);
