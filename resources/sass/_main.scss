@@ -16,8 +16,20 @@ body{
     padding: 3%;
     border-bottom: 2px solid royalblue;
     border-radius: 10%;
+    display: grid;
+    grid-template-areas: 
+        'navPfp navTxt' 
+    ;
 }
 
 .router-link{
     text-decoration: none;
+}
+
+.navPfp{
+    grid-area: navPfp;
+}
+
+.navTxt{
+    grid-area: navTxt;
 }

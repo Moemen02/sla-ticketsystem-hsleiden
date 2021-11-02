@@ -21,7 +21,7 @@
                         <v-list-item-title>Users</v-list-item-title>
                     </template>
 
-                    <router-link to="" exact-path class="router-link">
+                    <router-link to="/users" exact-path class="router-link">
                         <v-list-item active-class="highlighted">
                             <v-list-item-content>
                                 <v-list-item-title>All users</v-list-item-title>
@@ -32,7 +32,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/users/admins">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Administrators</v-list-item-title>
@@ -43,7 +43,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/users/add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make new user</v-list-item-title>
@@ -65,7 +65,7 @@
                         <v-list-item-title>Contracts</v-list-item-title>
                     </template>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/contracts">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>All contracts</v-list-item-title>
@@ -76,7 +76,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/contracts/add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make contract</v-list-item-title>
@@ -99,7 +99,7 @@
                         <v-list-item-title>Tickets</v-list-item-title>
                     </template>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/tickets">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>All Tickets</v-list-item-title>
@@ -110,7 +110,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/tickets/pending">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Pending Tickets</v-list-item-title>
@@ -121,7 +121,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/tickets/finished">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Finished Tickets</v-list-item-title>
@@ -132,7 +132,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/tickets/add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make a Ticket</v-list-item-title>
@@ -153,7 +153,7 @@
                         <v-list-item-title>Companies</v-list-item-title>
                     </template>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/company">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>All companies</v-list-item-title>
@@ -164,7 +164,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/company/add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Add company</v-list-item-title>

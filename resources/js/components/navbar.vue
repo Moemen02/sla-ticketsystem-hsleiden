@@ -11,80 +11,22 @@
 
         <v-navigation-drawer class="" color="" app v-model="sideBar">
             <div class="sideBarHead">
-                <p>dawdw</p>
+                <div class="navPfp">
+                    <v-avatar class="cardAvatar" size="65">
+                        <img
+                            alt="user"
+                            src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
+                        >
+                    </v-avatar>
+                </div>
+                <div class="navTxt">
+                    <p>{{userName}}</p>
+                    <p>{{fullName}}</p>
+                </div>
             </div>
             <AdminBar v-if="companyRole == 'admin' && role == 'admin'"/>
             <EmployeeBar v-if="companyRole == 'employee' && role == 'user'"/>
             <managerBar v-if="companyRole == 'manager' && role == 'user'"/>
-            <!-- <v-list>
-                <v-list-item-group>
-                    <router-link to="/" class="router-link">
-                        <v-list-item>
-                            <v-list-item-icon>
-                                <v-icon>dashboard</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>{{}}</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </router-link>
-
-                    <div>
-                        <v-list-group prepend-icon="account_circle">
-                            <template v-slot:activator>
-                                <v-list-item-title>Users</v-list-item-title>
-                            </template>
-
-                            <router-link to="/users/admins" exact-path class="router-link">
-                                <v-list-item active-class="highlighted">
-                                    <v-list-item-content>
-                                        <v-list-item-title>Administrator</v-list-item-title>
-                                    </v-list-item-content>
-                                    <v-list-item-icon>
-                                        <v-icon>perm_identity</v-icon>
-                                    </v-list-item-icon>
-                                </v-list-item>
-                            </router-link>
-                            
-                            <router-link to="/users/clients" class="router-link">
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title>Client</v-list-item-title>
-                                    </v-list-item-content>
-                                    <v-list-item-icon>
-                                        <v-icon>perm_identity</v-icon>
-                                    </v-list-item-icon>
-                                </v-list-item>
-                            </router-link>
-                        </v-list-group>
-
-                        <router-link to="/contracts" class="router-link">
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>book</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-content>
-                                    <v-list-item-title>Contracten</v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </router-link>
-
-                        <router-link to="/tickets" class="router-link">
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>local_activity</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-content>
-                                    <v-list-item-title>Tickets</v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </router-link>
-                    </div>
-
-                </v-list-item-group>
-
-
-            </v-list> -->
         </v-navigation-drawer>
     </nav>
 </template>
@@ -112,10 +54,13 @@ export default {
         return {
             sideBar: true,
             currentUser: null,
+            userName: null,
+            fullName: null
         }
     },
     created() {
-        this.getCurrentUser()
+        this.getCurrentUser(),
+        this.setUsername()
     },
     computed: {
     ...mapGetters([
@@ -143,6 +88,8 @@ export default {
                 })
                 .then(response => {
                     this.currentUser = response.data.currentUser
+                    this.userName = this.currentUser.username
+                    this.fullName = this.currentUser.firstname + " " + this.currentUser.lastname
                 })
                 .catch(err => {
                     return err
@@ -161,6 +108,9 @@ export default {
                 .catch((err) => {
                     return err
                 })
+        },
+        setUsername(){
+            
         }
     }
 }
