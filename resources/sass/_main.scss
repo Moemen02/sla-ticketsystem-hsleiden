@@ -1,4 +1,35 @@
 *{
-    margin: 0%;
-    padding: 0%;
+    // margin: 0%;
+    // padding: 0%;
+}
+body{
+    background-color: $body-bg;
+}
+
+.container{
+    // min-height: 100%;
+    background-color: $body-bg;
+}
+
+.sideBarHead{
+    min-height: 10%;
+    padding: 3%;
+    border-bottom: 2px solid royalblue;
+    border-radius: 10%;
+    display: grid;
+    grid-template-areas: 
+        'navPfp navTxt' 
+    ;
+}
+
+.router-link{
+    text-decoration: none;
+}
+
+.navPfp{
+    grid-area: navPfp;
+}
+
+.navTxt{
+    grid-area: navTxt;
 }

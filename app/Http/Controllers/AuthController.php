@@ -19,7 +19,7 @@ class AuthController extends Controller
     
         $user = User::where('email', $request->email)->first();
     
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
@@ -28,14 +28,21 @@ class AuthController extends Controller
         $userToken = $user->createToken($request->email)->plainTextToken;
     
         return response()->json([
-            'token' => $userToken
+            'userToken' => $userToken
         ], $this->succesStatus);
     }
 
-    public function getCurrentUser(Request $request){
-        $currentUser = $request->user();
-        return response()->json([
-            'currentUser' => $currentUser
-        ], $this->succesStatus);
+    public function logout(Request $request, User $user){
+        // $user = request()->user();
+        $user->tokens()->where('tokenable_id', $user->id)->delete();
+
+        return $this->succesStatus;
     }
+
+    // public function getCurrentUser(Request $request){
+    //     $currentUser = $request->user();
+    //     return response()->json([
+    //         'currentUser' => $currentUser
+    //     ], $this->succesStatus);
+    // }
 }

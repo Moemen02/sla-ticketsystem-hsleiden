@@ -25,13 +25,17 @@
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login()">Login</v-btn>
+            <v-btn class="grey lighten-1" @click="login()">Login</v-btn>
             <v-spacer></v-spacer>
         </v-card-actions>
     </div>
 </template>
 
 <script>
+import {
+    mapState,
+    mapGetters
+} from 'vuex'
 
 export default {
     props: {
@@ -41,13 +45,20 @@ export default {
         return {
             email: '',
             password: '',
-            token: ''
+            newUserToken: '',
+            currentUserData: null,
         }
     },
     computed: {
-
+    ...mapGetters([
+            'loggedIn',
+            'userToken'
+        ])
     },
     watch: {
+
+    },
+    created() {
 
     },
     mounted() {
@@ -61,21 +72,31 @@ export default {
                     password: this.password
                 })
                 .then(response => {
-                    this.token = response.data.token
-
-                    const TOKEN = 'Bearer '.concat(this.token)
-                    return this.$axios
-                        .get('api/user', {
-                            headers: {
-                                Authorization: TOKEN
-                            }
-                        })
+                    this.$store.dispatch('login', response.data.userToken)
+                    this.getCurrentuser()
                         .then(response => {
-                            return response.data
+                            this.currentUserData = response.currentUser
+                            this.$store.dispatch('companyRole', this.currentUserData.companyRole)
+                            this.$store.dispatch('role', this.currentUserData.role)
                         })
-                        .catch(err => {
-                            return err
-                        })
+                    this.$router.go({
+                        name: 'Dashboard'
+                    })
+                })
+                .catch(err => {
+                    return err
+                })
+        },
+        getCurrentuser(){
+            const TOKEN = 'Bearer '.concat(this.userToken)
+            return this.$axios
+                .get('api/user', {
+                    headers: {
+                        Authorization: TOKEN
+                    }
+                })
+                .then(response => {
+                    return response.data 
                 })
                 .catch(err => {
                     return err
