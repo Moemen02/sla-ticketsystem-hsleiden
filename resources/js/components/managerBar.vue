@@ -16,7 +16,7 @@
 
                 <!-- Employees tab -->
 
-                <router-link to="" exact-path class="router-link">
+                <router-link to="/employee" exact-path class="router-link">
                     <v-list-item active-class="highlighted">
                         <v-list-item-icon>
                             <v-icon>perm_identity</v-icon>
@@ -71,7 +71,7 @@
                         <v-list-item-title>Tickets</v-list-item-title>
                     </template>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/my-tickets">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>My Tickets</v-list-item-title>
@@ -93,7 +93,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/tickets/add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make a Ticket</v-list-item-title>

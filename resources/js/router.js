@@ -8,7 +8,8 @@ Vue.use(Router)
 // global pages
 import loginPage from './pages/loginPage'
 import dashboard from './pages/dashboard'
-import addTicket from './pages/makeTicket'
+import addTicket from './pages/Tickets/makeTicket'
+import myTickets from './pages/Tickets/myTickets'
 
 // admin pages
 import userPage from './pages/admin/users'
@@ -26,7 +27,7 @@ import companies from './pages/admin/companies/companies'
 import addCompany from './pages/admin/companies/addCompany'
 
 // user - manager role pages
-
+import employeePage from './pages/manager/employee'
 
 // user - user role pages
 
@@ -56,6 +57,15 @@ const routes = [{
             requiresAuth: true
         }
     },
+    {
+        path: '/my-tickets',
+        name: 'myTickets',
+        component: myTickets,
+        meta: {
+            requiresAuth: true
+        }
+    },
+
 
     {
         path: '/users',
@@ -92,7 +102,7 @@ const routes = [{
     },
     {
         path: '/tickets/finished',
-        name: 'addTicket',
+        name: 'finishedTickets',
         component: finishedTickets,
         meta: {
             requiresAuth: true
@@ -136,6 +146,15 @@ const routes = [{
         path: '/company/add',
         name: 'addCompany',
         component: addCompany,
+        meta: {
+            requiresAuth: true
+        }
+    },
+
+    {
+        path: '/employee',
+        name: 'employee',
+        component: employeePage,
         meta: {
             requiresAuth: true
         }

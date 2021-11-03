@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>dit is de user pageee</p>
+        <p>dit is de my tickets page</p>
     </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
         }
     },
     created() {
-        this.getUsers()
+        
     },
     computed: {
     ...mapGetters([
@@ -35,20 +35,10 @@ export default {
 
     },
     mounted() {
-        
+
     },
     methods: {
-        getUsers(){
-            console.log("hoi")
-            this.$axios
-                .get('api/users')
-                .then((response) => {
-                    console.log(response.data)
-                })
-                .catch((err) => {
-                    return err
-                })
-        }
+        
     }
 }
 </script>

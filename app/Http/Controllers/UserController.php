@@ -16,4 +16,9 @@ class UserController extends Controller
             'currentUser' => $currentUser
         ], $this->succesStatus);
     }
+
+    public function getAllUsers(Request $request){
+        $users = User::all()->where('role', 'user');
+        return $users;
+    }
 }

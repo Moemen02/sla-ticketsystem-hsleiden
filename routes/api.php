@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     // user routes
     Route::get('/user', [UserController::class, 'getCurrentUser']);
+    Route::get('/users', [UserController::class, 'getAllUsers']);
 
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);

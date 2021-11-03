@@ -15,7 +15,7 @@
                     <v-avatar class="cardAvatar" size="65">
                         <img
                             alt="user"
-                            src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
+                            src="https://i.pinimg.com/564x/ae/ec/c2/aeecc22a67dac7987a80ac0724658493.jpg"
                         >
                     </v-avatar>
                 </div>
