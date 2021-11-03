@@ -76,7 +76,7 @@ const routes = [{
         }
     },
     {
-        path: '/users/admins',
+        path: '/admins',
         name: 'admins',
         component: adminPage,
         meta: {

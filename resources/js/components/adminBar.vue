@@ -32,7 +32,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/users/admins">
+                    <router-link class="router-link" to="/admins">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Administrators</v-list-item-title>

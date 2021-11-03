@@ -2864,19 +2864,78 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      admins: [{}],
+      search: "",
+      headers: [{
+        text: 'User ID',
+        value: 'id'
+      }, {
+        text: 'username',
+        align: 'start',
+        sortable: false,
+        value: 'username'
+      }, {
+        text: 'Email',
+        value: 'email'
+      }, {
+        text: 'Phone number',
+        value: 'phone_number'
+      }, {
+        text: 'company role',
+        value: 'companyRole'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
+  created: function created() {
+    this.getAdmins();
+  },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getAdmins: function getAdmins() {
+      var _this = this;
+
+      console.log("hoi");
+      this.$axios.get('api/admins').then(function (response) {
+        _this.admins = response.data;
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    goToUser: function goToUser(userId) {
+      console.log(userId);
+    }
+  }
 });
 
 /***/ }),
@@ -3192,13 +3251,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      users: [{}],
+      search: "",
+      headers: [{
+        text: 'User ID',
+        value: 'id'
+      }, {
+        text: 'username',
+        align: 'start',
+        sortable: false,
+        value: 'username'
+      }, {
+        text: 'Email',
+        value: 'email'
+      }, {
+        text: 'Phone number',
+        value: 'phone_number'
+      }, {
+        text: 'company role',
+        value: 'companyRole'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
   created: function created() {
     this.getUsers();
@@ -3208,12 +3309,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {},
   methods: {
     getUsers: function getUsers() {
+      var _this = this;
+
       console.log("hoi");
       this.$axios.get('api/users').then(function (response) {
-        console.log(response.data);
+        _this.users = response.data;
       })["catch"](function (err) {
         return err;
       });
+    },
+    goToUser: function goToUser(userId) {
+      console.log(userId);
     }
   }
 });
@@ -3576,7 +3682,7 @@ var routes = [{
     requiresAuth: true
   }
 }, {
-  path: '/users/admins',
+  path: '/admins',
   name: 'admins',
   component: _pages_admin_admins__WEBPACK_IMPORTED_MODULE_8__["default"],
   meta: {
@@ -41122,10 +41228,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "router-link",
-                    {
-                      staticClass: "router-link",
-                      attrs: { to: "/users/admins" }
-                    },
+                    { staticClass: "router-link", attrs: { to: "/admins" } },
                     [
                       _c(
                         "v-list-item",
@@ -42105,16 +42208,79 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.admins,
+          "item-key": "username, email, Phone number, company role",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToUser(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de admin page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -42361,16 +42527,79 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.users,
+          "item-key": "username, email, Phone number, company role",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToUser(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de user pageee")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

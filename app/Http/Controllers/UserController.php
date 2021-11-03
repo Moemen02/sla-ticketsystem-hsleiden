@@ -18,7 +18,12 @@ class UserController extends Controller
     }
 
     public function getAllUsers(Request $request){
-        $users = User::all()->where('role', 'user');
+        $users = User::where('role', 'user')->get();
         return $users;
+    }
+
+    public function getAllAdmins(Request $request){
+        $admins = User::where('role', 'admin')->get();
+        return $admins;
     }
 }

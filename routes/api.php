@@ -26,10 +26,11 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     
     // Auth
     Route::delete('/logout/{user}', [AuthController::class, 'logout']);
-
+    
     // user routes
     Route::get('/user', [UserController::class, 'getCurrentUser']);
     Route::get('/users', [UserController::class, 'getAllUsers']);
+    Route::get('/admins', [UserController::class, 'getAllAdmins']);
 
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);
