@@ -2925,7 +2925,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getAdmins: function getAdmins() {
       var _this = this;
 
-      console.log("hoi");
       this.$axios.get('api/admins').then(function (response) {
         _this.admins = response.data;
       })["catch"](function (err) {
@@ -3311,7 +3310,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getUsers: function getUsers() {
       var _this = this;
 
-      console.log("hoi");
       this.$axios.get('api/users').then(function (response) {
         _this.users = response.data;
       })["catch"](function (err) {
@@ -3661,7 +3659,7 @@ var routes = [{
     dissableIfLoggedIn: true
   }
 }, {
-  path: '/tickets/add',
+  path: '/tickets-add',
   name: 'addTicket',
   component: _pages_Tickets_makeTicket__WEBPACK_IMPORTED_MODULE_5__["default"],
   meta: {
@@ -3689,7 +3687,7 @@ var routes = [{
     requiresAuth: true
   }
 }, {
-  path: '/users/add',
+  path: '/users-add',
   name: 'addUser',
   component: _pages_admin_addUser__WEBPACK_IMPORTED_MODULE_9__["default"],
   meta: {
@@ -3703,14 +3701,14 @@ var routes = [{
     requiresAuth: true
   }
 }, {
-  path: '/tickets/finished',
+  path: '/tickets-finished',
   name: 'finishedTickets',
   component: _pages_admin_tickets_finishedTickets__WEBPACK_IMPORTED_MODULE_10__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
-  path: '/tickets/pending',
+  path: '/tickets-pending',
   name: 'pendingTickets',
   component: _pages_admin_tickets_pendingTickets__WEBPACK_IMPORTED_MODULE_11__["default"],
   meta: {
@@ -3724,7 +3722,7 @@ var routes = [{
     requiresAuth: true
   }
 }, {
-  path: '/contracts/add',
+  path: '/add-contract',
   name: 'addContract',
   component: _pages_admin_contracts_addContract__WEBPACK_IMPORTED_MODULE_14__["default"],
   meta: {
@@ -3738,7 +3736,7 @@ var routes = [{
     requiresAuth: true
   }
 }, {
-  path: '/company/add',
+  path: '/company-add',
   name: 'addCompany',
   component: _pages_admin_companies_addCompany__WEBPACK_IMPORTED_MODULE_16__["default"],
   meta: {
@@ -41257,7 +41255,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "router-link",
-                    { staticClass: "router-link", attrs: { to: "/users/add" } },
+                    { staticClass: "router-link", attrs: { to: "/users-add" } },
                     [
                       _c(
                         "v-list-item",
@@ -41332,7 +41330,7 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "router-link",
-                      attrs: { to: "/contracts/add" }
+                      attrs: { to: "/add-contract" }
                     },
                     [
                       _c(
@@ -41406,7 +41404,7 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "router-link",
-                      attrs: { to: "/tickets/pending" }
+                      attrs: { to: "/tickets-pending" }
                     },
                     [
                       _c(
@@ -41438,7 +41436,7 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "router-link",
-                      attrs: { to: "/tickets/finished" }
+                      attrs: { to: "/tickets-finished" }
                     },
                     [
                       _c(
@@ -41470,7 +41468,7 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "router-link",
-                      attrs: { to: "/tickets/add" }
+                      attrs: { to: "/tickets-add" }
                     },
                     [
                       _c(
@@ -41546,7 +41544,7 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "router-link",
-                      attrs: { to: "/company/add" }
+                      attrs: { to: "/company-add" }
                     },
                     [
                       _c(

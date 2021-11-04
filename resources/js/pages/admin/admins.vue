@@ -87,7 +87,6 @@ export default {
     },
     methods: {
         getAdmins(){
-            console.log("hoi")
             this.$axios
                 .get('api/admins')
                 .then((response) => {

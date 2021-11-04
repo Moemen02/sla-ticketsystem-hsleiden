@@ -16,7 +16,7 @@ class CreateContractsTable extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->string('contract_name');
-            // $table->date('created_at');
+            $table->integer('companyID');
             $table->date('ends_at');
             $table->integer('times_extended')->default('0');
             $table->timestamps();

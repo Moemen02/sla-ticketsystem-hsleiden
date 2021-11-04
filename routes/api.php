@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ use App\Http\Controllers\TicketController;
 
 // Authentication routes
 Route::post('/user/login', [AuthController::class, 'login']);
+Route::post('/company', [CompanyController::class, 'createCompany']);
+Route::post('/user', [UserController::class, 'registerUser']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     
@@ -31,9 +34,10 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/user', [UserController::class, 'getCurrentUser']);
     Route::get('/users', [UserController::class, 'getAllUsers']);
     Route::get('/admins', [UserController::class, 'getAllAdmins']);
-
+    
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);
     
+    // Company routes
 
 });

@@ -8,6 +8,9 @@ use Validator;
 
 class TicketController extends Controller
 {
+
+    public $succesStatus = 200;
+
     public function createTicket(Request $request){
         $validator = Validator::make($request->all(), 
             [
@@ -30,6 +33,8 @@ class TicketController extends Controller
         $input = $request->all();
         $ticket = Ticket::create($input);
 
-        return $ticket;
+        return response()->json([
+            'succes' => "ticket added"
+        ], $this->succesStatus);
     }
 }

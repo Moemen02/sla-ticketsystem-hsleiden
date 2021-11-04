@@ -43,7 +43,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/users/add">
+                    <router-link class="router-link" to="/users-add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make new user</v-list-item-title>
@@ -76,7 +76,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/contracts/add">
+                    <router-link class="router-link" to="/add-contract">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make contract</v-list-item-title>
@@ -110,7 +110,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/tickets/pending">
+                    <router-link class="router-link" to="/tickets-pending">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Pending Tickets</v-list-item-title>
@@ -121,7 +121,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/tickets/finished">
+                    <router-link class="router-link" to="/tickets-finished">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Finished Tickets</v-list-item-title>
@@ -132,7 +132,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/tickets/add">
+                    <router-link class="router-link" to="/tickets-add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make a Ticket</v-list-item-title>
@@ -164,7 +164,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/company/add">
+                    <router-link class="router-link" to="/company-add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Add company</v-list-item-title>
