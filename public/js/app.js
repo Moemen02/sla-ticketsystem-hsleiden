@@ -2950,7 +2950,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _models_company__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../models/company */ "./resources/models/company.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2963,19 +2964,77 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      newCompany: new _models_company__WEBPACK_IMPORTED_MODULE_0__["default"](),
+      errors: [],
+      rules: [function (v) {
+        return !!v || 'Field is required';
+      }],
+      alert: false,
+      alertColor: null,
+      msg: []
+    };
   },
   created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    addNewCompany: function addNewCompany() {
+      var _this = this;
+
+      console.log(this.newCompany);
+      this.$axios.post('api/company', this.newCompany).then(function (response) {
+        _this.alert = true;
+        _this.msg = response.data.succes;
+        _this.alertColor = "success";
+      })["catch"](function (err) {
+        var errosMsg = err.response.data.error;
+
+        for (var errors in errosMsg) {
+          _this.msg.push(errosMsg[errors][0]);
+        }
+
+        _this.alert = true;
+        _this.alertColor = "error";
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3004,19 +3063,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      companies: [],
+      search: "",
+      headers: [{
+        text: 'Company ID',
+        value: 'id'
+      }, {
+        text: 'Company name',
+        align: 'start',
+        sortable: false,
+        value: 'company_name'
+      }, {
+        text: 'kvk',
+        value: 'kvk'
+      }, {
+        text: 'Total employees',
+        value: 'total_employees'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
+  created: function created() {
+    this.getCompanies();
+  },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getCompanies: function getCompanies() {
+      var _this = this;
+
+      this.$axios.get('/api/company').then(function (response) {
+        _this.companies = response.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    goToCompany: function goToCompany(id) {
+      console.log(id);
+    }
+  }
 });
 
 /***/ }),
@@ -3878,6 +3991,35 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     }
   }
 });
+
+/***/ }),
+
+/***/ "./resources/models/company.js":
+/*!*************************************!*\
+  !*** ./resources/models/company.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Company)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Company = function Company() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+  _classCallCheck(this, Company);
+
+  this.id = id;
+  this.company_name = data.company_name ? data.company_name : "";
+  this.total_employees = data.total_employees ? data.total_employees : "";
+  this.kvk = data.kvk ? data.kvk : "";
+};
+
+
 
 /***/ }),
 
@@ -42301,16 +42443,114 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _vm.alert
+        ? _c(
+            "v-alert",
+            { attrs: { type: _vm.alertColor } },
+            [
+              _c(
+                "v-icon",
+                {
+                  staticClass: "float-right close-msg",
+                  on: {
+                    click: function($event) {
+                      _vm.alert = false
+                    }
+                  }
+                },
+                [_vm._v("cancel")]
+              ),
+              _vm._v("          \n        " + _vm._s(_vm.msg) + "\n    ")
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["company_name"] ? true : false,
+                          label: "Company name"
+                        },
+                        model: {
+                          value: _vm.newCompany.company_name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newCompany, "company_name", $$v)
+                          },
+                          expression: "newCompany.company_name"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["kvk"] ? true : false,
+                          label: "kvk"
+                        },
+                        model: {
+                          value: _vm.newCompany.kvk,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newCompany, "kvk", $$v)
+                          },
+                          expression: "newCompany.kvk"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "success", id: "sendBtnComp" },
+                      on: { click: _vm.addNewCompany }
+                    },
+                    [_vm._v("Opslaan"), _c("v-icon", [_vm._v("send")])],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de add company page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -42333,16 +42573,79 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.companies,
+          "item-key": "company name",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToCompany(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de company page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

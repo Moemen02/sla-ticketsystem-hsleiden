@@ -17,7 +17,8 @@ class Company extends Model
     protected $fillable = [
         'company_name',
         'contractID',
-        'total_employees'
+        'total_employees',
+        'kvk'
 
     ];
 

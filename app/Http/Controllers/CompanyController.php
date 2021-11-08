@@ -11,11 +11,17 @@ class CompanyController extends Controller
 {
     public $succesStatus = 200;
 
+    public function getCompanies(Request $request){
+        $companies = Company::all();
+        return $companies;
+    }
+
     public function createCompany(Request $request){
         $validator = Validator::make($request->all(), 
             [
                 'company_name' => 'required',
                 'total_employees' => '',
+                'kvk' => 'required|numeric',
             ]
         );
 

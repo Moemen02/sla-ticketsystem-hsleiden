@@ -37,3 +37,7 @@ body {
 .navTxt {
   grid-area: navTxt;
 }
+
+#sendBtnComp {
+  margin-top: 1%;
+}

@@ -22,8 +22,6 @@ use App\Http\Controllers\CompanyController;
 
 // Authentication routes
 Route::post('/user/login', [AuthController::class, 'login']);
-Route::post('/company', [CompanyController::class, 'createCompany']);
-Route::post('/user', [UserController::class, 'registerUser']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     
@@ -34,10 +32,13 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/user', [UserController::class, 'getCurrentUser']);
     Route::get('/users', [UserController::class, 'getAllUsers']);
     Route::get('/admins', [UserController::class, 'getAllAdmins']);
+    Route::post('/user', [UserController::class, 'registerUser']);
     
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);
     
     // Company routes
+    Route::post('/company', [CompanyController::class, 'createCompany']);
+    Route::get('/company', [CompanyController::class, 'getCompanies']);
 
 });

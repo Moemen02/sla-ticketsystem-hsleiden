@@ -1,6 +1,24 @@
 <template>
     <div>
-        <p>dit is de company page</p>
+        <v-data-table
+        :headers="headers"
+        :items="companies"
+        item-key="company name"
+        class="elevation-1"
+        :search="search"
+        >
+            <template v-slot:top>
+                <v-text-field
+                v-model="search"
+                label="Search"
+                class="mx-4"
+                />
+            </template>
+            <template #item.actions="{item}">
+                <v-icon @click="goToCompany(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
+                <v-icon @click="toggleDeleteWarning(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+            </template>
+        </v-data-table>
     </div>
 </template>
 
@@ -20,11 +38,36 @@ export default {
     },
     data() {
         return {
-           
+            companies: [],
+            search: "",
+            headers: [
+                {
+                    text: 'Company ID',
+                    value: 'id',
+                },
+                {
+                    text: 'Company name',
+                    align: 'start',
+                    sortable: false,
+                    value: 'company_name',
+                },
+                {
+                    text: 'kvk',
+                    value: 'kvk'
+                },
+                {
+                    text: 'Total employees',
+                    value: 'total_employees'
+                },
+                {
+                    text: '',
+                    value: 'actions'
+                },
+            ],
         }
     },
     created() {
-        
+        this.getCompanies()
     },
     computed: {
     ...mapGetters([
@@ -38,7 +81,19 @@ export default {
 
     },
     methods: {
-        
+        getCompanies(){
+            this.$axios
+                .get('/api/company')
+                .then((response) => {
+                    this.companies = response.data
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        goToCompany(id){
+            console.log(id)
+        }
     }
 }
 </script>
