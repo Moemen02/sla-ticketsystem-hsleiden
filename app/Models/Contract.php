@@ -16,7 +16,9 @@ class Contract extends Model
      */
     protected $fillable = [
         'contract_name',
+        'active',
         'companyID',
+        'starting_at',
         'ends_at',
         'times_extended'
     ];

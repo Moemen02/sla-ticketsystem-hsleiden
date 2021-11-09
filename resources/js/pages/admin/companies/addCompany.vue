@@ -1,8 +1,8 @@
 <template>
     <div>
          <v-alert v-if="alert" :type="alertColor">
-            <v-icon @click="alert = false" class="float-right close-msg">cancel</v-icon>          
-            <p v-for="message in msg" :key="">{{message}}</p>
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
         </v-alert>
         <v-card>
             <v-container>
@@ -83,6 +83,11 @@ export default {
                     this.alert = true
                     this.msg = response.data.succes
                     this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
                 .catch((err) => {
                     const errosMsg = err.response.data.error
@@ -94,8 +99,13 @@ export default {
                     const that = this
                     setTimeout(function(){
                         that.alert = false
+                        that.msg = []
                     }, 5000)
                 })
+        },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
         }
     }
 }

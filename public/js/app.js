@@ -3023,6 +3023,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.alert = true;
         _this.msg = response.data.succes;
         _this.alertColor = "success";
+        var that = _this;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
       })["catch"](function (err) {
         var errosMsg = err.response.data.error;
 
@@ -3035,8 +3040,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var that = _this;
         setTimeout(function () {
           that.alert = false;
+          that.msg = [];
         }, 5000);
       });
+    },
+    clearAlert: function clearAlert() {
+      this.msg = [];
+      this.alert = false;
     }
   }
 });
@@ -3149,7 +3159,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _models_contract__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../models/contract */ "./resources/models/contract.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3162,19 +3173,186 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      newContract: new _models_contract__WEBPACK_IMPORTED_MODULE_0__["default"](),
+      errors: [],
+      rules: [function (v) {
+        return !!v || 'Field is required';
+      }],
+      alert: false,
+      alertColor: null,
+      msg: [],
+      companies: [],
+      date: '',
+      startDate: '',
+      endingDate: '',
+      active: false
+    };
   },
   created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    createContract: function createContract() {
+      this.newContract.active = this.active;
+      this.$axios.post('api/contract', this.newContract).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    getCompanies: function getCompanies() {
+      var _this = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this.companies = response.data;
+        console.log(_this.companies);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -4013,14 +4191,40 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Company = function Company() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
   _classCallCheck(this, Company);
 
-  this.id = id;
   this.company_name = data.company_name ? data.company_name : "";
   this.total_employees = data.total_employees ? data.total_employees : "";
   this.kvk = data.kvk ? data.kvk : "";
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/models/contract.js":
+/*!**************************************!*\
+  !*** ./resources/models/contract.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Contract)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Contract = function Contract() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  _classCallCheck(this, Contract);
+
+  this.contract_name = data.contract_name ? data.contract_name : "";
+  this.companyID = data.companyID ? data.companyID : "";
+  this.ends_at = data.ends_at ? data.ends_at : "";
+  this.times_extended = data.times_extended ? data.times_extended : "";
 };
 
 
@@ -42459,20 +42663,14 @@ var render = function() {
                 "v-icon",
                 {
                   staticClass: "float-right close-msg",
-                  on: {
-                    click: function($event) {
-                      _vm.alert = false
-                    }
-                  }
+                  on: { click: _vm.clearAlert }
                 },
                 [_vm._v("cancel")]
               ),
               _vm._v(" "),
-              _vm._l(_vm.msg, function(message) {
-                return _c("p", [_vm._v(_vm._s(message))])
-              })
+              _c("p", [_vm._v(_vm._s(_vm.msg))])
             ],
-            2
+            1
           )
         : _vm._e(),
       _vm._v(" "),
@@ -42675,16 +42873,445 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _vm.alert
+        ? _c(
+            "v-alert",
+            { attrs: { type: _vm.alertColor } },
+            [
+              _c(
+                "v-icon",
+                {
+                  staticClass: "float-right close-msg",
+                  on: {
+                    click: function($event) {
+                      _vm.alert = false
+                    }
+                  }
+                },
+                [_vm._v("cancel")]
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.msg, function(message) {
+                return _c("p", [_vm._v(_vm._s(message))])
+              })
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["contract_name"] ? true : false,
+                          label: "Contract Name"
+                        },
+                        model: {
+                          value: _vm.newContract.contract_name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newContract, "contract_name", $$v)
+                          },
+                          expression: "newContract.contract_name"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["kvk"] ? true : false,
+                          items: _vm.companies,
+                          "item-text": "company_name",
+                          "item-value": "id",
+                          label: "Company"
+                        },
+                        on: { click: _vm.getCompanies },
+                        model: {
+                          value: _vm.newContract.companyID,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newContract, "companyID", $$v)
+                          },
+                          expression: "newContract.companyID"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c(
+                        "v-menu",
+                        {
+                          ref: "startDate",
+                          attrs: {
+                            "close-on-content-click": false,
+                            "return-value": _vm.newContract.starting_at,
+                            transition: "scale-transition",
+                            "offset-y": "",
+                            "min-width": "auto"
+                          },
+                          on: {
+                            "update:returnValue": function($event) {
+                              return _vm.$set(
+                                _vm.newContract,
+                                "starting_at",
+                                $event
+                              )
+                            },
+                            "update:return-value": function($event) {
+                              return _vm.$set(
+                                _vm.newContract,
+                                "starting_at",
+                                $event
+                              )
+                            }
+                          },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-text-field",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          attrs: {
+                                            label: "Contract start date",
+                                            "prepend-icon": "mdi-calendar",
+                                            readonly: ""
+                                          },
+                                          model: {
+                                            value: _vm.newContract.starting_at,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.newContract,
+                                                "starting_at",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "newContract.starting_at"
+                                          }
+                                        },
+                                        "v-text-field",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    )
+                                  )
+                                ]
+                              }
+                            }
+                          ]),
+                          model: {
+                            value: _vm.startDate,
+                            callback: function($$v) {
+                              _vm.startDate = $$v
+                            },
+                            expression: "startDate"
+                          }
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-date-picker",
+                            {
+                              attrs: { "no-title": "", scrollable: "" },
+                              model: {
+                                value: _vm.newContract.starting_at,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newContract, "starting_at", $$v)
+                                },
+                                expression: "newContract.starting_at"
+                              }
+                            },
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.startDate = false
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Cancel\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$refs.startDate.save(
+                                        _vm.newContract.starting_at
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                OK\n                            "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c(
+                        "v-menu",
+                        {
+                          ref: "endingDate",
+                          attrs: {
+                            "close-on-content-click": false,
+                            "return-value": _vm.newContract.ends_at,
+                            transition: "scale-transition",
+                            "offset-y": "",
+                            "min-width": "auto"
+                          },
+                          on: {
+                            "update:returnValue": function($event) {
+                              return _vm.$set(
+                                _vm.newContract,
+                                "ends_at",
+                                $event
+                              )
+                            },
+                            "update:return-value": function($event) {
+                              return _vm.$set(
+                                _vm.newContract,
+                                "ends_at",
+                                $event
+                              )
+                            }
+                          },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-text-field",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          attrs: {
+                                            label: "Contract ending date",
+                                            "prepend-icon": "mdi-calendar",
+                                            readonly: ""
+                                          },
+                                          model: {
+                                            value: _vm.newContract.ends_at,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.newContract,
+                                                "ends_at",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "newContract.ends_at"
+                                          }
+                                        },
+                                        "v-text-field",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    )
+                                  )
+                                ]
+                              }
+                            }
+                          ]),
+                          model: {
+                            value: _vm.endingDate,
+                            callback: function($$v) {
+                              _vm.endingDate = $$v
+                            },
+                            expression: "endingDate"
+                          }
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-date-picker",
+                            {
+                              attrs: { "no-title": "", scrollable: "" },
+                              model: {
+                                value: _vm.newContract.ends_at,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newContract, "ends_at", $$v)
+                                },
+                                expression: "newContract.ends_at"
+                              }
+                            },
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.endingDate = false
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Cancel\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$refs.endingDate.save(
+                                        _vm.newContract.ends_at
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                OK\n                            "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            [
+                              _c("v-switch", {
+                                attrs: { label: "Contract Active" },
+                                model: {
+                                  value: _vm.active,
+                                  callback: function($$v) {
+                                    _vm.active = $$v
+                                  },
+                                  expression: "active"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "success", id: "sendBtnComp" },
+                          on: { click: _vm.createContract }
+                        },
+                        [_vm._v("Opslaan"), _c("v-icon", [_vm._v("send")])],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de add contract page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
