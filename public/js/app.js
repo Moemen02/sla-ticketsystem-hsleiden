@@ -3032,6 +3032,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.alert = true;
         _this.alertColor = "error";
+        var that = _this;
+        setTimeout(function () {
+          that.alert = false;
+        }, 5000);
       });
     }
   }
@@ -42463,9 +42467,12 @@ var render = function() {
                 },
                 [_vm._v("cancel")]
               ),
-              _vm._v("          \n        " + _vm._s(_vm.msg) + "\n    ")
+              _vm._v(" "),
+              _vm._l(_vm.msg, function(message) {
+                return _c("p", [_vm._v(_vm._s(message))])
+              })
             ],
-            1
+            2
           )
         : _vm._e(),
       _vm._v(" "),

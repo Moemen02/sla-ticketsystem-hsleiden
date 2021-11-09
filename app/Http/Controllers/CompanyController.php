@@ -19,9 +19,9 @@ class CompanyController extends Controller
     public function createCompany(Request $request){
         $validator = Validator::make($request->all(), 
             [
-                'company_name' => 'required',
+                'company_name' => 'required|unique:companies',
                 'total_employees' => '',
-                'kvk' => 'required|numeric',
+                'kvk' => 'required|numeric|unique:companies',
             ]
         );
 

@@ -2,7 +2,7 @@
     <div>
          <v-alert v-if="alert" :type="alertColor">
             <v-icon @click="alert = false" class="float-right close-msg">cancel</v-icon>          
-            {{msg}}
+            <p v-for="message in msg" :key="">{{message}}</p>
         </v-alert>
         <v-card>
             <v-container>
@@ -91,6 +91,10 @@ export default {
                     }
                     this.alert = true
                     this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                    }, 5000)
                 })
         }
     }
