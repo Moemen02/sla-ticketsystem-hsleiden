@@ -50,7 +50,7 @@ const routes = [{
         }
     },
     {
-        path: '/tickets/add',
+        path: '/tickets-add',
         name: 'addTicket',
         component: addTicket,
         meta: {
@@ -84,7 +84,7 @@ const routes = [{
         }
     },
     {
-        path: '/users/add',
+        path: '/users-add',
         name: 'addUser',
         component: addUser,
         meta: {
@@ -101,7 +101,7 @@ const routes = [{
         }
     },
     {
-        path: '/tickets/finished',
+        path: '/tickets-finished',
         name: 'finishedTickets',
         component: finishedTickets,
         meta: {
@@ -109,7 +109,7 @@ const routes = [{
         }
     },
     {
-        path: '/tickets/pending',
+        path: '/tickets-pending',
         name: 'pendingTickets',
         component: pendingTickets,
         meta: {
@@ -126,7 +126,7 @@ const routes = [{
         }
     },
     {
-        path: '/contracts/add',
+        path: '/add-contract',
         name: 'addContract',
         component: addContract,
         meta: {
@@ -143,7 +143,7 @@ const routes = [{
         }
     },
     {
-        path: '/company/add',
+        path: '/company-add',
         name: 'addCompany',
         component: addCompany,
         meta: {

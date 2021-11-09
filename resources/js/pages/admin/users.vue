@@ -86,7 +86,6 @@ export default {
     },
     methods: {
         getUsers(){
-            console.log("hoi")
             this.$axios
                 .get('api/users')
                 .then((response) => {

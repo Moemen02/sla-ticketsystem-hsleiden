@@ -23,8 +23,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@test.com',
             'password' => Hash::make('user'),
             'phone_number' => '06282223',
-            'role' => 'user',
-            'companyID' => '1',
+            'companyID' => '2',
             'companyRole' => 'employee'
         ]);
 
@@ -36,8 +35,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'manager@test.com',
             'password' => Hash::make('manager'),
             'phone_number' => '0623423',
-            'role' => 'user',
-            'companyID' => '1',
+            'companyID' => '2',
             'companyRole' => 'manager'
         ]);
 
@@ -50,7 +48,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('hussein'),
             'phone_number' => '06283',
             'role' => 'admin',
-            'companyID' => '0',
+            'companyID' => '1',
             'companyRole' => 'admin'
         ]);
     }

@@ -38,11 +38,4 @@ class AuthController extends Controller
 
         return $this->succesStatus;
     }
-
-    // public function getCurrentUser(Request $request){
-    //     $currentUser = $request->user();
-    //     return response()->json([
-    //         'currentUser' => $currentUser
-    //     ], $this->succesStatus);
-    // }
 }

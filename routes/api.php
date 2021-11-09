@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContractController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +33,16 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/user', [UserController::class, 'getCurrentUser']);
     Route::get('/users', [UserController::class, 'getAllUsers']);
     Route::get('/admins', [UserController::class, 'getAllAdmins']);
-
+    Route::post('/user', [UserController::class, 'registerUser']);
+    
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);
     
+    // Company routes
+    Route::post('/company', [CompanyController::class, 'createCompany']);
+    Route::get('/company', [CompanyController::class, 'getCompanies']);
+
+    // Contract routes
+    Route::post('/contract', [ContractController::class, 'makeContract']);
 
 });
