@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
-use Validator;
 
 class TicketController extends Controller
 {

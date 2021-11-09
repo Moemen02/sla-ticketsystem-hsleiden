@@ -2,7 +2,7 @@
     <nav>
         <v-toolbar color="primary">
             <v-app-bar-nav-icon @click="sideBar = !sideBar" color="indigo lighten-4"></v-app-bar-nav-icon>
-            <h1 class="current-route">test</h1>
+            <h1 class="current-route">{{currentRouteName}}</h1>
             <v-spacer></v-spacer>
             <v-btn @click="logout()">
                 <v-icon title="Logout">exit_to_app</v-icon>
@@ -68,7 +68,10 @@ export default {
             'userToken',
             'companyRole',
             'role'
-        ])
+        ]),
+        currentRouteName() {
+            return this.$route.name;
+        }
     },
     watch: {
 

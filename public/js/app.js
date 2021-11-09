@@ -2627,7 +2627,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.getCurrentUser(), this.setUsername();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['isAdmin', 'userToken', 'companyRole', 'role'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['isAdmin', 'userToken', 'companyRole', 'role'])), {}, {
+    currentRouteName: function currentRouteName() {
+      return this.$route.name;
+    }
+  }),
   watch: {},
   mounted: function mounted() {},
   methods: {
@@ -2810,7 +2814,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../../../models/user'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2823,16 +2828,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      alert: false,
+      alertColor: null,
+      errors: [],
+      rules: [function (v) {
+        return !!v || 'Field is required';
+      }]
+    };
   },
   created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
   methods: {}
@@ -2946,8 +2976,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.companies = response.data;
 
         for (var company in _this2.companies) {
-          console.log(_this2.companies[company].id);
-
           for (var admin in _this2.admins) {
             if (_this2.admins[admin].companyID == _this2.companies[company].id) {
               _this2.admins[admin].companyID = _this2.companies[company].company_name;
@@ -3512,8 +3540,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.companies = response.data;
 
         for (var company in _this2.companies) {
-          console.log(_this2.companies[company].id);
-
           for (var contract in _this2.Contracts) {
             if (_this2.Contracts[contract].companyID == _this2.companies[company].id) {
               _this2.Contracts[contract].companyID = _this2.companies[company].company_name;
@@ -4110,91 +4136,91 @@ var routes = [{
   }
 }, {
   path: '/tickets-add',
-  name: 'addTicket',
+  name: 'Create Ticket',
   component: _pages_Tickets_makeTicket__WEBPACK_IMPORTED_MODULE_5__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/my-tickets',
-  name: 'myTickets',
+  name: 'My Tickets',
   component: _pages_Tickets_myTickets__WEBPACK_IMPORTED_MODULE_6__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/users',
-  name: 'users',
+  name: 'Users',
   component: _pages_admin_users__WEBPACK_IMPORTED_MODULE_7__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/admins',
-  name: 'admins',
+  name: 'Admins',
   component: _pages_admin_admins__WEBPACK_IMPORTED_MODULE_8__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/users-add',
-  name: 'addUser',
+  name: 'Create User',
   component: _pages_admin_addUser__WEBPACK_IMPORTED_MODULE_9__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/tickets',
-  name: 'tickets',
+  name: 'Tickets',
   component: _pages_admin_tickets_tickets__WEBPACK_IMPORTED_MODULE_12__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/tickets-finished',
-  name: 'finishedTickets',
+  name: 'Finished Tickets',
   component: _pages_admin_tickets_finishedTickets__WEBPACK_IMPORTED_MODULE_10__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/tickets-pending',
-  name: 'pendingTickets',
+  name: 'Pending Tickets',
   component: _pages_admin_tickets_pendingTickets__WEBPACK_IMPORTED_MODULE_11__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/contracts',
-  name: 'contracts',
+  name: 'Contracts',
   component: _pages_admin_contracts_contracts__WEBPACK_IMPORTED_MODULE_13__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/add-contract',
-  name: 'addContract',
+  name: 'Create Contract',
   component: _pages_admin_contracts_addContract__WEBPACK_IMPORTED_MODULE_14__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/company',
-  name: 'company',
+  name: 'Company',
   component: _pages_admin_companies_companies__WEBPACK_IMPORTED_MODULE_15__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/company-add',
-  name: 'addCompany',
+  name: 'Add Company',
   component: _pages_admin_companies_addCompany__WEBPACK_IMPORTED_MODULE_16__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/employee',
-  name: 'employee',
+  name: 'Employees',
   component: _pages_manager_employee__WEBPACK_IMPORTED_MODULE_17__["default"],
   meta: {
     requiresAuth: true
@@ -42468,7 +42494,9 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("h1", { staticClass: "current-route" }, [_vm._v("test")]),
+          _c("h1", { staticClass: "current-route" }, [
+            _vm._v(_vm._s(_vm.currentRouteName))
+          ]),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
@@ -42679,16 +42707,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _vm.alert
+        ? _c(
+            "v-alert",
+            { attrs: { type: _vm.alertColor } },
+            [
+              _c(
+                "v-icon",
+                {
+                  staticClass: "float-right close-msg",
+                  on: { click: _vm.clearAlert }
+                },
+                [_vm._v("cancel")]
+              ),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.msg))])
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                [_c("v-col", { attrs: { cols: "12", sm: "6", md: "6" } })],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de add user page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

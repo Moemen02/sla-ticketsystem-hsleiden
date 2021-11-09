@@ -110,7 +110,6 @@ export default {
                 .then((response) => {
                     this.companies = response.data
                     for (let company in this.companies) {
-                        console.log(this.companies[company].id)
                         for (let contract in this.Contracts) {
                             if (this.Contracts[contract].companyID == this.companies[company].id) {
                                 this.Contracts[contract].companyID = this.companies[company].company_name
