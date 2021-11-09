@@ -2910,6 +2910,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: 'company role',
         value: 'companyRole'
       }, {
+        text: 'company',
+        value: 'companyID'
+      }, {
         text: '',
         value: 'actions'
       }]
@@ -2927,12 +2930,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.$axios.get('api/admins').then(function (response) {
         _this.admins = response.data;
+
+        _this.getUserCompany();
       })["catch"](function (err) {
         return err;
       });
     },
     goToUser: function goToUser(userId) {
       console.log(userId);
+    },
+    getUserCompany: function getUserCompany() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+
+        for (var company in _this2.companies) {
+          console.log(_this2.companies[company].id);
+
+          for (var admin in _this2.admins) {
+            if (_this2.admins[admin].companyID == _this2.companies[company].id) {
+              _this2.admins[admin].companyID = _this2.companies[company].company_name;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }
 });
@@ -3018,7 +3042,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addNewCompany: function addNewCompany() {
       var _this = this;
 
-      console.log(this.newCompany);
       this.$axios.post('api/company', this.newCompany).then(function (response) {
         _this.alert = true;
         _this.msg = response.data.succes;
@@ -3335,22 +3358,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {},
   methods: {
     createContract: function createContract() {
+      var _this = this;
+
       this.newContract.active = this.active;
       this.$axios.post('api/contract', this.newContract).then(function (response) {
-        console.log(response.data);
+        _this.msg = response.data.succes;
+        _this.alert = true;
+        _this.alertColor = "success";
+        var that = _this;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      })["catch"](function (err) {
+        var errosMsg = err.response.data.error;
+
+        for (var errors in errosMsg) {
+          _this.msg.push(errosMsg[errors][0]);
+        }
+
+        _this.alert = true;
+        _this.alertColor = "error";
+        var that = _this;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      });
+    },
+    getCompanies: function getCompanies() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+        console.log(_this2.companies);
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    getCompanies: function getCompanies() {
-      var _this = this;
-
-      this.$axios.get('api/company').then(function (response) {
-        _this.companies = response.data;
-        console.log(_this.companies);
-      })["catch"](function (err) {
-        console.log(err);
-      });
+    clearAlert: function clearAlert() {
+      this.msg = [];
+      this.alert = false;
     }
   }
 });
@@ -3381,19 +3429,102 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'adminBar',
+  name: '',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      Contracts: [{}],
+      search: "",
+      headers: [{
+        text: 'User ID',
+        value: 'id'
+      }, {
+        text: 'Contract',
+        align: 'start',
+        sortable: false,
+        value: 'contract_name'
+      }, {
+        text: 'Ends at',
+        value: 'ends_at'
+      }, {
+        text: 'Contract active',
+        value: 'active'
+      }, {
+        text: 'company',
+        value: 'companyID'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
+  created: function created() {
+    this.getContracts();
+  },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getContracts: function getContracts() {
+      var _this = this;
+
+      this.$axios.get('api/contract').then(function (response) {
+        _this.Contracts = response.data;
+
+        _this.getCompanyContract();
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    goToUser: function goToUser(userId) {
+      console.log(userId);
+    },
+    getCompanyContract: function getCompanyContract() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+
+        for (var company in _this2.companies) {
+          console.log(_this2.companies[company].id);
+
+          for (var contract in _this2.Contracts) {
+            if (_this2.Contracts[contract].companyID == _this2.companies[company].id) {
+              _this2.Contracts[contract].companyID = _this2.companies[company].company_name;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3571,6 +3702,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       users: [{}],
+      userCompID: '',
+      companyName: '',
+      companyData: [],
+      companies: [{}],
       search: "",
       headers: [{
         text: 'User ID',
@@ -3590,6 +3725,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: 'company role',
         value: 'companyRole'
       }, {
+        text: 'company',
+        value: 'companyID'
+      }, {
         text: '',
         value: 'actions'
       }]
@@ -3607,12 +3745,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.$axios.get('api/users').then(function (response) {
         _this.users = response.data;
-      })["catch"](function (err) {
-        return err;
+
+        _this.getUserCompany();
       });
     },
     goToUser: function goToUser(userId) {
       console.log(userId);
+    },
+    getUserCompany: function getUserCompany() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+
+        for (var company in _this2.companies) {
+          for (var user in _this2.users) {
+            if (_this2.users[user].companyID == _this2.companies[company].id) {
+              _this2.users[user].companyID = _this2.companies[company].company_name;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }
 });
@@ -42885,20 +43040,14 @@ var render = function() {
                 "v-icon",
                 {
                   staticClass: "float-right close-msg",
-                  on: {
-                    click: function($event) {
-                      _vm.alert = false
-                    }
-                  }
+                  on: { click: _vm.clearAlert }
                 },
                 [_vm._v("cancel")]
               ),
               _vm._v(" "),
-              _vm._l(_vm.msg, function(message) {
-                return _c("p", [_vm._v(_vm._s(message))])
-              })
+              _c("p", [_vm._v(_vm._s(_vm.msg))])
             ],
-            2
+            1
           )
         : _vm._e(),
       _vm._v(" "),
@@ -43334,16 +43483,90 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.Contracts,
+          "item-key": "",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.active",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                item.active == 0 ? _c("p", [_vm._v("false")]) : _vm._e(),
+                _vm._v(" "),
+                item.active == 1 ? _c("p", [_vm._v("true")]) : _vm._e()
+              ]
+            }
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToUser(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de contract page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

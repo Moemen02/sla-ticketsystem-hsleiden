@@ -65,6 +65,10 @@ export default {
                     value: 'companyRole'
                 },
                 {
+                    text: 'company',
+                    value: 'companyID'
+                },
+                {
                     text: '',
                     value: 'actions'
                 },
@@ -91,6 +95,7 @@ export default {
                 .get('api/admins')
                 .then((response) => {
                     this.admins = response.data
+                    this.getUserCompany()
                 })
                 .catch((err) => {
                     return err
@@ -98,6 +103,24 @@ export default {
         },
         goToUser(userId){
             console.log(userId)
+        },
+        getUserCompany() {
+            this.$axios
+                .get('api/company')
+                .then((response) => {
+                    this.companies = response.data
+                    for (let company in this.companies) {
+                        console.log(this.companies[company].id)
+                        for (let admin in this.admins) {
+                            if (this.admins[admin].companyID == this.companies[company].id) {
+                                this.admins[admin].companyID = this.companies[company].company_name
+                            }
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         }
     }
 }

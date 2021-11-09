@@ -1,8 +1,8 @@
 <template>
     <div>
         <v-alert v-if="alert" :type="alertColor">
-            <v-icon @click="alert = false" class="float-right close-msg">cancel</v-icon>          
-            <p v-for="message in msg" :key="">{{message}}</p>
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
         </v-alert>
         <v-card>
             <v-container>
@@ -190,10 +190,27 @@ export default {
             this.$axios
                 .post('api/contract', this.newContract)
                 .then((response) => {
-                    console.log(response.data)
+                    this.msg = response.data.succes
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
         },
         getCompanies() {
@@ -206,6 +223,10 @@ export default {
                 .catch((err) => {
                     console.log(err)
                 })
+        },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
         }
     }
 }

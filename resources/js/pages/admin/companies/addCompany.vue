@@ -76,7 +76,6 @@ export default {
     },
     methods: {
         addNewCompany(){
-            console.log(this.newCompany)
             this.$axios
                 .post('api/company', this.newCompany)
                 .then((response) => {

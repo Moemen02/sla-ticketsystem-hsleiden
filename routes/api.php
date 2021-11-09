@@ -44,5 +44,6 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     // Contract routes
     Route::post('/contract', [ContractController::class, 'makeContract']);
+    Route::get('/contract', [ContractController::class, 'getContracts']);
 
 });
