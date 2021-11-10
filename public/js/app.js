@@ -2627,7 +2627,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.getCurrentUser(), this.setUsername();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['isAdmin', 'userToken', 'companyRole', 'role'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['isAdmin', 'userToken', 'companyRole', 'role'])), {}, {
+    currentRouteName: function currentRouteName() {
+      return this.$route.name;
+    }
+  }),
   watch: {},
   mounted: function mounted() {},
   methods: {
@@ -2810,7 +2814,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../models/user */ "./resources/models/user.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2823,19 +2828,204 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      admin: "admin",
+      newUser: new _models_user__WEBPACK_IMPORTED_MODULE_0__["default"](),
+      alert: false,
+      alertColor: null,
+      errors: [],
+      rules: [function (v) {
+        return !!v || 'Field is required';
+      }],
+      show_password: false,
+      vissibilityIcon: "visibility",
+      roles: ['admin', 'user'],
+      companyRoles: ['manager', 'user'],
+      companies: [],
+      msg: []
+    };
   },
   created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    togglePassword: function togglePassword() {
+      this.show_password = !this.show_password;
+
+      if (this.vissibilityIcon == "visibility") {
+        this.vissibilityIcon = "visibility_off";
+      } else {
+        this.vissibilityIcon = "visibility";
+      }
+    },
+    getCompanies: function getCompanies() {
+      var _this = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this.companies = response.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    createUser: function createUser() {
+      var _this2 = this;
+
+      if (this.newUser.role == "admin") {
+        this.newUser.companyRole = this.admin;
+      }
+
+      this.$axios.post('api/user', this.newUser).then(function (response) {
+        _this2.msg = response.data.succes;
+        _this2.alert = true;
+        _this2.alertColor = "success";
+        var that = _this2;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      })["catch"](function (err) {
+        var errosMsg = err.response.data.error;
+
+        for (var errors in errosMsg) {
+          _this2.msg.push(errosMsg[errors][0]);
+        }
+
+        _this2.alert = true;
+        _this2.alertColor = "error";
+        var that = _this2;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      });
+    },
+    clearAlert: function clearAlert() {
+      this.msg = [];
+      this.alert = false;
+    }
+  }
 });
 
 /***/ }),
@@ -2910,6 +3100,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: 'company role',
         value: 'companyRole'
       }, {
+        text: 'company',
+        value: 'companyID'
+      }, {
         text: '',
         value: 'actions'
       }]
@@ -2927,12 +3120,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.$axios.get('api/admins').then(function (response) {
         _this.admins = response.data;
+
+        _this.getUserCompany();
       })["catch"](function (err) {
         return err;
       });
     },
     goToUser: function goToUser(userId) {
       console.log(userId);
+    },
+    getUserCompany: function getUserCompany() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+
+        for (var company in _this2.companies) {
+          for (var admin in _this2.admins) {
+            if (_this2.admins[admin].companyID == _this2.companies[company].id) {
+              _this2.admins[admin].companyID = _this2.companies[company].company_name;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }
 });
@@ -3018,7 +3230,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addNewCompany: function addNewCompany() {
       var _this = this;
 
-      console.log(this.newCompany);
       this.$axios.post('api/company', this.newCompany).then(function (response) {
         _this.alert = true;
         _this.msg = response.data.succes;
@@ -3335,22 +3546,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {},
   methods: {
     createContract: function createContract() {
+      var _this = this;
+
       this.newContract.active = this.active;
       this.$axios.post('api/contract', this.newContract).then(function (response) {
-        console.log(response.data);
+        _this.msg = response.data.succes;
+        _this.alert = true;
+        _this.alertColor = "success";
+        var that = _this;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      })["catch"](function (err) {
+        var errosMsg = err.response.data.error;
+
+        for (var errors in errosMsg) {
+          _this.msg.push(errosMsg[errors][0]);
+        }
+
+        _this.alert = true;
+        _this.alertColor = "error";
+        var that = _this;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      });
+    },
+    getCompanies: function getCompanies() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+        console.log(_this2.companies);
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    getCompanies: function getCompanies() {
-      var _this = this;
-
-      this.$axios.get('api/company').then(function (response) {
-        _this.companies = response.data;
-        console.log(_this.companies);
-      })["catch"](function (err) {
-        console.log(err);
-      });
+    clearAlert: function clearAlert() {
+      this.msg = [];
+      this.alert = false;
     }
   }
 });
@@ -3381,19 +3617,100 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'adminBar',
+  name: '',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      Contracts: [{}],
+      search: "",
+      headers: [{
+        text: 'User ID',
+        value: 'id'
+      }, {
+        text: 'Contract',
+        align: 'start',
+        sortable: false,
+        value: 'contract_name'
+      }, {
+        text: 'Ends at',
+        value: 'ends_at'
+      }, {
+        text: 'Contract active',
+        value: 'active'
+      }, {
+        text: 'company',
+        value: 'companyID'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
+  created: function created() {
+    this.getContracts();
+  },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getContracts: function getContracts() {
+      var _this = this;
+
+      this.$axios.get('api/contract').then(function (response) {
+        _this.Contracts = response.data;
+
+        _this.getCompanyContract();
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    goToUser: function goToUser(userId) {
+      console.log(userId);
+    },
+    getCompanyContract: function getCompanyContract() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+
+        for (var company in _this2.companies) {
+          for (var contract in _this2.Contracts) {
+            if (_this2.Contracts[contract].companyID == _this2.companies[company].id) {
+              _this2.Contracts[contract].companyID = _this2.companies[company].company_name;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3571,6 +3888,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       users: [{}],
+      userCompID: '',
+      companyName: '',
+      companyData: [],
+      companies: [{}],
       search: "",
       headers: [{
         text: 'User ID',
@@ -3590,6 +3911,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: 'company role',
         value: 'companyRole'
       }, {
+        text: 'company',
+        value: 'companyID'
+      }, {
         text: '',
         value: 'actions'
       }]
@@ -3607,12 +3931,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.$axios.get('api/users').then(function (response) {
         _this.users = response.data;
-      })["catch"](function (err) {
-        return err;
+
+        _this.getUserCompany();
       });
     },
     goToUser: function goToUser(userId) {
       console.log(userId);
+    },
+    getUserCompany: function getUserCompany() {
+      var _this2 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this2.companies = response.data;
+
+        for (var company in _this2.companies) {
+          for (var user in _this2.users) {
+            if (_this2.users[user].companyID == _this2.companies[company].id) {
+              _this2.users[user].companyID = _this2.companies[company].company_name;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }
 });
@@ -3955,91 +4296,91 @@ var routes = [{
   }
 }, {
   path: '/tickets-add',
-  name: 'addTicket',
+  name: 'Create Ticket',
   component: _pages_Tickets_makeTicket__WEBPACK_IMPORTED_MODULE_5__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/my-tickets',
-  name: 'myTickets',
+  name: 'My Tickets',
   component: _pages_Tickets_myTickets__WEBPACK_IMPORTED_MODULE_6__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/users',
-  name: 'users',
+  name: 'Users',
   component: _pages_admin_users__WEBPACK_IMPORTED_MODULE_7__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/admins',
-  name: 'admins',
+  name: 'Admins',
   component: _pages_admin_admins__WEBPACK_IMPORTED_MODULE_8__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/users-add',
-  name: 'addUser',
+  name: 'Create User',
   component: _pages_admin_addUser__WEBPACK_IMPORTED_MODULE_9__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/tickets',
-  name: 'tickets',
+  name: 'Tickets',
   component: _pages_admin_tickets_tickets__WEBPACK_IMPORTED_MODULE_12__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/tickets-finished',
-  name: 'finishedTickets',
+  name: 'Finished Tickets',
   component: _pages_admin_tickets_finishedTickets__WEBPACK_IMPORTED_MODULE_10__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/tickets-pending',
-  name: 'pendingTickets',
+  name: 'Pending Tickets',
   component: _pages_admin_tickets_pendingTickets__WEBPACK_IMPORTED_MODULE_11__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/contracts',
-  name: 'contracts',
+  name: 'Contracts',
   component: _pages_admin_contracts_contracts__WEBPACK_IMPORTED_MODULE_13__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/add-contract',
-  name: 'addContract',
+  name: 'Create Contract',
   component: _pages_admin_contracts_addContract__WEBPACK_IMPORTED_MODULE_14__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/company',
-  name: 'company',
+  name: 'Company',
   component: _pages_admin_companies_companies__WEBPACK_IMPORTED_MODULE_15__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/company-add',
-  name: 'addCompany',
+  name: 'Add Company',
   component: _pages_admin_companies_addCompany__WEBPACK_IMPORTED_MODULE_16__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/employee',
-  name: 'employee',
+  name: 'Employees',
   component: _pages_manager_employee__WEBPACK_IMPORTED_MODULE_17__["default"],
   meta: {
     requiresAuth: true
@@ -4225,6 +4566,39 @@ var Contract = function Contract() {
   this.companyID = data.companyID ? data.companyID : "";
   this.ends_at = data.ends_at ? data.ends_at : "";
   this.times_extended = data.times_extended ? data.times_extended : "";
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/models/user.js":
+/*!**********************************!*\
+  !*** ./resources/models/user.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ User)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var User = function User() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  _classCallCheck(this, User);
+
+  this.username = data.username ? data.username : "";
+  this.firstname = data.firstname ? data.firstname : "";
+  this.lastname = data.lastname ? data.lastname : "";
+  this.email = data.email ? data.email : "";
+  this.password = data.password ? data.password : "";
+  this.phone_number = data.phone_number ? data.phone_number : "";
+  this.role = data.role ? data.role : "";
+  this.companyID = data.companyID ? data.companyID : "";
+  this.companyRole = data.companyRole ? data.companyRole : "";
 };
 
 
@@ -42313,7 +42687,9 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("h1", { staticClass: "current-route" }, [_vm._v("test")]),
+          _c("h1", { staticClass: "current-route" }, [
+            _vm._v(_vm._s(_vm.currentRouteName))
+          ]),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
@@ -42524,16 +42900,333 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _vm.alert
+        ? _c(
+            "v-alert",
+            { attrs: { type: _vm.alertColor } },
+            [
+              _c(
+                "v-icon",
+                {
+                  staticClass: "float-right close-msg",
+                  on: { click: _vm.clearAlert }
+                },
+                [_vm._v("cancel")]
+              ),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.msg))])
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["username"] ? true : false,
+                          label: "Username"
+                        },
+                        model: {
+                          value: _vm.newUser.username,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "username", $$v)
+                          },
+                          expression: "newUser.username"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["firstname"] ? true : false,
+                          label: "Firstname"
+                        },
+                        model: {
+                          value: _vm.newUser.firstname,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "firstname", $$v)
+                          },
+                          expression: "newUser.firstname"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["lastname"] ? true : false,
+                          label: "Lastname"
+                        },
+                        model: {
+                          value: _vm.newUser.lastname,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "lastname", $$v)
+                          },
+                          expression: "newUser.lastname"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["email"] ? true : false,
+                          label: "Email"
+                        },
+                        model: {
+                          value: _vm.newUser.email,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "email", $$v)
+                          },
+                          expression: "newUser.email"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          type: _vm.show_password ? "text" : "password",
+                          rules: _vm.rules,
+                          error: _vm.errors["password"] ? true : false,
+                          label: "Password",
+                          "append-icon": _vm.vissibilityIcon
+                        },
+                        on: { "click:append": _vm.togglePassword },
+                        model: {
+                          value: _vm.newUser.password,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "password", $$v)
+                          },
+                          expression: "newUser.password"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["phone_number"] ? true : false,
+                          label: "Phone number"
+                        },
+                        model: {
+                          value: _vm.newUser.phone_number,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "phone_number", $$v)
+                          },
+                          expression: "newUser.phone_number"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["company"] ? true : false,
+                          items: _vm.companies,
+                          "item-text": "company_name",
+                          "item-value": "id",
+                          label: "Company"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.getCompanies()
+                          }
+                        },
+                        model: {
+                          value: _vm.newUser.companyID,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "companyID", $$v)
+                          },
+                          expression: "newUser.companyID"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["company"] ? true : false,
+                          items: _vm.roles,
+                          label: "Role"
+                        },
+                        model: {
+                          value: _vm.newUser.role,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "role", $$v)
+                          },
+                          expression: "newUser.role"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.newUser.role == "admin"
+                    ? _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "6" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              disabled: "",
+                              rules: _vm.rules,
+                              "item-value": "admin",
+                              placeholder: "admin",
+                              error: _vm.errors["company"] ? true : false,
+                              label: "Company role: admin"
+                            },
+                            model: {
+                              value: _vm.admin,
+                              callback: function($$v) {
+                                _vm.admin = $$v
+                              },
+                              expression: "admin"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "6" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              rules: _vm.rules,
+                              items: _vm.companyRoles,
+                              error: _vm.errors["company"] ? true : false,
+                              label: "Company Role"
+                            },
+                            model: {
+                              value: _vm.newUser.companyRole,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newUser, "companyRole", $$v)
+                              },
+                              expression: "newUser.companyRole"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "success", id: "sendBtnComp" },
+                          on: { click: _vm.createUser }
+                        },
+                        [_vm._v("Opslaan"), _c("v-icon", [_vm._v("send")])],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de add user page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -42885,20 +43578,14 @@ var render = function() {
                 "v-icon",
                 {
                   staticClass: "float-right close-msg",
-                  on: {
-                    click: function($event) {
-                      _vm.alert = false
-                    }
-                  }
+                  on: { click: _vm.clearAlert }
                 },
                 [_vm._v("cancel")]
               ),
               _vm._v(" "),
-              _vm._l(_vm.msg, function(message) {
-                return _c("p", [_vm._v(_vm._s(message))])
-              })
+              _c("p", [_vm._v(_vm._s(_vm.msg))])
             ],
-            2
+            1
           )
         : _vm._e(),
       _vm._v(" "),
@@ -43334,16 +44021,90 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.Contracts,
+          "item-key": "",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.active",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                item.active == 0 ? _c("p", [_vm._v("false")]) : _vm._e(),
+                _vm._v(" "),
+                item.active == 1 ? _c("p", [_vm._v("true")]) : _vm._e()
+              ]
+            }
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToUser(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de contract page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

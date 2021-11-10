@@ -27,7 +27,7 @@ class UserController extends Controller
                 'lastname' => 'required',
                 'email' => 'required|email',
                 'password' => 'required',
-                'phone_number' => 'required|numeric|max:12',
+                'phone_number' => 'required|numeric',
                 'role' => '',
                 'companyID' => 'required|numeric',
                 'companyRole' => 'required',

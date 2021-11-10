@@ -29,19 +29,22 @@ import {
 } from 'vuex'
 
 export default {
-    name:'adminBar',
-    components:{
-        
+    name: 'adminBar',
+    components: {
+
     },
     props: {
-       
+
     },
     data() {
         return {
             users: [{}],
+            userCompID: '',
+            companyName: '',
+            companyData: [],
+            companies: [{}],
             search: "",
-            headers: [
-                {
+            headers: [{
                     text: 'User ID',
                     value: 'id',
                 },
@@ -64,6 +67,10 @@ export default {
                     value: 'companyRole'
                 },
                 {
+                    text: 'company',
+                    value: 'companyID'
+                },
+                {
                     text: '',
                     value: 'actions'
                 },
@@ -74,29 +81,44 @@ export default {
         this.getUsers()
     },
     computed: {
-    ...mapGetters([
-            
-        ])
+        ...mapGetters([
+
+        ]),
     },
     watch: {
 
     },
     mounted() {
-        
+
     },
     methods: {
-        getUsers(){
+        getUsers() {
             this.$axios
                 .get('api/users')
                 .then((response) => {
                     this.users = response.data
-                })
-                .catch((err) => {
-                    return err
+                    this.getUserCompany()
                 })
         },
-        goToUser(userId){
+        goToUser(userId) {
             console.log(userId)
+        },
+        getUserCompany() {
+            this.$axios
+                .get('api/company')
+                .then((response) => {
+                    this.companies = response.data
+                    for (let company in this.companies) {
+                        for (let user in this.users) {
+                            if (this.users[user].companyID == this.companies[company].id) {
+                                this.users[user].companyID = this.companies[company].company_name
+                            }
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         }
     }
 }

@@ -11,6 +11,11 @@ class ContractController extends Controller
 {
     public $succesStatus = 200;
 
+    public function getContracts(Request $request){
+        $contracts = Contract::all();
+        return $contracts;
+    }
+
     public function makeContract(Request $request){
         $validator = Validator::make($request->all(), 
             [

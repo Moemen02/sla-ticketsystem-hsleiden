@@ -51,7 +51,7 @@ const routes = [{
     },
     {
         path: '/tickets-add',
-        name: 'addTicket',
+        name: 'Create Ticket',
         component: addTicket,
         meta: {
             requiresAuth: true
@@ -59,7 +59,7 @@ const routes = [{
     },
     {
         path: '/my-tickets',
-        name: 'myTickets',
+        name: 'My Tickets',
         component: myTickets,
         meta: {
             requiresAuth: true
@@ -69,7 +69,7 @@ const routes = [{
 
     {
         path: '/users',
-        name: 'users',
+        name: 'Users',
         component: userPage,
         meta: {
             requiresAuth: true
@@ -77,7 +77,7 @@ const routes = [{
     },
     {
         path: '/admins',
-        name: 'admins',
+        name: 'Admins',
         component: adminPage,
         meta: {
             requiresAuth: true
@@ -85,7 +85,7 @@ const routes = [{
     },
     {
         path: '/users-add',
-        name: 'addUser',
+        name: 'Create User',
         component: addUser,
         meta: {
             requiresAuth: true
@@ -94,7 +94,7 @@ const routes = [{
 
     {
         path: '/tickets',
-        name: 'tickets',
+        name: 'Tickets',
         component: ticketPage,
         meta: {
             requiresAuth: true
@@ -102,7 +102,7 @@ const routes = [{
     },
     {
         path: '/tickets-finished',
-        name: 'finishedTickets',
+        name: 'Finished Tickets',
         component: finishedTickets,
         meta: {
             requiresAuth: true
@@ -110,7 +110,7 @@ const routes = [{
     },
     {
         path: '/tickets-pending',
-        name: 'pendingTickets',
+        name: 'Pending Tickets',
         component: pendingTickets,
         meta: {
             requiresAuth: true
@@ -119,7 +119,7 @@ const routes = [{
 
     {
         path: '/contracts',
-        name: 'contracts',
+        name: 'Contracts',
         component: contracts,
         meta: {
             requiresAuth: true
@@ -127,7 +127,7 @@ const routes = [{
     },
     {
         path: '/add-contract',
-        name: 'addContract',
+        name: 'Create Contract',
         component: addContract,
         meta: {
             requiresAuth: true
@@ -136,7 +136,7 @@ const routes = [{
 
     {
         path: '/company',
-        name: 'company',
+        name: 'Company',
         component: companies,
         meta: {
             requiresAuth: true
@@ -144,7 +144,7 @@ const routes = [{
     },
     {
         path: '/company-add',
-        name: 'addCompany',
+        name: 'Add Company',
         component: addCompany,
         meta: {
             requiresAuth: true
@@ -153,7 +153,7 @@ const routes = [{
 
     {
         path: '/employee',
-        name: 'employee',
+        name: 'Employees',
         component: employeePage,
         meta: {
             requiresAuth: true
