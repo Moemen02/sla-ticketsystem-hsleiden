@@ -33,7 +33,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="/tickets/add">
+                    <router-link class="router-link" to="/tickets-add">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Make a Ticket</v-list-item-title>

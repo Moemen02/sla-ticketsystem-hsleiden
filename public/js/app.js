@@ -2732,7 +2732,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _models_ticket__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../models/ticket */ "./resources/models/ticket.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2745,19 +2746,180 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'adminBar',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      currentUser: [],
+      newTicket: new _models_ticket__WEBPACK_IMPORTED_MODULE_0__["default"](),
+      msg: [],
+      alerColor: null,
+      alert: false,
+      rules: [function (v) {
+        return !!v || 'Field is required';
+      }],
+      errors: [],
+      users: [],
+      due_at: ''
+    };
   },
-  created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  created: function created() {
+    this.getCurrentUser();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['isAdmin', 'userToken', 'companyRole', 'role'])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getCurrentUser: function getCurrentUser() {
+      var _this = this;
+
+      var TOKEN = 'Bearer '.concat(this.userToken);
+      return this.$axios.get('api/user', {
+        headers: {
+          Authorization: TOKEN
+        }
+      }).then(function (response) {
+        _this.currentUser = response.data.currentUser;
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    getAllUsers: function getAllUsers() {
+      var _this2 = this;
+
+      this.$axios.get('api/users').then(function (response) {
+        _this2.users = response.data;
+      });
+    },
+    makeTicket: function makeTicket() {
+      if (this.role == 'user') {
+        this.newTicket.userID = this.currentUser.id;
+        this.newTicket.companyID = this.currentUser.companyID;
+      }
+
+      for (var user in this.users) {
+        if (this.newTicket.userID == this.users[user].id) {
+          this.newTicket.companyID = this.users[user].companyID;
+          this.newTicket.assigned_for = this.users[user].username;
+        }
+      }
+
+      this.newTicket.assigned_by = this.currentUser.username;
+      console.log(this.newTicket);
+    },
+    clearAlert: function clearAlert() {
+      this.msg = [];
+      this.alert = false;
+    }
+  }
 });
 
 /***/ }),
@@ -4566,6 +4728,40 @@ var Contract = function Contract() {
   this.companyID = data.companyID ? data.companyID : "";
   this.ends_at = data.ends_at ? data.ends_at : "";
   this.times_extended = data.times_extended ? data.times_extended : "";
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/models/ticket.js":
+/*!************************************!*\
+  !*** ./resources/models/ticket.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Ticket)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Ticket = function Ticket() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  _classCallCheck(this, Ticket);
+
+  this.userID = data.userID ? data.userID : "";
+  this.companyID = data.companyID ? data.companyID : "";
+  this.ticket_title = data.ticket_title ? data.ticket_title : "";
+  this.description = data.description ? data.description : "";
+  this.assigned_by = data.assigned_by ? data.assigned_by : "";
+  this.assigned_for = data.assigned_for ? data.assigned_for : "";
+  this.fixed_by = data.fixed_by ? data.fixed_by : "";
+  this.due_to = data.due_to ? data.due_to : "";
+  this.due_at = data.due_at ? data.due_at : "";
+  this.status = data.status ? data.status : "";
 };
 
 
@@ -42409,7 +42605,7 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "router-link",
-                      attrs: { to: "/tickets/add" }
+                      attrs: { to: "/tickets-add" }
                     },
                     [
                       _c(
@@ -42610,7 +42806,7 @@ var render = function() {
                     "router-link",
                     {
                       staticClass: "router-link",
-                      attrs: { to: "/tickets/add" }
+                      attrs: { to: "/tickets-add" }
                     },
                     [
                       _c(
@@ -42836,16 +43032,324 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _vm.alert
+        ? _c(
+            "v-alert",
+            { attrs: { type: _vm.alertColor } },
+            [
+              _c(
+                "v-icon",
+                {
+                  staticClass: "float-right close-msg",
+                  on: { click: _vm.clearAlert }
+                },
+                [_vm._v("cancel")]
+              ),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.msg))])
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c("v-card-title", [_c("h3", [_vm._v("Create new ticket")])]),
+          _vm._v(" "),
+          _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["ticket_title"] ? true : false,
+                          label: "Title"
+                        },
+                        model: {
+                          value: _vm.newTicket.ticket_title,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newTicket, "ticket_title", $$v)
+                          },
+                          expression: "newTicket.ticket_title"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-textarea", {
+                        attrs: {
+                          error: _vm.errors["ticket_title"] ? true : false,
+                          label: "Description",
+                          "prepend-icon": "edit",
+                          outlined: ""
+                        },
+                        model: {
+                          value: _vm.newTicket.description,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newTicket, "description", $$v)
+                          },
+                          expression: "newTicket.description"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              this.role == "admin"
+                ? _c(
+                    "div",
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "6", md: "6" } },
+                            [
+                              _c("v-select", {
+                                attrs: {
+                                  rules: _vm.rules,
+                                  error: _vm.errors["ticket_title"]
+                                    ? true
+                                    : false,
+                                  items: _vm.users,
+                                  "item-text": "username",
+                                  "item-value": "id",
+                                  label: "Request from"
+                                },
+                                on: { click: _vm.getAllUsers },
+                                model: {
+                                  value: _vm.newTicket.userID,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.newTicket, "userID", $$v)
+                                  },
+                                  expression: "newTicket.userID"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "6", md: "6" } },
+                            [
+                              _c(
+                                "v-menu",
+                                {
+                                  ref: "due_at",
+                                  attrs: {
+                                    "close-on-content-click": false,
+                                    "return-value": _vm.newTicket.due_at,
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "min-width": "auto"
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      return _vm.$set(
+                                        _vm.newTicket,
+                                        "due_at",
+                                        $event
+                                      )
+                                    },
+                                    "update:return-value": function($event) {
+                                      return _vm.$set(
+                                        _vm.newTicket,
+                                        "due_at",
+                                        $event
+                                      )
+                                    }
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function(ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-text-field",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    attrs: {
+                                                      label: "Ticket due at",
+                                                      "prepend-icon":
+                                                        "mdi-calendar",
+                                                      readonly: ""
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        _vm.newTicket.due_at,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          _vm.newTicket,
+                                                          "due_at",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "newTicket.due_at"
+                                                    }
+                                                  },
+                                                  "v-text-field",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              )
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    3141795759
+                                  ),
+                                  model: {
+                                    value: _vm.due_at,
+                                    callback: function($$v) {
+                                      _vm.due_at = $$v
+                                    },
+                                    expression: "due_at"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-date-picker",
+                                    {
+                                      attrs: { "no-title": "", scrollable: "" },
+                                      model: {
+                                        value: _vm.newTicket.due_at,
+                                        callback: function($$v) {
+                                          _vm.$set(_vm.newTicket, "due_at", $$v)
+                                        },
+                                        expression: "newTicket.due_at"
+                                      }
+                                    },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.due_at = false
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                Cancel\n                            "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.due_at.save(
+                                                _vm.newTicket.due_at
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                OK\n                            "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      this.role == "user"
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "success", id: "sendBtnComp" },
+                              on: { click: _vm.makeTicket }
+                            },
+                            [
+                              _vm._v("Send Request"),
+                              _c("v-icon", [_vm._v("send")])
+                            ],
+                            1
+                          )
+                        : _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "success", id: "sendBtnComp" },
+                              on: { click: _vm.makeTicket }
+                            },
+                            [_vm._v("Save"), _c("v-icon", [_vm._v("send")])],
+                            1
+                          )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de add ticket page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -43207,7 +43711,7 @@ var render = function() {
                           attrs: { color: "success", id: "sendBtnComp" },
                           on: { click: _vm.createUser }
                         },
-                        [_vm._v("Opslaan"), _c("v-icon", [_vm._v("send")])],
+                        [_vm._v("Save"), _c("v-icon", [_vm._v("send")])],
                         1
                       )
                     ],
@@ -43432,7 +43936,7 @@ var render = function() {
                       attrs: { color: "success", id: "sendBtnComp" },
                       on: { click: _vm.addNewCompany }
                     },
-                    [_vm._v("Opslaan"), _c("v-icon", [_vm._v("send")])],
+                    [_vm._v("Save"), _c("v-icon", [_vm._v("send")])],
                     1
                   )
                 ],
@@ -43979,7 +44483,7 @@ var render = function() {
                           attrs: { color: "success", id: "sendBtnComp" },
                           on: { click: _vm.createContract }
                         },
-                        [_vm._v("Opslaan"), _c("v-icon", [_vm._v("send")])],
+                        [_vm._v("Save"), _c("v-icon", [_vm._v("send")])],
                         1
                       )
                     ],

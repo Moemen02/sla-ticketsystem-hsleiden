@@ -25,7 +25,7 @@
                     </v-col>
                 </v-row>
                     <v-col>
-                        <v-btn color="success" id="sendBtnComp" @click="addNewCompany">Opslaan<v-icon>send</v-icon> </v-btn>
+                        <v-btn color="success" id="sendBtnComp" @click="addNewCompany">Save<v-icon>send</v-icon> </v-btn>
                     </v-col>
             </v-container>
         </v-card>
