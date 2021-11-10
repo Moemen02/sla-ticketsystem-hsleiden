@@ -16,15 +16,15 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->integer('userID');
-            $table->integer('contractID');
+            $table->integer('companyID');
             $table->string('ticket_title');
             $table->string('description');
             $table->string('assigned_by');
             $table->string('assigned_for');
             $table->integer('fixed_by')->nullable();
-            $table->date('due_to');
+            $table->date('due_to')->nulable();
             $table->date('due_at')->nullable();
-            $table->string('status')->default('pending');
+            $table->string('status')->default('pending')->nullable();
             $table->timestamps();
         });
     }

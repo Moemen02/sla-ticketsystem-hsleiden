@@ -129,7 +129,7 @@
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-btn color="success" id="sendBtnComp" @click="createContract">Opslaan<v-icon>send</v-icon> </v-btn>
+                        <v-btn color="success" id="sendBtnComp" @click="createContract">Save<v-icon>send</v-icon> </v-btn>
                     </v-col>
                 </v-row>
             </v-container>
