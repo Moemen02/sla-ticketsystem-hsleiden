@@ -2815,13 +2815,110 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../../../models/user'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../models/user */ "./resources/models/user.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2853,19 +2950,82 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: {},
   data: function data() {
     return {
+      admin: "admin",
+      newUser: new _models_user__WEBPACK_IMPORTED_MODULE_0__["default"](),
       alert: false,
       alertColor: null,
       errors: [],
       rules: [function (v) {
         return !!v || 'Field is required';
-      }]
+      }],
+      show_password: false,
+      vissibilityIcon: "visibility",
+      roles: ['admin', 'user'],
+      companyRoles: ['manager', 'user'],
+      companies: [],
+      msg: []
     };
   },
   created: function created() {},
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    togglePassword: function togglePassword() {
+      this.show_password = !this.show_password;
+
+      if (this.vissibilityIcon == "visibility") {
+        this.vissibilityIcon = "visibility_off";
+      } else {
+        this.vissibilityIcon = "visibility";
+      }
+    },
+    getCompanies: function getCompanies() {
+      var _this = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this.companies = response.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    createUser: function createUser() {
+      var _this2 = this;
+
+      if (this.newUser.role == "admin") {
+        this.newUser.companyRole = this.admin;
+      }
+
+      this.$axios.post('api/user', this.newUser).then(function (response) {
+        _this2.msg = response.data.succes;
+        _this2.alert = true;
+        _this2.alertColor = "success";
+        var that = _this2;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      })["catch"](function (err) {
+        var errosMsg = err.response.data.error;
+
+        for (var errors in errosMsg) {
+          _this2.msg.push(errosMsg[errors][0]);
+        }
+
+        _this2.alert = true;
+        _this2.alertColor = "error";
+        var that = _this2;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      });
+    },
+    clearAlert: function clearAlert() {
+      this.msg = [];
+      this.alert = false;
+    }
+  }
 });
 
 /***/ }),
@@ -4406,6 +4566,39 @@ var Contract = function Contract() {
   this.companyID = data.companyID ? data.companyID : "";
   this.ends_at = data.ends_at ? data.ends_at : "";
   this.times_extended = data.times_extended ? data.times_extended : "";
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/models/user.js":
+/*!**********************************!*\
+  !*** ./resources/models/user.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ User)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var User = function User() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  _classCallCheck(this, User);
+
+  this.username = data.username ? data.username : "";
+  this.firstname = data.firstname ? data.firstname : "";
+  this.lastname = data.lastname ? data.lastname : "";
+  this.email = data.email ? data.email : "";
+  this.password = data.password ? data.password : "";
+  this.phone_number = data.phone_number ? data.phone_number : "";
+  this.role = data.role ? data.role : "";
+  this.companyID = data.companyID ? data.companyID : "";
+  this.companyRole = data.companyRole ? data.companyRole : "";
 };
 
 
@@ -42738,7 +42931,289 @@ var render = function() {
             [
               _c(
                 "v-row",
-                [_c("v-col", { attrs: { cols: "12", sm: "6", md: "6" } })],
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["username"] ? true : false,
+                          label: "Username"
+                        },
+                        model: {
+                          value: _vm.newUser.username,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "username", $$v)
+                          },
+                          expression: "newUser.username"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["firstname"] ? true : false,
+                          label: "Firstname"
+                        },
+                        model: {
+                          value: _vm.newUser.firstname,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "firstname", $$v)
+                          },
+                          expression: "newUser.firstname"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["lastname"] ? true : false,
+                          label: "Lastname"
+                        },
+                        model: {
+                          value: _vm.newUser.lastname,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "lastname", $$v)
+                          },
+                          expression: "newUser.lastname"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["email"] ? true : false,
+                          label: "Email"
+                        },
+                        model: {
+                          value: _vm.newUser.email,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "email", $$v)
+                          },
+                          expression: "newUser.email"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          type: _vm.show_password ? "text" : "password",
+                          rules: _vm.rules,
+                          error: _vm.errors["password"] ? true : false,
+                          label: "Password",
+                          "append-icon": _vm.vissibilityIcon
+                        },
+                        on: { "click:append": _vm.togglePassword },
+                        model: {
+                          value: _vm.newUser.password,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "password", $$v)
+                          },
+                          expression: "newUser.password"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["phone_number"] ? true : false,
+                          label: "Phone number"
+                        },
+                        model: {
+                          value: _vm.newUser.phone_number,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "phone_number", $$v)
+                          },
+                          expression: "newUser.phone_number"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["company"] ? true : false,
+                          items: _vm.companies,
+                          "item-text": "company_name",
+                          "item-value": "id",
+                          label: "Company"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.getCompanies()
+                          }
+                        },
+                        model: {
+                          value: _vm.newUser.companyID,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "companyID", $$v)
+                          },
+                          expression: "newUser.companyID"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", sm: "6", md: "6" } },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          rules: _vm.rules,
+                          error: _vm.errors["company"] ? true : false,
+                          items: _vm.roles,
+                          label: "Role"
+                        },
+                        model: {
+                          value: _vm.newUser.role,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newUser, "role", $$v)
+                          },
+                          expression: "newUser.role"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.newUser.role == "admin"
+                    ? _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "6" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              disabled: "",
+                              rules: _vm.rules,
+                              "item-value": "admin",
+                              placeholder: "admin",
+                              error: _vm.errors["company"] ? true : false,
+                              label: "Company role: admin"
+                            },
+                            model: {
+                              value: _vm.admin,
+                              callback: function($$v) {
+                                _vm.admin = $$v
+                              },
+                              expression: "admin"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "6" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              rules: _vm.rules,
+                              items: _vm.companyRoles,
+                              error: _vm.errors["company"] ? true : false,
+                              label: "Company Role"
+                            },
+                            model: {
+                              value: _vm.newUser.companyRole,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newUser, "companyRole", $$v)
+                              },
+                              expression: "newUser.companyRole"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "success", id: "sendBtnComp" },
+                          on: { click: _vm.createUser }
+                        },
+                        [_vm._v("Opslaan"), _c("v-icon", [_vm._v("send")])],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
                 1
               )
             ],
