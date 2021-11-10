@@ -16,14 +16,14 @@ class Ticket extends Model
      */
     protected $fillable = [
         'userID',
-        'contractID',
+        'companyID',
         'ticket_title',
         'description',
         'assigned_by',
         'assigned_for',
         'fixed_by',
         'due_at',
-        'due_to',
+        // 'due_to',
         'status',
 
     ];

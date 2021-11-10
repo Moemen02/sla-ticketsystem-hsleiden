@@ -6,7 +6,7 @@ export default class User {
         this.email = data.email ? data.email: ""
         this.password = data.password ? data.password: ""
         this.phone_number = data.phone_number ? data.phone_number: ""
-        this.role = data.role ? data.role: ""
+        this.role = data.role
         this.companyID = data.companyID ? data.companyID: ""
         this.companyRole = data.companyRole ? data.companyRole: ""
     }

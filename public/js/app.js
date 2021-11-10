@@ -2900,9 +2900,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     makeTicket: function makeTicket() {
+      var _this3 = this;
+
       if (this.role == 'user') {
         this.newTicket.userID = this.currentUser.id;
         this.newTicket.companyID = this.currentUser.companyID;
+        this.newTicket.assigned_for = this.currentUser.username;
       }
 
       for (var user in this.users) {
@@ -2914,6 +2917,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.newTicket.assigned_by = this.currentUser.username;
       console.log(this.newTicket);
+      this.$axios.post('api/ticket', this.newTicket).then(function (response) {
+        _this3.msg = response.data.succes;
+        _this3.alert = true;
+        _this3.alertColor = "success";
+        var that = _this3;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      })["catch"](function (err) {
+        var errosMsg = err.response.data.error;
+
+        for (var errors in errosMsg) {
+          _this3.msg.push(errosMsg[errors][0]);
+        }
+
+        _this3.alert = true;
+        _this3.alertColor = "error";
+        var that = _this3;
+        setTimeout(function () {
+          that.alert = false;
+          that.msg = [];
+        }, 5000);
+      });
     },
     clearAlert: function clearAlert() {
       this.msg = [];
@@ -4727,7 +4754,7 @@ var Contract = function Contract() {
   this.contract_name = data.contract_name ? data.contract_name : "";
   this.companyID = data.companyID ? data.companyID : "";
   this.ends_at = data.ends_at ? data.ends_at : "";
-  this.times_extended = data.times_extended ? data.times_extended : "";
+  this.times_extended = data.times_extended;
 };
 
 
@@ -4759,9 +4786,8 @@ var Ticket = function Ticket() {
   this.assigned_by = data.assigned_by ? data.assigned_by : "";
   this.assigned_for = data.assigned_for ? data.assigned_for : "";
   this.fixed_by = data.fixed_by ? data.fixed_by : "";
-  this.due_to = data.due_to ? data.due_to : "";
   this.due_at = data.due_at ? data.due_at : "";
-  this.status = data.status ? data.status : "";
+  this.status = data.status;
 };
 
 
@@ -4792,7 +4818,7 @@ var User = function User() {
   this.email = data.email ? data.email : "";
   this.password = data.password ? data.password : "";
   this.phone_number = data.phone_number ? data.phone_number : "";
-  this.role = data.role ? data.role : "";
+  this.role = data.role;
   this.companyID = data.companyID ? data.companyID : "";
   this.companyRole = data.companyRole ? data.companyRole : "";
 };
