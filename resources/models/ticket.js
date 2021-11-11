@@ -7,8 +7,7 @@ export default class Ticket {
         this.assigned_by = data.assigned_by ? data.assigned_by: ""
         this.assigned_for = data.assigned_for ? data.assigned_for: ""
         this.fixed_by = data.fixed_by ? data.fixed_by: ""
-        this.due_to = data.due_to ? data.due_to: ""
         this.due_at = data.due_at ? data.due_at: ""
-        this.status = data.status ? data.status: ""
+        this.status = data.status
     }
 }

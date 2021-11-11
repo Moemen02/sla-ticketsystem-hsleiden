@@ -183,6 +183,7 @@ export default {
             if(this.role == 'user'){
                 this.newTicket.userID = this.currentUser.id
                 this.newTicket.companyID = this.currentUser.companyID
+                this.newTicket.assigned_for = this.currentUser.username
             }
 
             for(let user in this.users){
@@ -192,8 +193,32 @@ export default {
                 }
             }
             this.newTicket.assigned_by = this.currentUser.username
-
             console.log(this.newTicket)
+            this.$axios
+                .post('api/ticket', this.newTicket)
+                .then((response) => {
+                    this.msg = response.data.succes
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
+                })
+                .catch((err) => {
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
+                })
         },
         clearAlert(){
             this.msg = []

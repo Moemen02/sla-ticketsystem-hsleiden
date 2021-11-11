@@ -14,13 +14,13 @@ class TicketController extends Controller
     public function createTicket(Request $request){
         $validator = Validator::make($request->all(), 
             [
-                'userID' => 'required',
-                'contractID' => 'required',
+                'userID' => 'required|numeric',
+                'companyID' => 'required|numeric',
                 'ticket_title' => 'required',
                 'description' => 'required',
                 'assigned_by' => 'required',
                 'assigned_for' => 'required',
-                'due_to' => 'required',
+                // 'due_to' => '',
             ]
         );
 
@@ -36,5 +36,10 @@ class TicketController extends Controller
         return response()->json([
             'succes' => "ticket added"
         ], $this->succesStatus);
+    }
+
+    public function getTickets(Request $request){
+        $tickets = Ticket::all();
+        return $tickets;
     }
 }
