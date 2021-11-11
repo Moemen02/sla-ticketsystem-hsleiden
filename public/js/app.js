@@ -4642,19 +4642,95 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'adminBar',
+  name: '',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      employees: [],
+      currentUser: [],
+      users: '',
+      search: "",
+      headers: [{
+        text: 'User ID',
+        value: 'id'
+      }, {
+        text: 'username',
+        align: 'start',
+        sortable: false,
+        value: 'username'
+      }, {
+        text: 'Email',
+        value: 'email'
+      }, {
+        text: 'Phone number',
+        value: 'phone_number'
+      }, {
+        text: 'company role',
+        value: 'companyRole'
+      }, {
+        text: 'company',
+        value: 'companyID'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  created: function created() {
+    this.getCurrentUser();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['loggedIn', 'userToken'])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getCurrentUser: function getCurrentUser() {
+      var _this = this;
+
+      var TOKEN = 'Bearer '.concat(this.userToken);
+      return this.$axios.get('api/user', {
+        headers: {
+          Authorization: TOKEN
+        }
+      }).then(function (response) {
+        _this.currentUser = response.data.currentUser;
+
+        _this.getEmployees(response.data.currentUser.companyID);
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    getEmployees: function getEmployees(compID) {
+      var _this2 = this;
+
+      this.$axios.get('api/employees/' + compID).then(function (response) {
+        _this2.employees = response.data;
+        console.log(_this2.employees);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -45604,16 +45680,79 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.employees,
+          "item-key": "username, email, Phone number, company role",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToUser(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de employee page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

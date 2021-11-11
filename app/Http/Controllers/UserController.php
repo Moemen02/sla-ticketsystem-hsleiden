@@ -69,4 +69,9 @@ class UserController extends Controller
         $admins = User::where('role', 'admin')->get();
         return $admins;
     }
+
+    public function getEmployees($companyID){
+        $employees = User::where('companyID', $companyID)->get();
+        return $employees;
+    }
 }
