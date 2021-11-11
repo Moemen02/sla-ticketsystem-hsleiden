@@ -37,4 +37,9 @@ class TicketController extends Controller
             'succes' => "ticket added"
         ], $this->succesStatus);
     }
+
+    public function getTickets(Request $request){
+        $tickets = Ticket::all();
+        return $tickets;
+    }
 }
