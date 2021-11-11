@@ -28,7 +28,7 @@ import addCompany from './pages/admin/companies/addCompany'
 
 // user - manager role pages
 import employeePage from './pages/manager/employee'
-
+import employeeTickets from './pages/manager/employeeTickets'
 // user - user role pages
 
 
@@ -155,6 +155,14 @@ const routes = [{
         path: '/employee',
         name: 'Employees',
         component: employeePage,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/employee-tickets',
+        name: 'Employees Tickets',
+        component: employeeTickets,
         meta: {
             requiresAuth: true
         }

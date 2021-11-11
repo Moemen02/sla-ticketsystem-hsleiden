@@ -50,4 +50,9 @@ class TicketController extends Controller
             'tickets' => $userTicket
         ]);
     }
+
+    public function getCompanyTickets($companyID){
+        $tickets = Ticket::where('companyID', $companyID)->get();
+        return $tickets;
+    }
 }
