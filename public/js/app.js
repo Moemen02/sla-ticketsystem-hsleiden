@@ -2638,7 +2638,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getCurrentUser: function getCurrentUser() {
       var _this = this;
 
-      // console.log("test")
       var TOKEN = 'Bearer '.concat(this.userToken);
       return this.$axios.get('api/user', {
         headers: {
@@ -2975,19 +2974,87 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'adminBar',
+  name: '',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      myTickets: [],
+      currentUser: [],
+      users: '',
+      search: "",
+      headers: [{
+        text: 'Ticket name',
+        align: 'start',
+        sortable: false,
+        value: 'ticket_title'
+      }, {
+        text: 'Created at',
+        value: 'created_at'
+      }, {
+        text: 'Status',
+        value: 'status'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  created: function created() {
+    this.getCurrentUser();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['loggedIn', 'userToken'])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getCurrentUser: function getCurrentUser() {
+      var _this = this;
+
+      var TOKEN = 'Bearer '.concat(this.userToken);
+      return this.$axios.get('api/user', {
+        headers: {
+          Authorization: TOKEN
+        }
+      }).then(function (response) {
+        _this.currentUser = response.data.currentUser;
+
+        _this.getMyTickets(response.data.currentUser.id);
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    getMyTickets: function getMyTickets(userID) {
+      var _this2 = this;
+
+      this.$axios.get('api/ticket/' + userID).then(function (response) {
+        _this2.myTickets = response.data.tickets;
+        console.log(response.data.tickets[0].created_at);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3915,8 +3982,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _tickets_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tickets.vue */ "./resources/js/pages/admin/tickets/tickets.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3952,7 +4018,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: '',
@@ -3990,7 +4055,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.getTickets();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
   methods: {
@@ -4049,8 +4114,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _tickets_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tickets.vue */ "./resources/js/pages/admin/tickets/tickets.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -4086,7 +4150,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: '',
@@ -4124,7 +4187,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.getTickets();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
   methods: {
@@ -43666,16 +43729,79 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.myTickets,
+          "item-key": "",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToTicket(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de my tickets page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

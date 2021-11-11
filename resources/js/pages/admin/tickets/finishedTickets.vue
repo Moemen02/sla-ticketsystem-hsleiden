@@ -32,7 +32,6 @@ import {
     mapState,
     mapGetters
 } from 'vuex'
-import ticketsVue from './tickets.vue'
 
 export default {
     name:'',

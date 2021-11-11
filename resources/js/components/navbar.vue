@@ -63,7 +63,7 @@ export default {
         this.setUsername()
     },
     computed: {
-    ...mapGetters([
+        ...mapGetters([
             'isAdmin',
             'userToken',
             'companyRole',
@@ -81,7 +81,6 @@ export default {
     },
     methods: {
         getCurrentUser(){
-            // console.log("test")
             const TOKEN = 'Bearer '.concat(this.userToken)
             return this.$axios
                 .get('api/user', {
