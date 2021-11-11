@@ -3915,7 +3915,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _tickets_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tickets.vue */ "./resources/js/pages/admin/tickets/tickets.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3928,19 +3929,111 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'adminBar',
+  name: '',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      Tickets: [{}],
+      finishedTickets: [],
+      users: '',
+      search: "",
+      headers: [{
+        text: 'User ID',
+        value: 'id'
+      }, {
+        text: 'Ticket',
+        align: 'start',
+        sortable: false,
+        value: 'ticket_title'
+      }, {
+        text: 'Requested by',
+        value: 'userID'
+      }, {
+        text: 'Assigned for',
+        value: 'assigned_for'
+      }, {
+        text: 'Status',
+        value: 'status'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  created: function created() {
+    this.getTickets();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getTickets: function getTickets() {
+      var _this = this;
+
+      this.$axios.get('api/ticket').then(function (response) {
+        _this.Tickets = response.data;
+
+        for (var ticket in _this.Tickets) {
+          if (_this.Tickets[ticket].status == 'finished') {
+            _this.finishedTickets.push(_this.Tickets[ticket]);
+          }
+        }
+
+        console.log(_this.Tickets);
+
+        _this.getUsersTicket();
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    goToUser: function goToUser(userId) {
+      console.log(userId);
+    },
+    getUsersTicket: function getUsersTicket() {
+      var _this2 = this;
+
+      this.$axios.get('api/users').then(function (response) {
+        _this2.users = response.data;
+
+        for (var user in _this2.users) {
+          for (var ticket in _this2.Tickets) {
+            if (_this2.Tickets[ticket].userID == _this2.users[user].id) {
+              _this2.Tickets[ticket].userID = _this2.users[user].username;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3956,7 +4049,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _tickets_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tickets.vue */ "./resources/js/pages/admin/tickets/tickets.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3969,19 +4063,111 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'adminBar',
+  name: '',
   components: {},
   props: {},
   data: function data() {
-    return {};
+    return {
+      Tickets: [{}],
+      pendingTickets: [],
+      users: '',
+      search: "",
+      headers: [{
+        text: 'User ID',
+        value: 'id'
+      }, {
+        text: 'Ticket',
+        align: 'start',
+        sortable: false,
+        value: 'ticket_title'
+      }, {
+        text: 'Requested by',
+        value: 'userID'
+      }, {
+        text: 'Assigned for',
+        value: 'assigned_for'
+      }, {
+        text: 'Status',
+        value: 'status'
+      }, {
+        text: '',
+        value: 'actions'
+      }]
+    };
   },
-  created: function created() {},
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  created: function created() {
+    this.getTickets();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
   watch: {},
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    getTickets: function getTickets() {
+      var _this = this;
+
+      this.$axios.get('api/ticket').then(function (response) {
+        _this.Tickets = response.data;
+
+        for (var ticket in _this.Tickets) {
+          if (_this.Tickets[ticket].status == 'pending') {
+            _this.pendingTickets.push(_this.Tickets[ticket]);
+          }
+        }
+
+        console.log(_this.Tickets);
+
+        _this.getUsersTicket();
+      })["catch"](function (err) {
+        return err;
+      });
+    },
+    goToUser: function goToUser(userId) {
+      console.log(userId);
+    },
+    getUsersTicket: function getUsersTicket() {
+      var _this2 = this;
+
+      this.$axios.get('api/users').then(function (response) {
+        _this2.users = response.data;
+
+        for (var user in _this2.users) {
+          for (var ticket in _this2.Tickets) {
+            if (_this2.Tickets[ticket].userID == _this2.users[user].id) {
+              _this2.Tickets[ticket].userID = _this2.users[user].username;
+            }
+          }
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -44739,16 +44925,90 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.finishedTickets,
+          "item-key": "",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.active",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                item.active == 0 ? _c("p", [_vm._v("false")]) : _vm._e(),
+                _vm._v(" "),
+                item.active == 1 ? _c("p", [_vm._v("true")]) : _vm._e()
+              ]
+            }
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToUser(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de finished tickets page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -44771,16 +45031,90 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("v-data-table", {
+        staticClass: "elevation-1",
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.pendingTickets,
+          "item-key": "",
+          search: _vm.search
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "top",
+            fn: function() {
+              return [
+                _c("v-text-field", {
+                  staticClass: "mx-4",
+                  attrs: { label: "Search" },
+                  model: {
+                    value: _vm.search,
+                    callback: function($$v) {
+                      _vm.search = $$v
+                    },
+                    expression: "search"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "item.active",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                item.active == 0 ? _c("p", [_vm._v("false")]) : _vm._e(),
+                _vm._v(" "),
+                item.active == 1 ? _c("p", [_vm._v("true")]) : _vm._e()
+              ]
+            }
+          },
+          {
+            key: "item.actions",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-watch",
+                    attrs: { color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToUser(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("remove_red_eye")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-icon",
+                  {
+                    staticClass: "action-delete",
+                    attrs: { color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleDeleteWarning(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("delete_forever")]
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("dit is de pending tickets page")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
