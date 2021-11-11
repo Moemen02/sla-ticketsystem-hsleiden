@@ -16,7 +16,7 @@
             </template>
             <template #item.actions="{item}">
                 <v-icon @click="goToUser(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="toggleDeleteWarning(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="deleteUser(item.id)" color="error" class="action-delete">delete_forever</v-icon>
             </template>
         </v-data-table>
     </div>
@@ -101,7 +101,19 @@ export default {
                 })
         },
         goToUser(userId) {
-            console.log(userId)
+            this.$router.push({ path: '/user/' + userId })
+        },
+        deleteUser(id){
+            this.$axios
+                .delete('api/user/' + id)
+                .then((response) => {
+                    console.log(response)
+                    let i = this.users.map(user => user.id).indexOf(id)
+                    this.users.splice(i, 1)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         },
         getUserCompany() {
             this.$axios

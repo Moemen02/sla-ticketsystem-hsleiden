@@ -23,6 +23,7 @@ use App\Http\Controllers\ContractController;
 
 // Authentication routes
 Route::post('/user/login', [AuthController::class, 'login']);
+Route::put('/user/{user}', [UserController::class, 'updateUser']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     
@@ -34,7 +35,9 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/users', [UserController::class, 'getAllUsers']);
     Route::get('/admins', [UserController::class, 'getAllAdmins']);
     Route::post('/user', [UserController::class, 'registerUser']);
+    Route::get('/user/{id}', [UserController::class, 'getSelectedUser']);
     Route::get('/employees/{companyID}', [UserController::class, 'getEmployees']);
+    Route::delete('/user/{user}', [UserController::class, 'deleteUser']);
     
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);
@@ -45,6 +48,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     // Company routes
     Route::post('/company', [CompanyController::class, 'createCompany']);
     Route::get('/company', [CompanyController::class, 'getCompanies']);
+    Route::get('/company/{id}', [CompanyController::class, 'getUserCompany']);
 
     // Contract routes
     Route::post('/contract', [ContractController::class, 'makeContract']);

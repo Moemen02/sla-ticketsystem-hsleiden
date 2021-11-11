@@ -16,6 +16,11 @@ class CompanyController extends Controller
         return $companies;
     }
 
+    public function getUserCompany($id){
+        $company = Company::where('id', $id)->get();
+        return $company;
+    }
+
     public function createCompany(Request $request){
         $validator = Validator::make($request->all(), 
             [

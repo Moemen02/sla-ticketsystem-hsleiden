@@ -15,6 +15,7 @@ import myTickets from './pages/Tickets/myTickets'
 import userPage from './pages/admin/users'
 import adminPage from './pages/admin/admins'
 import addUser from './pages/admin/addUser'
+import currentUser from './pages/admin/currentUser'
 
 import finishedTickets from './pages/admin/tickets/finishedTickets'
 import pendingTickets from './pages/admin/tickets/pendingTickets'
@@ -163,6 +164,14 @@ const routes = [{
         path: '/employee-tickets',
         name: 'Employees Tickets',
         component: employeeTickets,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/user/:id',
+        name: 'User',
+        component: currentUser,
         meta: {
             requiresAuth: true
         }
