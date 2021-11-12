@@ -1,6 +1,9 @@
 <template>
     <div>
-        <!-- {{Tickets}} -->
+        <v-alert v-if="alert" :type="alertColor">
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
+        </v-alert>
         <v-data-table
         :headers="headers"
         :items="pendingTickets"
@@ -43,6 +46,9 @@ export default {
     },
     data() {
         return {
+            msg: [],
+            alerColor: null,
+            alert: false,
             Tickets: [{}],
             pendingTickets: [],
             users: '',
@@ -117,11 +123,29 @@ export default {
                 .delete('api/ticket/' + id)
                 .then((response) => {
                     console.log(response)
-                    let i = this.pendingTickets.map(ticket => ticket.id).indexOf(id)
+                    let i = this.pendingTickets.map(company => company.id).indexOf(id)
                     this.pendingTickets.splice(i, 1)
+                    this.msg = "Ticket deleted"
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
         },
         getUsersTicket() {
@@ -140,6 +164,10 @@ export default {
                 .catch((err) => {
                     console.log(err)
                 })
+        },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
         }
     }
 }

@@ -1,6 +1,9 @@
 <template>
     <div>
-        <!-- {{Tickets}} -->
+        <v-alert v-if="alert" :type="alertColor">
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
+        </v-alert>
         <v-data-table
         :headers="headers"
         :items="myTickets"
@@ -17,7 +20,7 @@
             </template>
             <template #item.actions="{item}">
                 <v-icon @click="goToTicket(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="toggleDeleteWarning(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="deleteTicket(item.id)" color="error" class="action-delete">delete_forever</v-icon>
             </template>
         </v-data-table>
     </div>
@@ -39,6 +42,9 @@ export default {
     },
     data() {
         return {
+            msg: [],
+            alerColor: null,
+            alert: false,
             myTickets: [],
             currentUser: [],
             users: '',
@@ -96,7 +102,39 @@ export default {
                 .catch(err => {
                     return err
                 })
-            },
+        },
+        goToTicket(id){
+            this.$router.push({ path: '/ticket/' + id })
+        },
+        deleteTicket(id){
+            this.$axios
+                .delete('api/ticket/' + id)
+                .then((response) => {
+                    let i = this.myTickets.map(company => company.id).indexOf(id)
+                    this.myTickets.splice(i, 1)
+                    this.msg = "Ticket deleted"
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
+                })
+                .catch((err) => {
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
+                })                
+        },
         getMyTickets(userID){
             this.$axios
                 .get('api/ticket/' + userID)
@@ -108,6 +146,10 @@ export default {
                     console.log(err)
                 })
         },
-    },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
+        }
+    }
 }
 </script>

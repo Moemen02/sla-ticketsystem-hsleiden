@@ -54,7 +54,7 @@ class ContractController extends Controller
 
         $input = $request->all();
         $contract->update($input);
-        return $contract;
+        return $this->succesStatus;
     }
 
     public function currentContract($id){

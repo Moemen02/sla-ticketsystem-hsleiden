@@ -68,7 +68,7 @@ class TicketController extends Controller
 
         $input = $request->all();
         $ticket->update($input);
-        return $ticket;
+        return $this->succesStatus;
     }
 
     public function getCurrentTicket($ticket){
@@ -78,6 +78,6 @@ class TicketController extends Controller
 
     public function deleteTicket($ticket){
         $ticket = Ticket::where('id', $ticket)->delete();
-        return $ticket;
+        return $this->succesStatus;
     }
 }

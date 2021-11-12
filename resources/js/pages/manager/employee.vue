@@ -15,8 +15,7 @@
                 />
             </template>
             <template #item.actions="{item}">
-                <v-icon @click="goToUser(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="toggleDeleteWarning(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="goToTicket(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
             </template>
         </v-data-table>
     </div>
