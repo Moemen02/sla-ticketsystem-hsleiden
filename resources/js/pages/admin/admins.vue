@@ -109,10 +109,29 @@ export default {
                 .delete('api/user/' + id)
                 .then((response) => {
                     console.log(response)
+                    let i = this.users.map(user => user.id).indexOf(id)
                     this.users.splice(i, 1)
+                    this.msg = "User deleted"
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
         },
         getUserCompany() {

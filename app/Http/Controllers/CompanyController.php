@@ -63,7 +63,7 @@ class CompanyController extends Controller
 
         $input = $request->all();
         $company->update($input);
-        return $company;
+        return $this->succesStatus;
     }
 
     public function deleteCompany($id){

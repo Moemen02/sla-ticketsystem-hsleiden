@@ -1,5 +1,9 @@
 <template>
     <div>
+        <v-alert v-if="alert" :type="alertColor">
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
+        </v-alert>
         <v-data-table
         :headers="headers"
         :items="companies"
@@ -38,6 +42,9 @@ export default {
     },
     data() {
         return {
+            msg: [],
+            alerColor: null,
+            alert: false,
             companies: [],
             search: "",
             headers: [
@@ -101,7 +108,32 @@ export default {
                     console.log(response)
                     let i = this.companies.map(company => company.id).indexOf(id)
                     this.companies.splice(i, 1)
+                    this.msg = "Company deleted"
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
+                .catch((err) => {
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
+                })
+        },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
         }
     }
 }

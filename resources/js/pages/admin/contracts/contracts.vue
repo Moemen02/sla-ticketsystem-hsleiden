@@ -1,6 +1,9 @@
 <template>
     <div>
-        <!-- {{Contracts}} -->
+        <v-alert v-if="alert" :type="alertColor">
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
+        </v-alert>
         <v-data-table
         :headers="headers"
         :items="Contracts"
@@ -43,6 +46,9 @@ export default {
     },
     data() {
         return {
+            msg: [],
+            alerColor: null,
+            alert: false,
             Contracts: [{}],
             search: "",
             headers: [
@@ -111,9 +117,27 @@ export default {
                     console.log(response)
                     let i = this.Contracts.map(contract => contract.id).indexOf(id)
                     this.Contracts.splice(i, 1)
+                    this.msg = "Contract deleted"
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
         },
         getCompanyContract() {
@@ -132,6 +156,10 @@ export default {
                 .catch((err) => {
                     console.log(err)
                 })
+        },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
         }
     }
 }
