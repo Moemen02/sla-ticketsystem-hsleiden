@@ -8,7 +8,21 @@
             <v-card>
                 <v-card-title primary-title>
                     <v-card-text>
-                        <h3 class="headline mb-0">Contract {{currentContract.contract_name}}</h3>
+                        <v-row>
+                            <v-col cols="16" sm="1" md="1">
+                                <v-icon 
+                                    @click="$router.go(-1)"
+                                    color="primary"
+                                >
+                                    arrow_back
+                                </v-icon>
+                            </v-col>
+                            <v-col>
+                                <div>
+                                    <h3 class="headline mb-0">Contract: {{currentContract.contract_name}}</h3>
+                                </div>
+                            </v-col>
+                        </v-row>
                         <br>
                         <div>
                             <v-row>
@@ -131,7 +145,6 @@ export default {
                 .get('api/contract/' + this.$route.params.id)
                 .then((response) => {
                     this.currentContract = response.data[0]
-                    // this.getCompanyContract(this.user.companyID)
                 })
                 .catch((err) => {
                     return err

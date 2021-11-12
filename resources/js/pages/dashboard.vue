@@ -6,6 +6,7 @@
                     <div>
                         Total users:
                     </div>
+                    <hr>
                     <p >
                         {{users}}
                     </p>
@@ -14,6 +15,7 @@
             <v-col>
                 <v-card class="card-container">
                     <div>Total Contracts:</div>
+                    <hr>
                     <p>{{contracts}}</p>
                 </v-card>
             </v-col>
@@ -22,6 +24,7 @@
                     <div>
                         Total Tickets:
                     </div>
+                    <hr>
                     <p>{{tickets}}</p>
                 </v-card>
             </v-col>
@@ -30,6 +33,7 @@
                     <div>
                         Total companies:
                     </div>
+                    <hr>
                     <p>
                         {{companies}}
                     </p>
@@ -42,6 +46,7 @@
                     <div>
                         My tickets:
                     </div>
+                    <hr>
                     <p>
                         {{userTickets.length}}
                     </p>
@@ -52,6 +57,7 @@
                     <div>
                         Pending tickets:
                     </div>
+                    <hr>
                     <p>
                         {{pendingTickets.length}}
                     </p>
@@ -62,6 +68,7 @@
                     <div>
                         Finished tickets:
                     </div>
+                    <hr>
                     <p>
                         {{finishedTickets.length}}
                     </p>
