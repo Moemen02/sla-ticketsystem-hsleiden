@@ -17,7 +17,7 @@
             </template>
             <template #item.actions="{item}">
                 <v-icon @click="goToTicket(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="toggleDeleteWarning(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="deleteTicket(item.id)" color="error" class="action-delete">delete_forever</v-icon>
             </template>
         </v-data-table>
     </div>
@@ -96,7 +96,22 @@ export default {
                 .catch(err => {
                     return err
                 })
-            },
+        },
+        goToTicket(id){
+            this.$router.push({ path: '/ticket/' + id })
+        },
+        deleteTicket(id){
+            this.$axios
+                .delete('api/ticket/' + id)
+                .then((response) => {
+                    console.log(response)
+                    let i = this.myTickets.map(company => company.id).indexOf(id)
+                    this.myTickets.splice(i, 1)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
         getMyTickets(userID){
             this.$axios
                 .get('api/ticket/' + userID)
