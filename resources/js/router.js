@@ -10,6 +10,7 @@ import loginPage from './pages/loginPage'
 import dashboard from './pages/dashboard'
 import addTicket from './pages/Tickets/makeTicket'
 import myTickets from './pages/Tickets/myTickets'
+import currentTicket from './pages/Tickets/currentTicket'
 
 // admin pages
 import userPage from './pages/admin/users'
@@ -27,10 +28,12 @@ import currentContract from './pages/admin/contracts/currentContract'
 
 import companies from './pages/admin/companies/companies'
 import addCompany from './pages/admin/companies/addCompany'
+import currentCompany from './pages/admin/companies/currentCompany'
 
 // user - manager role pages
 import employeePage from './pages/manager/employee'
 import employeeTickets from './pages/manager/employeeTickets'
+
 // user - user role pages
 
 
@@ -181,6 +184,22 @@ const routes = [{
         path: '/contract/:id',
         name: 'Contract',
         component: currentContract,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/company/:id',
+        name: 'Company',
+        component: currentCompany,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/ticket/:id',
+        name: 'Ticket',
+        component: currentTicket,
         meta: {
             requiresAuth: true
         }

@@ -1,70 +1,79 @@
 <template>
     <div>
-        <div class="contract">
+        <div class="User">
             <v-card>
                 <v-card-title primary-title>
                     <v-card-text>
-                        <h3 class="headline mb-0">Contract {{currentContract.contract_name}}</h3>
+                        <h3 class="headline mb-0">Ticket {{currentTicket.ticket_title}}</h3>
                         <br>
                         <div>
                             <v-row>
                                 <v-col cols="12" sm="6" md="4">
                                     <v-text-field
-                                        v-model="currentContract.id"
-                                        label="Contract ID"
+                                        v-model="currentTicket.id"
+                                        label="Ticket ID"
                                         outlined
                                         disabled
                                     />
                                 </v-col>
                                 <v-col cols="12" sm="6" md="4">
                                     <v-text-field
-                                        v-model="currentContract.contract_name"
-                                        label="Contract name"
+                                        v-model="currentTicket.userID"
+                                        label="User ID"
                                         outlined
-                                        :disabled="disabled"
-                                    />
-                                </v-col>
-                                <v-col cols="12" sm="4" md="4">
-                                    <v-text-field
-                                        v-model="currentContract.companyID"
-                                        label="Company ID"
-                                        outlined
-                                        :disabled="disabled"
+                                        disabled
                                     />
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field
-                                        v-model="currentContract.starting_at"
-                                        label="Starting at"
+                                        v-model="currentTicket.ticket_title"
+                                        label="Title"
+                                        outlined
+                                        :disabled="disabled"
+                                    />
+                                </v-col>
+                                <v-col cols="12" sm="4" md="4">
+                                    <v-textarea
+                                        v-model="currentTicket.description"
+                                        label="Description"
                                         outlined
                                         :disabled="disabled"
                                     />
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field
-                                        v-model="currentContract.ends_at"
-                                        label="Ends at"
+                                        v-model="currentTicket.assigned_by"
+                                        label="Assigned by"
                                         outlined
-                                        :disabled="disabled"
-                                    />
-                                </v-col>
-                                <v-col cols="12" sm="4" md="4">
-                                    <v-text-field
-                                        v-model="currentContract.created_at"
-                                        label="created at"
-                                        outlined
-                                        :disabled="disabled"
+                                        disabled
                                     />
                                 </v-col>
                             </v-row>
                             <v-row>
+                                <v-col cols="12" sm="4" md="4">
+                                    <v-text-field
+                                        v-model="currentTicket.assigned_for"
+                                        label="Assigned for"
+                                        outlined
+                                        :disabled="disabled"
+                                    />
+                                </v-col>
+                                <v-col cols="12" sm="4" md="4">
+                                    <v-text-field
+                                        v-model="currentTicket.due_at"
+                                        label="due at"
+                                        outlined
+                                        disabled
+                                    />
+                                </v-col>
                                 
                                 <v-col cols="12" sm="4" md="4">
-                                    <v-switch
-                                        v-model="currentContract.active"
-                                        label="Active"
+                                    <v-select
+                                        v-model="currentTicket.status"
+                                        label="Status"
+                                        :items="status"
                                         outlined
                                         :disabled="disabled"
                                     />
@@ -75,7 +84,7 @@
                 </v-card-title>
                 <v-card-actions>
                     <v-btn v-if="disabled == true" @click="disabled = !disabled" color="primary">Edit</v-btn>
-                    <v-btn v-if="disabled == false" @click="editContract" color="success">Save</v-btn>
+                    <v-btn v-if="disabled == false" @click="editTicket" color="success">Save</v-btn>
                     <v-btn v-if="disabled == false" @click="disabled = !disabled" color="error">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
@@ -89,7 +98,6 @@ import {
     mapGetters
 } from 'vuex'
 
-
 export default {
     name:'',
     components:{
@@ -100,12 +108,13 @@ export default {
     },
     data() {
         return {
-            currentContract: [],
-            disabled: true
+            currentTicket: [],
+            disabled: true,
+            status: ['pending', 'finished']
         }
     },
     created() {
-        this.getCurrentContract()
+        this.getCurrentTicket()
     },
     computed: {
         ...mapGetters([
@@ -119,22 +128,19 @@ export default {
         
     },
     methods: {
-        getCurrentContract(){
+        getCurrentTicket(){
             this.$axios
-                .get('api/contract/' + this.$route.params.id)
+                .get('api/currentTicket/' + this.$route.params.id)
                 .then((response) => {
-                    this.currentContract = response.data[0]
-                    console.log(this.currentContract)
-                    // this.getCompanyContract(this.user.companyID)
+                    this.currentTicket = response.data[0]
                 })
                 .catch((err) => {
                     console.log(err)
                 })
         },
-        editContract(){
-            console.log(this.currentContract)
+        editTicket(){
             this.$axios
-                .put('api/contract/' + this.$route.params.id ,this.currentContract)
+                .put('api/ticket/' + this.$route.params.id ,this.currentTicket)
                 .then((response) => {
                     console.log(response.data)
                 })

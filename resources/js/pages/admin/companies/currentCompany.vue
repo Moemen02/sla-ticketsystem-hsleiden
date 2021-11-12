@@ -4,21 +4,23 @@
             <v-card>
                 <v-card-title primary-title>
                     <v-card-text>
-                        <h3 class="headline mb-0">Contract {{currentContract.contract_name}}</h3>
+                        <h3 class="headline mb-0">Contract {{currentCompany.company_name}}</h3>
                         <br>
                         <div>
                             <v-row>
                                 <v-col cols="12" sm="6" md="4">
                                     <v-text-field
-                                        v-model="currentContract.id"
-                                        label="Contract ID"
+                                        v-model="currentCompany.id"
+                                        label="Company ID"
                                         outlined
                                         disabled
                                     />
                                 </v-col>
+                            </v-row>
+                            <v-row>
                                 <v-col cols="12" sm="6" md="4">
                                     <v-text-field
-                                        v-model="currentContract.contract_name"
+                                        v-model="currentCompany.company_name"
                                         label="Contract name"
                                         outlined
                                         :disabled="disabled"
@@ -26,45 +28,16 @@
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field
-                                        v-model="currentContract.companyID"
-                                        label="Company ID"
-                                        outlined
-                                        :disabled="disabled"
-                                    />
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="12" sm="4" md="4">
-                                    <v-text-field
-                                        v-model="currentContract.starting_at"
-                                        label="Starting at"
+                                        v-model="currentCompany.total_employees"
+                                        label="Total Employees"
                                         outlined
                                         :disabled="disabled"
                                     />
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-text-field
-                                        v-model="currentContract.ends_at"
-                                        label="Ends at"
-                                        outlined
-                                        :disabled="disabled"
-                                    />
-                                </v-col>
-                                <v-col cols="12" sm="4" md="4">
-                                    <v-text-field
-                                        v-model="currentContract.created_at"
-                                        label="created at"
-                                        outlined
-                                        :disabled="disabled"
-                                    />
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                
-                                <v-col cols="12" sm="4" md="4">
-                                    <v-switch
-                                        v-model="currentContract.active"
-                                        label="Active"
+                                        v-model="currentCompany.kvk"
+                                        label="kvk"
                                         outlined
                                         :disabled="disabled"
                                     />
@@ -75,7 +48,7 @@
                 </v-card-title>
                 <v-card-actions>
                     <v-btn v-if="disabled == true" @click="disabled = !disabled" color="primary">Edit</v-btn>
-                    <v-btn v-if="disabled == false" @click="editContract" color="success">Save</v-btn>
+                    <v-btn v-if="disabled == false" @click="editCompany" color="success">Save</v-btn>
                     <v-btn v-if="disabled == false" @click="disabled = !disabled" color="error">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
@@ -100,12 +73,12 @@ export default {
     },
     data() {
         return {
-            currentContract: [],
+            currentCompany: [],
             disabled: true
         }
     },
     created() {
-        this.getCurrentContract()
+        this.getCurrentCompany()
     },
     computed: {
         ...mapGetters([
@@ -119,22 +92,22 @@ export default {
         
     },
     methods: {
-        getCurrentContract(){
+        getCurrentCompany(){
             this.$axios
-                .get('api/contract/' + this.$route.params.id)
+                .get('api/currentComp/' + this.$route.params.id)
                 .then((response) => {
-                    this.currentContract = response.data[0]
-                    console.log(this.currentContract)
+                    this.currentCompany = response.data[0]
+                    console.log(this.currentCompany)
                     // this.getCompanyContract(this.user.companyID)
                 })
                 .catch((err) => {
                     console.log(err)
                 })
         },
-        editContract(){
-            console.log(this.currentContract)
+        editCompany(){
+            console.log(this.currentCompany)
             this.$axios
-                .put('api/contract/' + this.$route.params.id ,this.currentContract)
+                .put('api/company/' + this.$route.params.id ,this.currentCompany)
                 .then((response) => {
                     console.log(response.data)
                 })

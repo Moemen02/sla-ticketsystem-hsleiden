@@ -44,11 +44,17 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/ticket', [TicketController::class, 'getTickets']);
     Route::get('/ticket/{user}', [TicketController::class, 'getUserTickets']);
     Route::get('/tickets/{companyID}', [TicketController::class, 'getCompanyTickets']);
+    Route::get('/currentTicket/{ticket}', [TicketController::class, 'getCurrentTicket']);
+    Route::put('/ticket/{ticket}', [TicketController::class, 'editTicket']);
+    Route::delete('/ticket/{ticket}', [TicketController::class, 'deleteTicket']);
     
     // Company routes
     Route::post('/company', [CompanyController::class, 'createCompany']);
     Route::get('/company', [CompanyController::class, 'getCompanies']);
     Route::get('/company/{id}', [CompanyController::class, 'getUserCompany']);
+    Route::get('/currentComp/{id}', [CompanyController::class, 'getCurrentCompany']);
+    Route::put('/company/{company}', [CompanyController::class, 'editCompany']);
+    Route::delete('/company/{company}', [CompanyController::class, 'deleteCompany']);
 
     // Contract routes
     Route::post('/contract', [ContractController::class, 'makeContract']);

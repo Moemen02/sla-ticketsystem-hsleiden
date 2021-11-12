@@ -20,8 +20,8 @@
                 <p v-if="item.active == 1">true</p>
             </template>
             <template #item.actions="{item}">
-                <v-icon @click="goToUser(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="toggleDeleteWarning(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="goToTicket(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
+                <v-icon @click="deleteTicket(item.id)" color="error" class="action-delete">delete_forever</v-icon>
             </template>
         </v-data-table>
     </div>
@@ -109,8 +109,20 @@ export default {
                     return err
                 })
         },
-        goToUser(userId){
+        goToTicket(userId){
             console.log(userId)
+        },
+        deleteTicket(id){
+            this.$axios
+                .delete('api/ticket/' + id)
+                .then((response) => {
+                    console.log(response)
+                    let i = this.pendingTickets.map(ticket => ticket.id).indexOf(id)
+                    this.pendingTickets.splice(i, 1)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         },
         getUsersTicket() {
             this.$axios
