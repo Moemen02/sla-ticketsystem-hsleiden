@@ -55,4 +55,29 @@ class TicketController extends Controller
         $tickets = Ticket::where('companyID', $companyID)->get();
         return $tickets;
     }
+
+    public function editTicket(Request $request, Ticket $ticket){
+        $data = $request->validate([
+            'userID' => '',
+            'companyID' => '',
+            'ticket_title' => '',
+            'description' => '',
+            'assigned_by' => '',
+            'assigned_for' => '',
+        ]);
+
+        $input = $request->all();
+        $ticket->update($input);
+        return $ticket;
+    }
+
+    public function getCurrentTicket($ticket){
+        $ticket = Ticket::where('id', $ticket)->get();
+        return $ticket;
+    }
+
+    public function deleteTicket($ticket){
+        $ticket = Ticket::where('id', $ticket)->delete();
+        return $ticket;
+    }
 }
