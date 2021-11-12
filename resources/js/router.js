@@ -15,6 +15,7 @@ import myTickets from './pages/Tickets/myTickets'
 import userPage from './pages/admin/users'
 import adminPage from './pages/admin/admins'
 import addUser from './pages/admin/addUser'
+import currentUser from './pages/admin/currentUser'
 
 import finishedTickets from './pages/admin/tickets/finishedTickets'
 import pendingTickets from './pages/admin/tickets/pendingTickets'
@@ -22,13 +23,14 @@ import ticketPage from './pages/admin/tickets/tickets'
 
 import contracts from './pages/admin/contracts/contracts'
 import addContract from './pages/admin/contracts/addContract'
+import currentContract from './pages/admin/contracts/currentContract'
 
 import companies from './pages/admin/companies/companies'
 import addCompany from './pages/admin/companies/addCompany'
 
 // user - manager role pages
 import employeePage from './pages/manager/employee'
-
+import employeeTickets from './pages/manager/employeeTickets'
 // user - user role pages
 
 
@@ -155,6 +157,30 @@ const routes = [{
         path: '/employee',
         name: 'Employees',
         component: employeePage,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/employee-tickets',
+        name: 'Employees Tickets',
+        component: employeeTickets,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/user/:id',
+        name: 'User',
+        component: currentUser,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/contract/:id',
+        name: 'Contract',
+        component: currentContract,
         meta: {
             requiresAuth: true
         }

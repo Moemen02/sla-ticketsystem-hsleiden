@@ -42,4 +42,17 @@ class TicketController extends Controller
         $tickets = Ticket::all();
         return $tickets;
     }
+
+    public function getUserTickets($userID){
+        $userTicket = Ticket::where('userID', $userID)->get();
+
+        return response()->json([
+            'tickets' => $userTicket
+        ]);
+    }
+
+    public function getCompanyTickets($companyID){
+        $tickets = Ticket::where('companyID', $companyID)->get();
+        return $tickets;
+    }
 }

@@ -53,6 +53,24 @@ class UserController extends Controller
         ], $this->succesStatus);
     }
 
+    public function updateUser(Request $request, User $user){
+        $data = $request->validate([
+            'username' => '',
+            'firstname' => '',
+            'lastname' => '',
+            'email' => '',
+            'password' => '',
+            'phone_number' => '',
+            'role' => '',
+            'companyID' => '',
+            'companyRole' => '',
+        ]);
+
+        $input = $request->all();
+        $user->update($input);
+        return $this->succesStatus;
+    }
+
     public function getCurrentUser(Request $request){
         $currentUser = $request->user();
         return response()->json([
@@ -68,5 +86,20 @@ class UserController extends Controller
     public function getAllAdmins(Request $request){
         $admins = User::where('role', 'admin')->get();
         return $admins;
+    }
+
+    public function getEmployees($companyID){
+        $employees = User::where('companyID', $companyID)->get();
+        return $employees;
+    }
+
+    public function getSelectedUser($id){
+        $user = User::where('id', $id)->get();
+        return $user;
+    }
+
+    public function deleteUser($id){
+        $user = User::where('id', $id)->delete();
+        return $this->succesStatus;
     }
 }

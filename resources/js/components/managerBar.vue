@@ -29,40 +29,6 @@
 
                 <!-- End Employees tab -->
 
-                <!-- Contract tabs -->
-
-                <!-- <v-list-group prepend-icon="book">
-
-                    <template v-slot:activator>
-                        <v-list-item-title>Contracts</v-list-item-title>
-                    </template>
-
-                    <router-link class="router-link" to="">
-                        <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title>All contracts</v-list-item-title>
-                            </v-list-item-content>
-                            <v-list-item-icon>
-                                <v-icon>book</v-icon>
-                            </v-list-item-icon>
-                        </v-list-item>
-                    </router-link>
-
-                    <router-link class="router-link" to="">
-                        <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title>Make contract</v-list-item-title>
-                            </v-list-item-content>
-                            <v-list-item-icon>
-                                <v-icon>post_add</v-icon>
-                            </v-list-item-icon>
-                        </v-list-item>
-                    </router-link>
-
-                </v-list-group> -->
-
-                <!-- End Conract tab -->
-
                 <!-- Ticket tab -->
 
                 <v-list-group prepend-icon="local_activity">
@@ -82,7 +48,7 @@
                         </v-list-item>
                     </router-link>
 
-                    <router-link class="router-link" to="">
+                    <router-link class="router-link" to="/employee-tickets">
                         <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title>Employee Tickets</v-list-item-title>

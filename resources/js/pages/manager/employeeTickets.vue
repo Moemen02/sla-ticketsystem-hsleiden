@@ -1,11 +1,11 @@
 <template>
     <div>
         <v-data-table
-            :headers="headers"
-            :items="employees"
-            item-key="username, email, Phone number, company role"
-            class="elevation-1"
-            :search="search"
+        :headers="headers"
+        :items="tickets"
+        item-key=""
+        class="elevation-1"
+        :search="search"
         >
             <template v-slot:top>
                 <v-text-field
@@ -13,6 +13,10 @@
                 label="Search"
                 class="mx-4"
                 />
+            </template>
+            <template #item.active="{item}">
+                <p v-if="item.active == 0">false</p>
+                <p v-if="item.active == 1">true</p>
             </template>
             <template #item.actions="{item}">
                 <v-icon @click="goToUser(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
@@ -29,44 +33,33 @@ import {
 } from 'vuex'
 
 export default {
-    name:'',
-    components:{
-        
-    },
+    name:'navbar',
     props: {
        
     },
     data() {
         return {
-            employees: [],
             currentUser: [],
-            users: '',
-            search: "",
-            headers: [{
+            tickets: [],
+            search: '',
+            headers: [
+                {
                     text: 'User ID',
                     value: 'id',
                 },
                 {
-                    text: 'username',
+                    text: 'Ticket',
                     align: 'start',
                     sortable: false,
-                    value: 'username',
+                    value: 'ticket_title',
                 },
                 {
-                    text: 'Email',
-                    value: 'email'
+                    text: 'Assigned for',
+                    value: 'assigned_for'
                 },
                 {
-                    text: 'Phone number',
-                    value: 'phone_number'
-                },
-                {
-                    text: 'company role',
-                    value: 'companyRole'
-                },
-                {
-                    text: 'company',
-                    value: 'companyID'
+                    text: 'Status',
+                    value: 'status'
                 },
                 {
                     text: '',
@@ -79,16 +72,17 @@ export default {
         this.getCurrentUser()
     },
     computed: {
-        ...mapGetters([
-            'loggedIn',
-            'userToken'
+    ...mapGetters([
+            'isAdmin',
+            'userToken',
+            'companyRole'
         ])
     },
     watch: {
 
     },
     mounted() {
-        
+
     },
     methods: {
         getCurrentUser(){
@@ -101,23 +95,23 @@ export default {
                 })
                 .then(response => {
                     this.currentUser = response.data.currentUser
-                    this.getEmployees(response.data.currentUser.companyID)
+                    this.getEmployeesTicket(response.data.currentUser.companyID)
                 })
                 .catch(err => {
                     return err
                 })
             },
-        getEmployees(compID){
+        getEmployeesTicket(compID){
             this.$axios
-                .get('api/employees/' + compID)
+                .get('api/tickets/' + compID)
                 .then((response) => {
-                    this.employees = response.data
-                    console.log(this.employees)
+                    this.tickets = response.data
+                    
                 })
                 .catch((err) => {
                     console.log(err)
                 })
         },
-    },
+    }
 }
 </script>

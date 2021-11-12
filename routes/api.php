@@ -34,17 +34,27 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/users', [UserController::class, 'getAllUsers']);
     Route::get('/admins', [UserController::class, 'getAllAdmins']);
     Route::post('/user', [UserController::class, 'registerUser']);
+    Route::get('/user/{id}', [UserController::class, 'getSelectedUser']);
+    Route::get('/employees/{companyID}', [UserController::class, 'getEmployees']);
+    Route::delete('/user/{user}', [UserController::class, 'deleteUser']);
+    Route::put('/user/{user}', [UserController::class, 'updateUser']);
     
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);
     Route::get('/ticket', [TicketController::class, 'getTickets']);
+    Route::get('/ticket/{user}', [TicketController::class, 'getUserTickets']);
+    Route::get('/tickets/{companyID}', [TicketController::class, 'getCompanyTickets']);
     
     // Company routes
     Route::post('/company', [CompanyController::class, 'createCompany']);
     Route::get('/company', [CompanyController::class, 'getCompanies']);
+    Route::get('/company/{id}', [CompanyController::class, 'getUserCompany']);
 
     // Contract routes
     Route::post('/contract', [ContractController::class, 'makeContract']);
     Route::get('/contract', [ContractController::class, 'getContracts']);
+    Route::get('/contract/{id}', [ContractController::class, 'currentContract']);
+    Route::put('/contract/{contract}', [ContractController::class, 'updateContract']);
+    Route::delete('/contract/{contract}', [ContractController::class, 'deleteContract']);
 
 });
