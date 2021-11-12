@@ -1,5 +1,9 @@
 <template>
     <div>
+        <v-alert v-if="alert" :type="alertColor">
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
+        </v-alert>
         <div class="User">
             <v-card>
                 <v-card-title primary-title>
@@ -155,6 +159,9 @@ export default {
     },
     data() {
         return {
+            msg: [],
+            alerColor: null,
+            alert: false,
             newUser: new User(),
             disabled: true,
             user: [],
@@ -220,7 +227,7 @@ export default {
                     this.getUserCompany(this.user.companyID)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         getUserTickets(userID){
@@ -230,7 +237,7 @@ export default {
                     this.userTickets = response.data.tickets
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         getUserCompany(companyID){
@@ -240,7 +247,7 @@ export default {
                     this.userCompany = response.data
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         editUser(){
@@ -248,11 +255,33 @@ export default {
             this.$axios
                 .put('api/user/' + this.$route.params.id ,this.user)
                 .then((response) => {
-                    console.log(response.data)
+                    this.disabled = true
+                    this.msg = "Edit completed"
+                    this.alert = true
+                    this.alertColor = "success"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
                 })
                 .catch((err) => {
-                    console.log(err)
-                })
+                    const errosMsg = err.response.data.error
+                    for(const errors in errosMsg){
+                        this.msg.push(errosMsg[errors][0])
+                    }
+                    this.alert = true
+                    this.alertColor = "error"
+                    const that = this
+                    setTimeout(function(){
+                        that.alert = false
+                        that.msg = []
+                    }, 5000)
+                }) 
+        },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
         }
     }
 }

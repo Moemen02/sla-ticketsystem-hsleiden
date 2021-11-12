@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-row>
+        <v-row v-if="role == 'admin'">
             <v-col>
                 <v-card class="card-container">
                     <div>
@@ -40,6 +40,11 @@
 </template>
 
 <script>
+import {
+    mapState,
+    mapGetters
+} from 'vuex'
+
 export default {
     props: {
        
@@ -56,7 +61,12 @@ export default {
         this.getEverything()
     },
     computed: {
-
+        ...mapGetters([
+            'isAdmin',
+            'userToken',
+            'companyRole',
+            'role'
+        ]),
     },
     watch: {
 
@@ -66,10 +76,14 @@ export default {
     },
     methods: {
         getEverything(){
-            this.getAllUsers()
-            this.getAllContracts()
-            this.getAllTickets()
-            this.getAllCompanies()
+            if(this.role == 'admin'){
+                this.getAllUsers()
+                this.getAllContracts()
+                this.getAllTickets()
+                this.getAllCompanies()
+            }
+
+            console.log("hoi")
         },
         getAllUsers(){
             this.$axios

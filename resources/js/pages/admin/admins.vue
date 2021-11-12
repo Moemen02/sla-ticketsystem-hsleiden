@@ -1,6 +1,9 @@
 <template>
     <div>
-        <!-- {{admins}} -->
+        <v-alert v-if="alert" :type="alertColor">
+            <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
+            <p>{{msg}}</p>
+        </v-alert>
         <v-data-table
         :headers="headers"
         :items="admins"
@@ -39,6 +42,9 @@ export default {
     },
     data() {
         return {
+            msg: [],
+            alerColor: null,
+            alert: false,
             admins: [{}],
             search: "",
             headers: [
@@ -108,7 +114,6 @@ export default {
             this.$axios
                 .delete('api/user/' + id)
                 .then((response) => {
-                    console.log(response)
                     let i = this.users.map(user => user.id).indexOf(id)
                     this.users.splice(i, 1)
                     this.msg = "User deleted"
@@ -150,6 +155,10 @@ export default {
                 .catch((err) => {
                     console.log(err)
                 })
+        },
+        clearAlert(){
+            this.msg = []
+            this.alert = false
         }
     }
 }
