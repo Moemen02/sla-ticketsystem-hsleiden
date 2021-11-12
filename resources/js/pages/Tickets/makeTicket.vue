@@ -193,7 +193,6 @@ export default {
                 }
             }
             this.newTicket.assigned_by = this.currentUser.username
-            console.log(this.newTicket)
             this.$axios
                 .post('api/ticket', this.newTicket)
                 .then((response) => {

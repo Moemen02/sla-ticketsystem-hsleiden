@@ -114,7 +114,6 @@ export default {
             this.$axios
                 .delete('api/contract/' + id)
                 .then((response) => {
-                    console.log(response)
                     let i = this.Contracts.map(contract => contract.id).indexOf(id)
                     this.Contracts.splice(i, 1)
                     this.msg = "Contract deleted"
@@ -154,7 +153,7 @@ export default {
                     }
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         clearAlert(){

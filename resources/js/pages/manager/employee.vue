@@ -111,10 +111,9 @@ export default {
                 .get('api/employees/' + compID)
                 .then((response) => {
                     this.employees = response.data
-                    console.log(this.employees)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
     },

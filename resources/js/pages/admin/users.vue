@@ -114,7 +114,6 @@ export default {
             this.$axios
                 .delete('api/user/' + id)
                 .then((response) => {
-                    console.log(response)
                     let i = this.users.map(user => user.id).indexOf(id)
                     this.users.splice(i, 1)
                     this.msg = "User deleted"
@@ -154,7 +153,7 @@ export default {
                     }
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         clearAlert(){

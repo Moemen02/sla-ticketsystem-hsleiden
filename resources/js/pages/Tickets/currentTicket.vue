@@ -174,7 +174,7 @@ export default {
                     this.currentTicket = response.data[0]
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         editTicket(){

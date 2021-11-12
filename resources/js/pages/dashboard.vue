@@ -36,6 +36,38 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-row v-else>
+            <v-col>
+                <v-card>
+                    <div>
+                        My tickets:
+                    </div>
+                    <p>
+                        {{userTickets.length}}
+                    </p>
+                </v-card>
+            </v-col>
+            <v-col>
+                <v-card>
+                    <div>
+                        Pending tickets:
+                    </div>
+                    <p>
+                        {{pendingTickets.length}}
+                    </p>
+                </v-card>
+            </v-col>
+            <v-col>
+                <v-card>
+                    <div>
+                        Finished tickets:
+                    </div>
+                    <p>
+                        {{finishedTickets.length}}
+                    </p>
+                </v-card>
+            </v-col>
+        </v-row>
     </div>
 </template>
 
@@ -55,6 +87,10 @@ export default {
             contracts:[],
             tickets:[],
             companies:[],
+            currentUser: [],
+            userTickets: [],
+            pendingTickets: [],
+            finishedTickets: [],
         }
     },
     created() {
@@ -83,7 +119,7 @@ export default {
                 this.getAllCompanies()
             }
 
-            console.log("hoi")
+            this.getCurrentUser()
         },
         getAllUsers(){
             this.$axios
@@ -112,6 +148,39 @@ export default {
                 .get('api/company')
                 .then((response) => {
                     this.companies = response.data.length
+                })
+        },
+        getCurrentUser(){
+            const TOKEN = 'Bearer '.concat(this.userToken)
+            return this.$axios
+                .get('api/user', {
+                    headers: {
+                        Authorization: TOKEN
+                    }
+                })
+                .then(response => {
+                    this.currentUser = response.data.currentUser.id
+                    this.getUserTickets()
+                })
+                .catch(err => {
+                    return err
+                })
+        },
+        getUserTickets(){
+            this.$axios
+                .get('api/ticket/' + this.currentUser)
+                .then((response) => {
+                    this.userTickets = response.data.tickets
+                    for(let ticket in this.userTickets){
+                        if(this.userTickets[ticket].status == 'pending'){
+                            this.pendingTickets.push(this.userTickets[ticket])
+                        }
+                    }
+                    for(let ticket in this.userTickets){
+                        if(this.userTickets[ticket].status == 'finished'){
+                            this.finishedTickets.push(this.userTickets[ticket])
+                        }
+                    }
                 })
         }
     }

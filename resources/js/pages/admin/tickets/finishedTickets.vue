@@ -108,7 +108,6 @@ export default {
                             this.finishedTickets.push(this.Tickets[ticket])
                         }
                     }
-                    console.log(this.Tickets)
                     this.getUsersTicket()
                 })
                 .catch((err) => {
@@ -122,7 +121,6 @@ export default {
             this.$axios
                 .delete('api/ticket/' + id)
                 .then((response) => {
-                    console.log(response)
                     let i = this.finishedTickets.map(company => company.id).indexOf(id)
                     this.finishedTickets.splice(i, 1)
                     this.msg = "Ticket deleted"
@@ -162,7 +160,7 @@ export default {
                     }
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         clearAlert(){
