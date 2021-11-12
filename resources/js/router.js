@@ -27,7 +27,7 @@ import currentContract from './pages/admin/contracts/currentContract'
 
 import companies from './pages/admin/companies/companies'
 import addCompany from './pages/admin/companies/addCompany'
-
+import currentCompany from './pages/admin/companies/currentCompany'
 // user - manager role pages
 import employeePage from './pages/manager/employee'
 import employeeTickets from './pages/manager/employeeTickets'
@@ -181,6 +181,14 @@ const routes = [{
         path: '/contract/:id',
         name: 'Contract',
         component: currentContract,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/company/:id',
+        name: 'Company',
+        component: currentCompany,
         meta: {
             requiresAuth: true
         }

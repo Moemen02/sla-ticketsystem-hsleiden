@@ -49,6 +49,9 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/company', [CompanyController::class, 'createCompany']);
     Route::get('/company', [CompanyController::class, 'getCompanies']);
     Route::get('/company/{id}', [CompanyController::class, 'getUserCompany']);
+    Route::get('/currentComp/{id}', [CompanyController::class, 'getCurrentCompany']);
+    Route::put('/company/{company}', [CompanyController::class, 'editCompany']);
+    Route::delete('/company/{company}', [CompanyController::class, 'deleteCompany']);
 
     // Contract routes
     Route::post('/contract', [ContractController::class, 'makeContract']);

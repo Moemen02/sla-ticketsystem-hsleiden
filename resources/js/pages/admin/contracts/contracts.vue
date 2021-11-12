@@ -101,8 +101,8 @@ export default {
                     return err
                 })
         },
-        goToContract(userId){
-            this.$router.push({ path: '/contract/' + userId })
+        goToContract(id){
+            this.$router.push({ path: '/contract/' + id })
         },
         deleteContract(id){
             this.$axios

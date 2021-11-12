@@ -48,4 +48,26 @@ class CompanyController extends Controller
         $company = Company::where('id', $companyID)->update(['total_employees' => $totalEmployees]);
         return $this->succesStatus;
     }
+
+    public function getCurrentCompany($id){
+        $company = Company::where('id', $id)->get();
+        return $company;
+    }
+
+    public function editCompany(Request $request, Company $company){
+        $data = $request->validate([
+            'company_name' => '',
+            'total_employees' => '',
+            'kvk' => '',
+        ]);
+
+        $input = $request->all();
+        $company->update($input);
+        return $company;
+    }
+
+    public function deleteCompany($id){
+        $company = Company::where('id', $id)->delete();
+        return $this->succesStatus;
+    }
 }
