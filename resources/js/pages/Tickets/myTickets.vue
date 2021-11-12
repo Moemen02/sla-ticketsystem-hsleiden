@@ -140,10 +140,9 @@ export default {
                 .get('api/ticket/' + userID)
                 .then((response) => {
                     this.myTickets = response.data.tickets
-                    console.log(response.data.tickets[0].created_at)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         clearAlert(){

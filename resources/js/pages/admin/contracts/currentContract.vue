@@ -131,15 +131,13 @@ export default {
                 .get('api/contract/' + this.$route.params.id)
                 .then((response) => {
                     this.currentContract = response.data[0]
-                    console.log(this.currentContract)
                     // this.getCompanyContract(this.user.companyID)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         editContract(){
-            console.log(this.currentContract)
             this.$axios
                 .put('api/contract/' + this.$route.params.id ,this.currentContract)
                 .then((response) => {

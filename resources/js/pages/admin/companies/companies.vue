@@ -95,7 +95,7 @@ export default {
                     this.companies = response.data
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         goToCompany(id){
@@ -105,7 +105,6 @@ export default {
             this.$axios
                 .delete('api/company/' + id)
                 .then((response) => {
-                    console.log(response)
                     let i = this.companies.map(company => company.id).indexOf(id)
                     this.companies.splice(i, 1)
                     this.msg = "Company deleted"

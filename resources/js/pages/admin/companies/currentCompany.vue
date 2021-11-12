@@ -104,15 +104,12 @@ export default {
                 .get('api/currentComp/' + this.$route.params.id)
                 .then((response) => {
                     this.currentCompany = response.data[0]
-                    console.log(this.currentCompany)
-                    // this.getCompanyContract(this.user.companyID)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         editCompany(){
-            console.log(this.currentCompany)
             this.$axios
                 .put('api/company/' + this.$route.params.id ,this.currentCompany)
                 .then((response) => {

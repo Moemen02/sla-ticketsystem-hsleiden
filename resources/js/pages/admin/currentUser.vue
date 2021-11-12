@@ -251,7 +251,6 @@ export default {
                 })
         },
         editUser(){
-            console.log(this.user)
             this.$axios
                 .put('api/user/' + this.$route.params.id ,this.user)
                 .then((response) => {

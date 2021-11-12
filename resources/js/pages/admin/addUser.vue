@@ -182,7 +182,7 @@ export default {
                     this.companies = response.data
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         createUser(){

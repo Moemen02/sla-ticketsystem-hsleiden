@@ -116,7 +116,6 @@ export default {
             this.$axios
                 .delete('api/ticket/' + id)
                 .then((response) => {
-                    console.log(response)
                     let i = this.Tickets.map(company => company.id).indexOf(id)
                     this.Tickets.splice(i, 1)
                     this.msg = "Ticket deleted"

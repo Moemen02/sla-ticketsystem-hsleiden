@@ -218,10 +218,9 @@ export default {
                 .get('api/company')
                 .then((response) => {
                     this.companies = response.data
-                    console.log(this.companies)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    return err
                 })
         },
         clearAlert(){
