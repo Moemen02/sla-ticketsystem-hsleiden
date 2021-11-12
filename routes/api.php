@@ -23,7 +23,6 @@ use App\Http\Controllers\ContractController;
 
 // Authentication routes
 Route::post('/user/login', [AuthController::class, 'login']);
-Route::put('/user/{user}', [UserController::class, 'updateUser']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     
@@ -38,6 +37,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/user/{id}', [UserController::class, 'getSelectedUser']);
     Route::get('/employees/{companyID}', [UserController::class, 'getEmployees']);
     Route::delete('/user/{user}', [UserController::class, 'deleteUser']);
+    Route::put('/user/{user}', [UserController::class, 'updateUser']);
     
     // ticket routes
     Route::post('/ticket', [TicketController::class, 'createTicket']);
@@ -53,5 +53,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     // Contract routes
     Route::post('/contract', [ContractController::class, 'makeContract']);
     Route::get('/contract', [ContractController::class, 'getContracts']);
+    Route::get('/contract/{id}', [ContractController::class, 'currentContract']);
+    Route::put('/contract/{contract}', [ContractController::class, 'updateContract']);
+    Route::delete('/contract/{contract}', [ContractController::class, 'deleteContract']);
 
 });

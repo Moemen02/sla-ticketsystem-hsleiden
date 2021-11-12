@@ -23,6 +23,7 @@ import ticketPage from './pages/admin/tickets/tickets'
 
 import contracts from './pages/admin/contracts/contracts'
 import addContract from './pages/admin/contracts/addContract'
+import currentContract from './pages/admin/contracts/currentContract'
 
 import companies from './pages/admin/companies/companies'
 import addCompany from './pages/admin/companies/addCompany'
@@ -172,6 +173,14 @@ const routes = [{
         path: '/user/:id',
         name: 'User',
         component: currentUser,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/contract/:id',
+        name: 'Contract',
+        component: currentContract,
         meta: {
             requiresAuth: true
         }

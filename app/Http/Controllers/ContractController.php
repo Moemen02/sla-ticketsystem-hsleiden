@@ -41,4 +41,30 @@ class ContractController extends Controller
             'succes' => "contract added"
         ], $this->succesStatus);
     }
+
+    public function updateContract(Request $request, Contract $contract){
+        $data = $request->validate([
+            'contract_name' => '',
+            'active' => '',
+            'companyID' => '',
+            'starting_at' => '',
+            'ends_at' => '',
+            'times_extended' => '',
+        ]);
+
+        $input = $request->all();
+        $contract->update($input);
+        return $contract;
+    }
+
+    public function currentContract($id){
+        $contract = Contract::where('id', $id)->get();
+        return $contract;
+    }
+
+
+    public function deleteContract($id){
+        $contract = Contract::where('id', $id)->delete();
+        return $this->succesStatus;
+    }
 }

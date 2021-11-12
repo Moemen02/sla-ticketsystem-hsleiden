@@ -20,8 +20,8 @@
                 <p v-if="item.active == 1">true</p>
             </template>
             <template #item.actions="{item}">
-                <v-icon @click="goToUser(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="toggleDeleteWarning(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="goToContract(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
+                <v-icon @click="deleteContract(item.id)" color="error" class="action-delete">delete_forever</v-icon>
             </template>
         </v-data-table>
     </div>
@@ -101,8 +101,20 @@ export default {
                     return err
                 })
         },
-        goToUser(userId){
-            console.log(userId)
+        goToContract(userId){
+            this.$router.push({ path: '/contract/' + userId })
+        },
+        deleteContract(id){
+            this.$axios
+                .delete('api/contract/' + id)
+                .then((response) => {
+                    console.log(response)
+                    let i = this.Contracts.map(contract => contract.id).indexOf(id)
+                    this.Contracts.splice(i, 1)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         },
         getCompanyContract() {
             this.$axios

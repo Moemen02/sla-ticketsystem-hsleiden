@@ -4,7 +4,7 @@
             <v-card>
                 <v-card-title primary-title>
                     <v-card-text>
-                        <h3 class="headline mb-0">User</h3>
+                        <h3 class="headline mb-0">User {{user.username}}</h3>
                         <br>
                         <div>
                             <v-row>
@@ -246,7 +246,7 @@ export default {
         editUser(){
             console.log(this.user)
             this.$axios
-                .put('api/user/' + this.$route.params.id , this.user)
+                .put('api/user/' + this.$route.params.id ,this.user)
                 .then((response) => {
                     console.log(response.data)
                 })

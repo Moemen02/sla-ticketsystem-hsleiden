@@ -3925,22 +3925,192 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return err;
       });
     },
-    goToUser: function goToUser(userId) {
-      console.log(userId);
+    goToContract: function goToContract(userId) {
+      this.$router.push({
+        path: '/contract/' + userId
+      });
     },
-    getCompanyContract: function getCompanyContract() {
+    deleteContract: function deleteContract(id) {
       var _this2 = this;
 
-      this.$axios.get('api/company').then(function (response) {
-        _this2.companies = response.data;
+      this.$axios["delete"]('api/contract/' + id).then(function (response) {
+        console.log(response);
 
-        for (var company in _this2.companies) {
-          for (var contract in _this2.Contracts) {
-            if (_this2.Contracts[contract].companyID == _this2.companies[company].id) {
-              _this2.Contracts[contract].companyID = _this2.companies[company].company_name;
+        var i = _this2.Contracts.map(function (contract) {
+          return contract.id;
+        }).indexOf(id);
+
+        _this2.Contracts.splice(i, 1);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    getCompanyContract: function getCompanyContract() {
+      var _this3 = this;
+
+      this.$axios.get('api/company').then(function (response) {
+        _this3.companies = response.data;
+
+        for (var company in _this3.companies) {
+          for (var contract in _this3.Contracts) {
+            if (_this3.Contracts[contract].companyID == _this3.companies[company].id) {
+              _this3.Contracts[contract].companyID = _this3.companies[company].company_name;
             }
           }
         }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/admin/contracts/currentContract.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/admin/contracts/currentContract.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: '',
+  components: {},
+  props: {},
+  data: function data() {
+    return {
+      currentContract: [],
+      disabled: true
+    };
+  },
+  created: function created() {
+    this.getCurrentContract();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
+  watch: {},
+  mounted: function mounted() {},
+  methods: {
+    getCurrentContract: function getCurrentContract() {
+      var _this = this;
+
+      this.$axios.get('api/contract/' + this.$route.params.id).then(function (response) {
+        _this.currentContract = response.data[0];
+        console.log(_this.currentContract); // this.getCompanyContract(this.user.companyID)
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    getCompanyContract: function getCompanyContract(companyID) {
+      var _this2 = this;
+
+      this.$axios.get('api/company/' + companyID).then(function (response) {
+        _this2.userCompany = response.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    editContract: function editContract() {
+      console.log(this.currentContract);
+      this.$axios.put('api/contract/' + this.$route.params.id, this.currentContract).then(function (response) {
+        console.log(response.data);
       })["catch"](function (err) {
         console.log(err);
       });
@@ -5208,10 +5378,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_admin_tickets_tickets__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/admin/tickets/tickets */ "./resources/js/pages/admin/tickets/tickets.vue");
 /* harmony import */ var _pages_admin_contracts_contracts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/admin/contracts/contracts */ "./resources/js/pages/admin/contracts/contracts.vue");
 /* harmony import */ var _pages_admin_contracts_addContract__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/admin/contracts/addContract */ "./resources/js/pages/admin/contracts/addContract.vue");
-/* harmony import */ var _pages_admin_companies_companies__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/admin/companies/companies */ "./resources/js/pages/admin/companies/companies.vue");
-/* harmony import */ var _pages_admin_companies_addCompany__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/admin/companies/addCompany */ "./resources/js/pages/admin/companies/addCompany.vue");
-/* harmony import */ var _pages_manager_employee__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/manager/employee */ "./resources/js/pages/manager/employee.vue");
-/* harmony import */ var _pages_manager_employeeTickets__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/manager/employeeTickets */ "./resources/js/pages/manager/employeeTickets.vue");
+/* harmony import */ var _pages_admin_contracts_currentContract__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/admin/contracts/currentContract */ "./resources/js/pages/admin/contracts/currentContract.vue");
+/* harmony import */ var _pages_admin_companies_companies__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/admin/companies/companies */ "./resources/js/pages/admin/companies/companies.vue");
+/* harmony import */ var _pages_admin_companies_addCompany__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/admin/companies/addCompany */ "./resources/js/pages/admin/companies/addCompany.vue");
+/* harmony import */ var _pages_manager_employee__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/manager/employee */ "./resources/js/pages/manager/employee.vue");
+/* harmony import */ var _pages_manager_employeeTickets__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/manager/employeeTickets */ "./resources/js/pages/manager/employeeTickets.vue");
 
 
 
@@ -5221,6 +5392,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
 
 
  // admin pages
+
 
 
 
@@ -5324,28 +5496,28 @@ var routes = [{
 }, {
   path: '/company',
   name: 'Company',
-  component: _pages_admin_companies_companies__WEBPACK_IMPORTED_MODULE_16__["default"],
+  component: _pages_admin_companies_companies__WEBPACK_IMPORTED_MODULE_17__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/company-add',
   name: 'Add Company',
-  component: _pages_admin_companies_addCompany__WEBPACK_IMPORTED_MODULE_17__["default"],
+  component: _pages_admin_companies_addCompany__WEBPACK_IMPORTED_MODULE_18__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/employee',
   name: 'Employees',
-  component: _pages_manager_employee__WEBPACK_IMPORTED_MODULE_18__["default"],
+  component: _pages_manager_employee__WEBPACK_IMPORTED_MODULE_19__["default"],
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/employee-tickets',
   name: 'Employees Tickets',
-  component: _pages_manager_employeeTickets__WEBPACK_IMPORTED_MODULE_19__["default"],
+  component: _pages_manager_employeeTickets__WEBPACK_IMPORTED_MODULE_20__["default"],
   meta: {
     requiresAuth: true
   }
@@ -5353,6 +5525,13 @@ var routes = [{
   path: '/user/:id',
   name: 'User',
   component: _pages_admin_currentUser__WEBPACK_IMPORTED_MODULE_10__["default"],
+  meta: {
+    requiresAuth: true
+  }
+}, {
+  path: '/contract/:id',
+  name: 'Contract',
+  component: _pages_admin_contracts_currentContract__WEBPACK_IMPORTED_MODULE_16__["default"],
   meta: {
     requiresAuth: true
   }
@@ -41924,6 +42103,45 @@ component.options.__file = "resources/js/pages/admin/contracts/contracts.vue"
 
 /***/ }),
 
+/***/ "./resources/js/pages/admin/contracts/currentContract.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/pages/admin/contracts/currentContract.vue ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _currentContract_vue_vue_type_template_id_ba2398b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./currentContract.vue?vue&type=template&id=ba2398b8& */ "./resources/js/pages/admin/contracts/currentContract.vue?vue&type=template&id=ba2398b8&");
+/* harmony import */ var _currentContract_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./currentContract.vue?vue&type=script&lang=js& */ "./resources/js/pages/admin/contracts/currentContract.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _currentContract_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _currentContract_vue_vue_type_template_id_ba2398b8___WEBPACK_IMPORTED_MODULE_0__.render,
+  _currentContract_vue_vue_type_template_id_ba2398b8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/admin/contracts/currentContract.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/pages/admin/currentUser.vue":
 /*!**************************************************!*\
   !*** ./resources/js/pages/admin/currentUser.vue ***!
@@ -42483,6 +42701,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/admin/contracts/currentContract.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/pages/admin/contracts/currentContract.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_currentContract_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./currentContract.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/admin/contracts/currentContract.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_currentContract_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/pages/admin/currentUser.vue?vue&type=script&lang=js&":
 /*!***************************************************************************!*\
   !*** ./resources/js/pages/admin/currentUser.vue?vue&type=script&lang=js& ***!
@@ -42844,6 +43078,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_contracts_vue_vue_type_template_id_33b5a54c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_contracts_vue_vue_type_template_id_33b5a54c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./contracts.vue?vue&type=template&id=33b5a54c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/admin/contracts/contracts.vue?vue&type=template&id=33b5a54c&");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/admin/contracts/currentContract.vue?vue&type=template&id=ba2398b8&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/pages/admin/contracts/currentContract.vue?vue&type=template&id=ba2398b8& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_currentContract_vue_vue_type_template_id_ba2398b8___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_currentContract_vue_vue_type_template_id_ba2398b8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_currentContract_vue_vue_type_template_id_ba2398b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./currentContract.vue?vue&type=template&id=ba2398b8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/admin/contracts/currentContract.vue?vue&type=template&id=ba2398b8&");
 
 
 /***/ }),
@@ -45597,7 +45848,7 @@ var render = function() {
                     attrs: { color: "success" },
                     on: {
                       click: function($event) {
-                        return _vm.goToUser(item.id)
+                        return _vm.goToContract(item.id)
                       }
                     }
                   },
@@ -45611,7 +45862,7 @@ var render = function() {
                     attrs: { color: "error" },
                     on: {
                       click: function($event) {
-                        return _vm.toggleDeleteWarning(item.id)
+                        return _vm.deleteContract(item.id)
                       }
                     }
                   },
@@ -45625,6 +45876,306 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/admin/contracts/currentContract.vue?vue&type=template&id=ba2398b8&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/pages/admin/contracts/currentContract.vue?vue&type=template&id=ba2398b8& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "contract" },
+      [
+        _c(
+          "v-card",
+          [
+            _c(
+              "v-card-title",
+              { attrs: { "primary-title": "" } },
+              [
+                _c("v-card-text", [
+                  _c("h3", { staticClass: "headline mb-0" }, [
+                    _vm._v(
+                      "Contract " + _vm._s(_vm.currentContract.contract_name)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "6", md: "4" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Contract ID",
+                                  outlined: "",
+                                  disabled: ""
+                                },
+                                model: {
+                                  value: _vm.currentContract.id,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.currentContract, "id", $$v)
+                                  },
+                                  expression: "currentContract.id"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "6", md: "4" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Contract name",
+                                  outlined: "",
+                                  disabled: _vm.disabled
+                                },
+                                model: {
+                                  value: _vm.currentContract.contract_name,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.currentContract,
+                                      "contract_name",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "currentContract.contract_name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "4", md: "4" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Company ID",
+                                  outlined: "",
+                                  disabled: _vm.disabled
+                                },
+                                model: {
+                                  value: _vm.currentContract.companyID,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.currentContract,
+                                      "companyID",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "currentContract.companyID"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "4", md: "4" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Starting at",
+                                  outlined: "",
+                                  disabled: _vm.disabled
+                                },
+                                model: {
+                                  value: _vm.currentContract.starting_at,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.currentContract,
+                                      "starting_at",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "currentContract.starting_at"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "4", md: "4" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Ends at",
+                                  outlined: "",
+                                  disabled: _vm.disabled
+                                },
+                                model: {
+                                  value: _vm.currentContract.ends_at,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.currentContract,
+                                      "ends_at",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "currentContract.ends_at"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "4", md: "4" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "created at",
+                                  outlined: "",
+                                  disabled: _vm.disabled
+                                },
+                                model: {
+                                  value: _vm.currentContract.created_at,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.currentContract,
+                                      "created_at",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "currentContract.created_at"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "4", md: "4" } },
+                            [
+                              _c("v-switch", {
+                                attrs: {
+                                  label: "Active",
+                                  outlined: "",
+                                  disabled: _vm.disabled
+                                },
+                                model: {
+                                  value: _vm.currentContract.active,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.currentContract, "active", $$v)
+                                  },
+                                  expression: "currentContract.active"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-card-actions",
+              [
+                _vm.disabled == true
+                  ? _c(
+                      "v-btn",
+                      {
+                        attrs: { color: "primary" },
+                        on: {
+                          click: function($event) {
+                            _vm.disabled = !_vm.disabled
+                          }
+                        }
+                      },
+                      [_vm._v("Edit")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.disabled == false
+                  ? _c(
+                      "v-btn",
+                      {
+                        attrs: { color: "success" },
+                        on: { click: _vm.editContract }
+                      },
+                      [_vm._v("Save")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.disabled == false
+                  ? _c(
+                      "v-btn",
+                      {
+                        attrs: { color: "error" },
+                        on: {
+                          click: function($event) {
+                            _vm.disabled = !_vm.disabled
+                          }
+                        }
+                      },
+                      [_vm._v("Cancel")]
+                    )
+                  : _vm._e()
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45662,7 +46213,9 @@ var render = function() {
               { attrs: { "primary-title": "" } },
               [
                 _c("v-card-text", [
-                  _c("h3", { staticClass: "headline mb-0" }, [_vm._v("User")]),
+                  _c("h3", { staticClass: "headline mb-0" }, [
+                    _vm._v("User " + _vm._s(_vm.user.username))
+                  ]),
                   _vm._v(" "),
                   _c("br"),
                   _vm._v(" "),
