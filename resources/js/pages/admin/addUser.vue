@@ -147,7 +147,7 @@ export default {
             show_password: false,
             vissibilityIcon: "visibility",
             roles: ['admin', 'user'],
-            companyRoles:['manager', 'user'],
+            companyRoles:['manager', 'employee'],
             companies: [],
             msg: []
         }
