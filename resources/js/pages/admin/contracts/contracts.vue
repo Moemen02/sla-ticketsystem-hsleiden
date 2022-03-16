@@ -6,7 +6,7 @@
         </v-alert>
         <v-data-table
         :headers="headers"
-        :items="Contracts"
+        :items="appData"
         item-key=""
         class="elevation-1"
         :search="search"
@@ -24,13 +24,14 @@
             </template>
             <template #item.actions="{item}">
                 <v-icon @click="goToContract(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="deleteContract(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="deleteData(item.id, apiRoute)" color="error" class="action-delete">delete_forever</v-icon>
             </template>
         </v-data-table>
     </div>
 </template>
 
 <script>
+import appDataCtrl from '../../../mixins/appDataController'
 import {
     mapState,
     mapGetters
@@ -38,6 +39,7 @@ import {
 
 export default {
     name:'',
+    mixins:[appDataCtrl],
     components:{
         
     },
@@ -51,6 +53,7 @@ export default {
             alert: false,
             Contracts: [{}],
             search: "",
+            apiRoute: 'api/contract',
             headers: [
                 {
                     text: 'User ID',
@@ -82,7 +85,8 @@ export default {
         }
     },
     created() {
-        this.getContracts()
+        this.getData(this.apiRoute)
+        this.getCompanyContract()
     },
     computed: {
     ...mapGetters([
@@ -96,48 +100,8 @@ export default {
         
     },
     methods: {
-        getContracts(){
-            this.$axios
-                .get('api/contract')
-                .then((response) => {
-                    this.Contracts = response.data
-                    this.getCompanyContract()
-                })
-                .catch((err) => {
-                    return err
-                })
-        },
         goToContract(id){
             this.$router.push({ path: '/contract/' + id })
-        },
-        deleteContract(id){
-            this.$axios
-                .delete('api/contract/' + id)
-                .then((response) => {
-                    let i = this.Contracts.map(contract => contract.id).indexOf(id)
-                    this.Contracts.splice(i, 1)
-                    this.msg = "Contract deleted"
-                    this.alert = true
-                    this.alertColor = "success"
-                    const that = this
-                    setTimeout(function(){
-                        that.alert = false
-                        that.msg = []
-                    }, 5000)
-                })
-                .catch((err) => {
-                    const errosMsg = err.response.data.error
-                    for(const errors in errosMsg){
-                        this.msg.push(errosMsg[errors][0])
-                    }
-                    this.alert = true
-                    this.alertColor = "error"
-                    const that = this
-                    setTimeout(function(){
-                        that.alert = false
-                        that.msg = []
-                    }, 5000)
-                })
         },
         getCompanyContract() {
             this.$axios
@@ -145,9 +109,9 @@ export default {
                 .then((response) => {
                     this.companies = response.data
                     for (let company in this.companies) {
-                        for (let contract in this.Contracts) {
-                            if (this.Contracts[contract].companyID == this.companies[company].id) {
-                                this.Contracts[contract].companyID = this.companies[company].company_name
+                        for (let contract in this.appData) {
+                            if (this.appData[contract].companyID == this.companies[company].id) {
+                                this.appData[contract].companyID = this.companies[company].company_name
                             }
                         }
                     }
@@ -155,10 +119,6 @@ export default {
                 .catch((err) => {
                     return err
                 })
-        },
-        clearAlert(){
-            this.msg = []
-            this.alert = false
         }
     }
 }

@@ -1,13 +1,12 @@
 <template>
     <div>
-        <!-- {{Tickets}} -->
         <v-alert v-if="alert" :type="alertColor">
             <v-icon @click="clearAlert" class="float-right close-msg">cancel</v-icon> 
             <p>{{msg}}</p>
         </v-alert>
         <v-data-table
         :headers="headers"
-        :items="Tickets"
+        :items="appData"
         item-key=""
         class="elevation-1"
         :search="search"
@@ -25,13 +24,14 @@
             </template>
             <template #item.actions="{item}">
                 <v-icon @click="goToTicket(item.id)" color="success" class="action-watch">remove_red_eye</v-icon>
-                <v-icon @click="deleteTicket(item.id)" color="error" class="action-delete">delete_forever</v-icon>
+                <v-icon @click="deleteData(item.id, apiRoute)" color="error" class="action-delete">delete_forever</v-icon>
             </template>
         </v-data-table>
     </div>
 </template>
 
 <script>
+import appDataCtrl from '../../../mixins/appDataController'
 import {
     mapState,
     mapGetters
@@ -39,6 +39,7 @@ import {
 
 export default {
     name:'',
+    mixins: [appDataCtrl],
     components:{
         
     },
@@ -53,6 +54,7 @@ export default {
             Tickets: [{}],
             users: '',
             search: "",
+            apiRoute: 'api/ticket',
             headers: [
                 {
                     text: 'User ID',
@@ -84,7 +86,8 @@ export default {
         }
     },
     created() {
-        this.getTickets()
+        this.getData(this.apiRoute),
+        this.getUsersTicket()
     },
     computed: {
     ...mapGetters([
@@ -95,51 +98,11 @@ export default {
 
     },
     mounted() {
-        
+
     },
     methods: {
-        getTickets(){
-            this.$axios
-                .get('api/ticket')
-                .then((response) => {
-                    this.Tickets = response.data
-                    this.getUsersTicket()
-                })
-                .catch((err) => {
-                    return err
-                })
-        },
         goToTicket(id){
             this.$router.push({ path: '/ticket/' + id })
-        },
-        deleteTicket(id){
-            this.$axios
-                .delete('api/ticket/' + id)
-                .then((response) => {
-                    let i = this.Tickets.map(company => company.id).indexOf(id)
-                    this.Tickets.splice(i, 1)
-                    this.msg = "Ticket deleted"
-                    this.alert = true
-                    this.alertColor = "success"
-                    const that = this
-                    setTimeout(function(){
-                        that.alert = false
-                        that.msg = []
-                    }, 5000)
-                })
-                .catch((err) => {
-                    const errosMsg = err.response.data.error
-                    for(const errors in errosMsg){
-                        this.msg.push(errosMsg[errors][0])
-                    }
-                    this.alert = true
-                    this.alertColor = "error"
-                    const that = this
-                    setTimeout(function(){
-                        that.alert = false
-                        that.msg = []
-                    }, 5000)
-                })
         },
         getUsersTicket() {
             this.$axios
@@ -147,25 +110,15 @@ export default {
                 .then((response) => {
                     this.users = response.data
                     for (let user in this.users) {
-                        for (let ticket in this.Tickets) {
-                            if (this.Tickets[ticket].userID == this.users[user].id) {
-                                this.Tickets[ticket].userID = this.users[user].username
+                        for (let ticket in this.appData) {
+                            if (this.appData[ticket].userID == this.users[user].id) {
+                                this.appData[ticket].userID = this.users[user].username
                             }
                         }
                     }
                 })
                 .catch((err) => {
-                    const errosMsg = err.response.data.error
-                    for(const errors in errosMsg){
-                        this.msg.push(errosMsg[errors][0])
-                    }
-                    this.alert = true
-                    this.alertColor = "error"
-                    const that = this
-                    setTimeout(function(){
-                        that.alert = false
-                        that.msg = []
-                    }, 5000)
+                    return err
                 })
         },
         clearAlert(){
